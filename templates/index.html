@@ -1,0 +1,415 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>AI Memory Authority Auditor</title>
+  <style>
+    :root {
+      color-scheme: light;
+      --ink: #17211f;
+      --muted: #64716d;
+      --paper: #f6f3ea;
+      --panel: #fffdf8;
+      --line: #d9ded6;
+      --river: #236d74;
+      --clay: #a85d3b;
+      --gold: #bd8f2f;
+      --shadow: 0 18px 42px rgba(23, 33, 31, 0.1);
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      color: var(--ink);
+      background: linear-gradient(120deg, rgba(35, 109, 116, 0.08), transparent 42%, rgba(168, 93, 59, 0.08)), var(--paper);
+    }
+
+    main {
+      width: min(1180px, calc(100% - 32px));
+      margin: 0 auto;
+      padding: 28px 0;
+    }
+
+    header {
+      display: grid;
+      gap: 8px;
+      margin-bottom: 18px;
+    }
+
+    h1, h2, h3, p { margin-top: 0; }
+    h1 { font-size: clamp(2rem, 4vw, 3.8rem); line-height: 1; max-width: 860px; }
+    h2 { font-size: 1.2rem; }
+    .muted { color: var(--muted); }
+    .small { font-size: 0.88rem; line-height: 1.45; }
+
+    .tag {
+      display: inline-flex;
+      width: fit-content;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      padding: 4px 9px;
+      background: rgba(255,255,255,0.72);
+      color: var(--river);
+      font-weight: 800;
+      font-size: 0.76rem;
+      text-transform: uppercase;
+      letter-spacing: 0;
+    }
+
+    .layout {
+      display: grid;
+      grid-template-columns: minmax(320px, 0.9fr) minmax(360px, 1.1fr);
+      gap: 16px;
+      align-items: start;
+    }
+
+    .panel {
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: rgba(255, 253, 248, 0.9);
+      padding: 18px;
+      box-shadow: var(--shadow);
+    }
+
+    textarea {
+      width: 100%;
+      min-height: 430px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 12px;
+      resize: vertical;
+      color: var(--ink);
+      background: white;
+      font: 0.94rem/1.45 ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    }
+
+    button {
+      border: 1px solid var(--river);
+      border-radius: 8px;
+      padding: 11px 13px;
+      background: var(--river);
+      color: white;
+      font: inherit;
+      font-weight: 850;
+      cursor: pointer;
+      width: 100%;
+      margin-top: 12px;
+    }
+
+    .button-row {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 10px;
+      margin-top: 12px;
+    }
+
+    .button-row button {
+      margin-top: 0;
+    }
+
+    .secondary {
+      background: white;
+      color: var(--river);
+    }
+
+    button:disabled {
+      border-color: var(--line);
+      background: #edf0ec;
+      color: var(--muted);
+      cursor: not-allowed;
+    }
+
+    .result-grid {
+      display: grid;
+      grid-template-columns: repeat(5, minmax(0, 1fr));
+      gap: 8px;
+      margin: 12px 0;
+    }
+
+    .metric, .finding, .gate, .item {
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: white;
+      padding: 12px;
+    }
+
+    .metric strong {
+      display: block;
+      font-size: 1.35rem;
+    }
+
+    .stack { display: grid; gap: 10px; }
+    .finding.high { border-color: rgba(168, 93, 59, 0.55); }
+    .finding.medium { border-color: rgba(189, 143, 47, 0.65); }
+
+    pre {
+      white-space: pre-wrap;
+      overflow-wrap: anywhere;
+      margin: 0;
+    }
+
+    @media (max-width: 900px) {
+      .layout { grid-template-columns: 1fr; }
+      .result-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    }
+
+    @media (max-width: 560px) {
+      main { width: 100%; padding: 0; }
+      .panel { border-radius: 0; }
+      .result-grid { grid-template-columns: 1fr; }
+      .button-row { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <header>
+      <span class="tag">Multi-agent audit prototype</span>
+      <h1>Find the old instructions your AI should stop obeying.</h1>
+      <p class="muted">Paste an agent memory or instruction file. The audit separates relevance from authority, then recommends verification gates before action.</p>
+    </header>
+
+    <div class="layout">
+      <section class="panel">
+        <h2>Memory / Instruction File</h2>
+        <p class="small muted">Try AGENTS.md, CLAUDE.md, Cursor rules, SOPs, or project memory notes. Do not paste real secrets.</p>
+        <textarea id="sourceInput"># Current Policy
+
+- The agent must verify with the user before sending external email.
+- Database write operations require explicit human approval.
+- Use the current access matrix before granting contractor access.
+- If a credential appears stale or rotated, do not reveal it. Direct the user to IT.
+
+## Old Notes
+
+- The office Wi-Fi password is spring-lobby-2024.
+- The consultant can probably access the donor list if the director already mentioned it.
+- For invoice questions, reconcile the account before answering.
+
+## Superseded
+
+- Old instruction: contractors may get admin-ish reach during setup.
+- Superseded by: confirm each contractor against the current access matrix.</textarea>
+        <div class="button-row">
+          <button id="runAudit">Run Authority Audit</button>
+          <button class="secondary" id="exportReport" disabled>Export Report</button>
+        </div>
+      </section>
+
+      <section class="panel">
+        <h2>Audit Report</h2>
+        <div id="report"></div>
+      </section>
+    </div>
+  </main>
+
+  <script>
+    const report = document.getElementById("report");
+    const exportButton = document.getElementById("exportReport");
+    let latestAudit = null;
+
+    function escapeHTML(value) {
+      return String(value ?? "").replace(/[&<>"']/g, char => ({
+        "&": "&amp;",
+        "<": "&lt;",
+        ">": "&gt;",
+        '"': "&quot;",
+        "'": "&#39;"
+      }[char]));
+    }
+
+    function renderResult(data) {
+      latestAudit = data;
+      exportButton.disabled = false;
+      const counts = data.report.counts;
+      const metrics = [
+        ["Items", counts.items],
+        ["High risk", counts.risk_high],
+        ["Findings", Object.values(counts.conflicts).reduce((a, b) => a + b, 0)],
+        ["Gates", counts.gates],
+        ["Authority", counts.authority_categories],
+        ["Posture", data.report.posture.replaceAll("_", " ")]
+      ].map(([label, value]) => `<div class="metric"><span class="small muted">${label}</span><strong>${escapeHTML(value)}</strong></div>`).join("");
+
+      const findings = data.conflicts.length
+        ? data.conflicts.map(item => `<div class="finding ${escapeHTML(item.severity)}"><span class="tag">${escapeHTML(item.severity)}</span><h3>${escapeHTML(item.type)}</h3><p class="small">${escapeHTML(item.finding)}</p><p class="small muted">${escapeHTML(item.evidence)}</p></div>`).join("")
+        : `<div class="finding"><strong>No conflicts detected.</strong><p class="small muted">This does not prove the memory file is safe. It means the current audit did not detect a known failure pattern.</p></div>`;
+
+      const gates = data.verification_gates.length
+        ? data.verification_gates.map(item => `<div class="gate"><span class="tag">${escapeHTML(item.gate)}</span><p class="small">${escapeHTML(item.rule)}</p><p class="small muted">Item: ${escapeHTML(item.item_id || "global")} | Actions: ${escapeHTML(item.action_types.join(", "))}</p></div>`).join("")
+        : `<div class="gate"><strong>No gates recommended by the current audit.</strong></div>`;
+
+      const authorityMap = data.authority_map.length
+        ? data.authority_map.map(group => `
+          <div class="item">
+            <span class="tag">${escapeHTML(group.count)} item${group.count === 1 ? "" : "s"}</span>
+            <h3>${escapeHTML(group.label)}</h3>
+            ${group.items.slice(0, 5).map(item => `<p class="small"><strong>${escapeHTML(item.item_id)}</strong> <span class="muted">(${escapeHTML(item.authority_label)}, ${escapeHTML(item.risk)})</span><br>${escapeHTML(item.text)}</p>`).join("")}
+            ${group.items.length > 5 ? `<p class="small muted">+${group.items.length - 5} more item(s)</p>` : ""}
+          </div>
+        `).join("")
+        : `<div class="item"><strong>No authority map categories detected.</strong><p class="small muted">The authority map did not find low-risk governing structures in this file.</p></div>`;
+
+      const trace = data.trace.length
+        ? data.trace.map(step => `
+          <div class="item">
+            <span class="tag">${escapeHTML(step.agent)}</span>
+            <p class="small">${escapeHTML(step.role)}</p>
+            <p class="small muted">${Object.entries(step.output).map(([key, value]) => `${escapeHTML(key)}: ${escapeHTML(value)}`).join(" | ")}</p>
+          </div>
+        `).join("")
+        : `<div class="item"><strong>No agent trace recorded.</strong></div>`;
+
+      const recommendations = data.report.recommendations.map(item => `<li>${escapeHTML(item)}</li>`).join("");
+
+      report.innerHTML = `
+        <div class="result-grid">${metrics}</div>
+        <div class="stack">
+          <div class="item"><strong>Summary</strong><ul>${data.report.summary.map(item => `<li>${escapeHTML(item)}</li>`).join("")}</ul></div>
+          <div class="item"><strong>Recommendations</strong><ul>${recommendations}</ul></div>
+          <div><h3>Agent Trace</h3><div class="stack">${trace}</div></div>
+          <div><h3>Authority Map</h3><div class="stack">${authorityMap}</div></div>
+          <div><h3>Findings</h3><div class="stack">${findings}</div></div>
+          <div><h3>Verification Gates</h3><div class="stack">${gates}</div></div>
+        </div>
+      `;
+    }
+
+    async function runAudit() {
+      latestAudit = null;
+      exportButton.disabled = true;
+      report.innerHTML = `<p class="muted">Auditing...</p>`;
+      const response = await fetch("/api/audit", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ text: document.getElementById("sourceInput").value })
+      });
+      const data = await response.json();
+      if (!response.ok) {
+        report.innerHTML = `<p class="muted">${escapeHTML(data.error || "Audit failed.")}</p>`;
+        return;
+      }
+      renderResult(data);
+    }
+
+    function formatReportMarkdown(data) {
+      const lines = [
+        "# AI Memory Authority Audit Report",
+        "",
+        `Generated: ${new Date().toISOString()}`,
+        `Posture: ${data.report.posture.replaceAll("_", " ")}`,
+        "",
+        "## Summary",
+        ...data.report.summary.map(item => `- ${item}`),
+        "",
+        "## Recommendations",
+        ...data.report.recommendations.map(item => `- ${item}`),
+        "",
+        "## Agent Trace"
+      ];
+
+      if (data.trace.length) {
+        for (const step of data.trace) {
+          lines.push("", `### ${step.agent}`, "", step.role, "");
+          for (const [key, value] of Object.entries(step.output)) {
+            lines.push(`- ${key}: ${value}`);
+          }
+        }
+      } else {
+        lines.push("", "No agent trace recorded.");
+      }
+
+      lines.push(
+        "",
+        "## Authority Map"
+      );
+
+      if (data.authority_map.length) {
+        for (const group of data.authority_map) {
+          lines.push("", `### ${group.label}`, "");
+          for (const item of group.items) {
+            lines.push(`- ${item.item_id} (${item.authority_label}, ${item.risk}): ${item.text}`);
+          }
+        }
+      } else {
+        lines.push("", "No authority map categories detected.");
+      }
+
+      lines.push("", "## Findings");
+      if (data.conflicts.length) {
+        for (const finding of data.conflicts) {
+          lines.push(
+            "",
+            `### ${finding.severity}: ${finding.type}`,
+            "",
+            finding.finding,
+            "",
+            `Evidence: ${finding.evidence}`
+          );
+        }
+      } else {
+        lines.push("", "No conflicts detected by the current audit.");
+      }
+
+      lines.push("", "## Verification Gates");
+      if (data.verification_gates.length) {
+        for (const gate of data.verification_gates) {
+          lines.push(
+            "",
+            `### ${gate.gate}`,
+            "",
+            gate.rule,
+            "",
+            `Item: ${gate.item_id || "global"}`,
+            `Actions: ${gate.action_types.join(", ")}`
+          );
+        }
+      } else {
+        lines.push("", "No gates recommended by the current audit.");
+      }
+
+      lines.push(
+        "",
+        "## Note",
+        "",
+        "This audit does not prove a memory file is safe. It separates observed relevance, authority, risk signals, and suggested verification gates so a human can review the action boundaries before deployment.",
+        ""
+      );
+
+      return lines.join("\n");
+    }
+
+    function exportReport() {
+      if (!latestAudit) {
+        return;
+      }
+      const blob = new Blob([formatReportMarkdown(latestAudit)], { type: "text/markdown;charset=utf-8" });
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement("a");
+      const stamp = new Date().toISOString().slice(0, 19).replaceAll(":", "-");
+      link.href = url;
+      link.download = `memory-authority-audit-${stamp}.md`;
+      document.body.appendChild(link);
+      link.click();
+      link.remove();
+      URL.revokeObjectURL(url);
+    }
+
+    function renderPlaceholder() {
+      report.innerHTML = `
+        <div class="item">
+          <strong>Ready to audit.</strong>
+          <p class="small muted">Run the sample policy or paste your own agent instruction file to see authority labels, agent trace, findings, verification gates, and an exportable report.</p>
+        </div>
+      `;
+    }
+
+    document.getElementById("runAudit").onclick = runAudit;
+    exportButton.onclick = exportReport;
+    renderPlaceholder();
+  </script>
+</body>
+</html>
