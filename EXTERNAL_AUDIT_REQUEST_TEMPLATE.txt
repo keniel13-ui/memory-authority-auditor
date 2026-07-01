@@ -1,0 +1,26 @@
+hey, quick question.
+
+i built a small memory/instruction auditor for agent files like CLAUDE.md, AGENTS.md, Cursor rules, or long-running project memory.
+
+the point is not to certify that an agent is safe. the point is narrower:
+
+can it map which lines actually govern the agent, which ones are only context, what needs human judgment, and what a careful reviewer should inspect first?
+
+if you have a real agent instruction file you would be comfortable letting me test against, i would like to run the audit and send you back the authority map, review queue, and limitations honestly.
+
+please remove secrets first:
+
+- api keys
+- tokens
+- passwords
+- private keys
+- customer personal data
+- anything you would not want quoted back
+
+redaction is fine as long as the rule shape stays intact. for example, replace an actual token with [REDACTED_TOKEN] instead of deleting the whole instruction.
+
+no public writeup, company name, or excerpt unless you explicitly say yes later. the default is private feedback only.
+
+what i am trying to learn is simple:
+
+does this shorten a careful review of a messy memory file without hiding uncertainty?
