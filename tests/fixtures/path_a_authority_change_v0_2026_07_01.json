@@ -2,6 +2,8 @@
   "packet": "path_a_authority_change_v0_2026_07_01",
   "status": "frozen_heldout_fixture_packet",
   "frozen_after_prereg_commit": "441140d",
+  "schema_repaired_after_ruling_commit": "cc79aaf",
+  "schema_repair_note": "Expected relation answers unchanged; proposal fields converted from required_evidence_terms to cited_evidence_span + confidence to match PATH_A_SCHEMA_RULING_2026-07-01.md.",
   "purpose": "Held-out fixture packet for Path A semantic authority-change layer. Authored after pre-registration and before proposer implementation.",
   "item_id_rule": "IDs are assigned by memory_extractor in bullet order as M001, M002, etc.",
   "classes": [
@@ -21,8 +23,9 @@
           "type": "supersedes",
           "source_item_id": "M002",
           "target_item_id": "M001",
-          "required_evidence_terms": ["migration exception is retired", "fresh one-time staging credential"],
-          "scope_terms": ["staging", "credential"]
+          "cited_evidence_span": "the migration exception is retired. Agents must request a fresh one-time staging credential",
+          "scope_terms": ["staging", "credential"],
+          "confidence": 0.78
         }
       ],
       "expected_no_relations": []
@@ -36,8 +39,9 @@
           "type": "narrows_scope",
           "source_item_id": "M002",
           "target_item_id": "M001",
-          "required_evidence_terms": ["only aggregated customer metrics", "never raw customer records"],
-          "scope_terms": ["export", "customer"]
+          "cited_evidence_span": "analysts may export only aggregated customer metrics, never raw customer records",
+          "scope_terms": ["export", "customer"],
+          "confidence": 0.78
         }
       ],
       "expected_no_relations": []
@@ -51,8 +55,9 @@
           "type": "contradicts",
           "source_item_id": "M002",
           "target_item_id": "M001",
-          "required_evidence_terms": ["No refund reply may be sent without human review", "regardless of model confidence"],
-          "scope_terms": ["refund", "reply"]
+          "cited_evidence_span": "No refund reply may be sent without human review, regardless of model confidence",
+          "scope_terms": ["refund", "reply"],
+          "confidence": 0.78
         }
       ],
       "expected_no_relations": []
@@ -66,8 +71,9 @@
           "type": "transfers_authority",
           "source_item_id": "M002",
           "target_item_id": "M001",
-          "required_evidence_terms": ["only the release captain can approve", "Product managers may recommend"],
-          "scope_terms": ["approve", "production deploys"]
+          "cited_evidence_span": "only the release captain can approve production deploys. Product managers may recommend",
+          "scope_terms": ["approve", "production deploys"],
+          "confidence": 0.78
         }
       ],
       "expected_no_relations": []

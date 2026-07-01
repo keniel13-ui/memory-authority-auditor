@@ -46,22 +46,25 @@ def test_hallucinated_or_uncited_proposals_route_to_human_judgment():
         "type": "supersedes",
         "source_item_id": "M999",
         "target_item_id": "M001",
-        "required_evidence_terms": ["migration exception is retired"],
+        "cited_evidence_span": "migration exception is retired",
         "scope_terms": ["staging"],
+        "confidence": 0.78,
     }
     bad_evidence = {
         "type": "supersedes",
         "source_item_id": "M002",
         "target_item_id": "M001",
-        "required_evidence_terms": ["this phrase does not exist"],
+        "cited_evidence_span": "this phrase does not exist",
         "scope_terms": ["staging"],
+        "confidence": 0.78,
     }
     bad_scope = {
         "type": "supersedes",
         "source_item_id": "M002",
         "target_item_id": "M001",
-        "required_evidence_terms": ["migration exception is retired"],
+        "cited_evidence_span": "migration exception is retired",
         "scope_terms": ["unrelated payroll scope"],
+        "confidence": 0.78,
     }
 
     result = confirm_authority_changes([bad_source, bad_evidence, bad_scope], items)
@@ -70,5 +73,59 @@ def test_hallucinated_or_uncited_proposals_route_to_human_judgment():
     assert len(result["needs_human_judgment"]) == 3
     reasons = "\n".join(", ".join(entry["reasons"]) for entry in result["needs_human_judgment"])
     assert "source item does not exist" in reasons
-    assert "required evidence terms not found" in reasons
+    assert "missing or empty evidence citation" in reasons
     assert "no deterministic scope overlap" in reasons
+
+
+def test_empty_or_whitespace_cited_span_routes_to_human_judgment():
+    case = next(case for case in _cases() if case["id"] == "path_a_supersession_password_rotation_v0")
+    items = _items(case)
+
+    for span in ("", "   "):
+        proposal = {
+            "type": "supersedes",
+            "source_item_id": "M002",
+            "target_item_id": "M001",
+            "cited_evidence_span": span,
+            "scope_terms": ["staging"],
+            "confidence": 0.78,
+        }
+        result = confirm_authority_change(proposal, items)
+        assert not result["confirmed"]
+        assert "missing or empty evidence citation" in result["reasons"]
+
+
+def test_valid_cited_span_and_scope_confirm():
+    case = next(case for case in _cases() if case["id"] == "path_a_supersession_password_rotation_v0")
+    items = _items(case)
+    proposal = {
+        "type": "supersedes",
+        "source_item_id": "M002",
+        "target_item_id": "M001",
+        "cited_evidence_span": "migration exception is retired",
+        "scope_terms": ["staging"],
+        "confidence": 0.78,
+    }
+
+    result = confirm_authority_change(proposal, items)
+
+    assert result["confirmed"]
+    assert result["finding"]["cited_evidence_span"] == "migration exception is retired"
+
+
+def test_low_confidence_routes_to_human_judgment_even_with_valid_evidence():
+    case = next(case for case in _cases() if case["id"] == "path_a_supersession_password_rotation_v0")
+    items = _items(case)
+    proposal = {
+        "type": "supersedes",
+        "source_item_id": "M002",
+        "target_item_id": "M001",
+        "cited_evidence_span": "migration exception is retired",
+        "scope_terms": ["staging"],
+        "confidence": 0.59,
+    }
+
+    result = confirm_authority_change(proposal, items)
+
+    assert not result["confirmed"]
+    assert "confidence below v0 threshold" in result["reasons"]
