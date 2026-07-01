@@ -1,0 +1,15 @@
+{
+  "packet": "path_a_dev_scratch_2026_07_01",
+  "status": "DEV_SCRATCH_NOT_EVIDENCE",
+  "purpose": "Small proposer plumbing fixture for prompt/schema iteration. This is not the frozen evaluation packet and must not be cited as Path A evidence.",
+  "cases": [
+    {
+      "id": "dev_scratch_supersession",
+      "text": "# Access Rules\n\n- During onboarding, contractors may use the shared setup admin account.\n- Current rule: shared setup admin access is retired. Contractors must use named accounts approved by IT.\n"
+    },
+    {
+      "id": "dev_scratch_topic_mention_negative",
+      "text": "# Product Notes\n\n- This tool discusses superseded instructions and old rules.\n- The note explains the category, but it does not replace any instruction in this file.\n"
+    }
+  ]
+}
