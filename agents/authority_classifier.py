@@ -7,7 +7,10 @@ def classify_authority(item: MemoryItem) -> dict:
     text = item.text.lower()
     signals = set(item.signals)
 
-    if "superseded" in signals or "old instruction" in text:
+    # Only flag as superseded when the extractor found genuine supersession language
+    # (see SUPERSESSION_MARKERS). A bare mention of "old instructions" as a topic,
+    # e.g. a tagline about finding old instructions, is not evidence of staleness.
+    if "superseded" in signals:
         label = "superseded_possible"
         confidence = 0.88
     elif "credential" in signals:

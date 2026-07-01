@@ -141,3 +141,48 @@ def test_detector_does_not_yet_generalize_to_fresh_semantic_contradictions():
     assert "pricing" in collision_text
     assert "market" in collision_text
     assert "data" in collision_text
+
+
+# Regression: the stale-instruction detector must key on genuine supersession
+# language, not on a bare topic mention of "old instructions". Held-out on
+# 2026-07-01 after the auditor flagged its own product tagline as stale.
+
+STALE_TAGLINE_ONLY = """
+# Company Doctrine
+
+- Brand promise: find the old instructions your AI should stop obeying.
+- Our whole product exists to catch old instructions that still govern agents.
+- The mission is to help teams stop obeying rules that no longer serve them.
+"""
+
+REAL_SUPERSESSION = """
+# Access Policy
+
+## Superseded
+- Old instruction: contractors may get admin-ish reach during setup.
+- That access rule is deprecated and has been replaced by the current matrix.
+"""
+
+
+def test_topic_mention_of_old_instructions_is_not_flagged_stale():
+    result = run_audit(STALE_TAGLINE_ONLY)
+
+    stale = [f for f in result["conflicts"] if f["type"] == "stale_instruction"]
+    assert stale == []
+    assert all(
+        c["authority_label"] != "superseded_possible"
+        for c in result["classifications"]
+    )
+
+
+def test_genuine_supersession_language_is_still_flagged_stale():
+    result = run_audit(REAL_SUPERSESSION)
+
+    stale_evidence = "\n".join(
+        f["evidence"] for f in result["conflicts"] if f["type"] == "stale_instruction"
+    )
+    assert "contractors may get admin-ish reach" in stale_evidence
+    assert any(
+        c["authority_label"] == "superseded_possible"
+        for c in result["classifications"]
+    )

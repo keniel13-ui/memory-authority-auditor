@@ -19,6 +19,26 @@ class MemoryItem:
 SECTION_RE = re.compile(r"^(#{1,3})\s+(.+)$")
 ITEM_RE = re.compile(r"^\s*(?:[-*]|\d+\.)\s+(.+)$")
 
+# Genuine supersession language: the instruction flags its OWN staleness or names a
+# replacement relationship. This intentionally excludes the bare noun phrase
+# "old instruction(s)" used as a topic (e.g. a product tagline about finding old
+# instructions), which is a mention, not evidence of being superseded.
+SUPERSESSION_MARKERS = [
+    "superseded",
+    "replaced by",
+    "replaced with",
+    "no longer valid",
+    "no longer applies",
+    "no longer in effect",
+    "deprecated",
+    "obsolete",
+    "outdated",
+    "old instruction:",
+    "old rule:",
+    "do not follow this anymore",
+    "stop following this",
+]
+
 
 def _signals_for(text: str, section: str) -> list[str]:
     haystack = f"{section} {text}".lower()
@@ -28,7 +48,7 @@ def _signals_for(text: str, section: str) -> list[str]:
         "credential": ["password", "token", "api key", "credential", "secret"],
         "approval": ["approval", "allowed", "permission", "authorize", "director", "lead"],
         "temporary": ["temporary", "one-time", "last month", "exception"],
-        "superseded": ["superseded", "old instruction", "replaced by"],
+        "superseded": SUPERSESSION_MARKERS,
         "access": ["access", "contractor", "admin", "matrix"],
         "financial": ["invoice", "payment", "finance", "reconcile"],
         "external_action": ["send", "email", "export", "grant", "write", "database"]
