@@ -1,0 +1,722 @@
+{
+  "run_id": "20260701T225629Z",
+  "generated_at_utc": "2026-07-01T22:56:29.465789+00:00",
+  "fixture": "tests/fixtures/path_a_authority_change_v0_2026_07_01.json",
+  "scoring_rules": {
+    "positive_caught": "A positive case is caught only if the proposer emits at least one proposal that the deterministic confirmer turns into a confirmed finding whose (type, source_item_id, target_item_id) matches the fixture expected relation.",
+    "confidence": "Fixture confidence values are replay placeholders and are never compared to model output. Proposal confidence is used only against the frozen 0.60 confirmer gate.",
+    "negative_pass": "A topic-mention negative passes only if no confirmed forbidden finding is produced.",
+    "malformed": "Malformed proposer output is counted per case and does not abort the run. Positive case with only malformed output is a miss. Negative case with malformed/no-parse output passes only if no forbidden confirmed finding results; malformed counts remain recorded."
+  },
+  "engines": [
+    {
+      "engine": "anthropic",
+      "summary": {
+        "cases": 6,
+        "positives": 4,
+        "positives_caught": 0,
+        "positive_misses": 4,
+        "negatives": 2,
+        "negatives_passed": 2,
+        "negative_false_fires": 0,
+        "malformed_cases": 6,
+        "remove_confirmer_negative_false_fires": 0,
+        "remove_citation_negative_false_fires": 0
+      },
+      "cases": [
+        {
+          "case_id": "path_a_supersession_password_rotation_v0",
+          "class": "supersession",
+          "malformed": true,
+          "malformed_reasons": [
+            "SemanticProposerError: anthropic proposer call failed: http 400: Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits."
+          ],
+          "proposal_count": 0,
+          "proposals": [],
+          "confirmed_findings": [],
+          "needs_human_judgment": [],
+          "score": {
+            "expected_positive": true,
+            "caught": false,
+            "missed": true,
+            "negative_passed": null,
+            "expected_triplets": [
+              [
+                "supersedes",
+                "M002",
+                "M001"
+              ]
+            ],
+            "confirmed_triplets": []
+          },
+          "ablation_remove_confirmer": {
+            "would_count_as_caught_without_confirmation": false,
+            "proposal_triplets": []
+          },
+          "ablation_remove_citation_requirement": {
+            "expected_positive": true,
+            "caught": false,
+            "missed": true,
+            "negative_passed": null,
+            "expected_triplets": [
+              [
+                "supersedes",
+                "M002",
+                "M001"
+              ]
+            ],
+            "confirmed_triplets": []
+          },
+          "lexical_baseline_current_detector": {
+            "finding_types": [
+              "missing_authority_layer"
+            ],
+            "stale_instruction_count": 0,
+            "missing_authority_layer": true
+          },
+          "raw_output": ""
+        },
+        {
+          "case_id": "path_a_scope_narrowing_export_v0",
+          "class": "scope_narrowing",
+          "malformed": true,
+          "malformed_reasons": [
+            "SemanticProposerError: anthropic proposer call failed: http 400: Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits."
+          ],
+          "proposal_count": 0,
+          "proposals": [],
+          "confirmed_findings": [],
+          "needs_human_judgment": [],
+          "score": {
+            "expected_positive": true,
+            "caught": false,
+            "missed": true,
+            "negative_passed": null,
+            "expected_triplets": [
+              [
+                "narrows_scope",
+                "M002",
+                "M001"
+              ]
+            ],
+            "confirmed_triplets": []
+          },
+          "ablation_remove_confirmer": {
+            "would_count_as_caught_without_confirmation": false,
+            "proposal_triplets": []
+          },
+          "ablation_remove_citation_requirement": {
+            "expected_positive": true,
+            "caught": false,
+            "missed": true,
+            "negative_passed": null,
+            "expected_triplets": [
+              [
+                "narrows_scope",
+                "M002",
+                "M001"
+              ]
+            ],
+            "confirmed_triplets": []
+          },
+          "lexical_baseline_current_detector": {
+            "finding_types": [],
+            "stale_instruction_count": 0,
+            "missing_authority_layer": false
+          },
+          "raw_output": ""
+        },
+        {
+          "case_id": "path_a_direct_contradiction_auto_reply_v0",
+          "class": "direct_contradiction",
+          "malformed": true,
+          "malformed_reasons": [
+            "SemanticProposerError: anthropic proposer call failed: http 400: Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits."
+          ],
+          "proposal_count": 0,
+          "proposals": [],
+          "confirmed_findings": [],
+          "needs_human_judgment": [],
+          "score": {
+            "expected_positive": true,
+            "caught": false,
+            "missed": true,
+            "negative_passed": null,
+            "expected_triplets": [
+              [
+                "contradicts",
+                "M002",
+                "M001"
+              ]
+            ],
+            "confirmed_triplets": []
+          },
+          "ablation_remove_confirmer": {
+            "would_count_as_caught_without_confirmation": false,
+            "proposal_triplets": []
+          },
+          "ablation_remove_citation_requirement": {
+            "expected_positive": true,
+            "caught": false,
+            "missed": true,
+            "negative_passed": null,
+            "expected_triplets": [
+              [
+                "contradicts",
+                "M002",
+                "M001"
+              ]
+            ],
+            "confirmed_triplets": []
+          },
+          "lexical_baseline_current_detector": {
+            "finding_types": [
+              "missing_authority_layer"
+            ],
+            "stale_instruction_count": 0,
+            "missing_authority_layer": true
+          },
+          "raw_output": ""
+        },
+        {
+          "case_id": "path_a_authority_transfer_deploy_v0",
+          "class": "authority_transfer",
+          "malformed": true,
+          "malformed_reasons": [
+            "SemanticProposerError: anthropic proposer call failed: http 400: Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits."
+          ],
+          "proposal_count": 0,
+          "proposals": [],
+          "confirmed_findings": [],
+          "needs_human_judgment": [],
+          "score": {
+            "expected_positive": true,
+            "caught": false,
+            "missed": true,
+            "negative_passed": null,
+            "expected_triplets": [
+              [
+                "transfers_authority",
+                "M002",
+                "M001"
+              ]
+            ],
+            "confirmed_triplets": []
+          },
+          "ablation_remove_confirmer": {
+            "would_count_as_caught_without_confirmation": false,
+            "proposal_triplets": []
+          },
+          "ablation_remove_citation_requirement": {
+            "expected_positive": true,
+            "caught": false,
+            "missed": true,
+            "negative_passed": null,
+            "expected_triplets": [
+              [
+                "transfers_authority",
+                "M002",
+                "M001"
+              ]
+            ],
+            "confirmed_triplets": []
+          },
+          "lexical_baseline_current_detector": {
+            "finding_types": [
+              "missing_authority_layer"
+            ],
+            "stale_instruction_count": 0,
+            "missing_authority_layer": true
+          },
+          "raw_output": ""
+        },
+        {
+          "case_id": "path_a_topic_mention_negative_old_instructions_v0",
+          "class": "topic_mention_negative",
+          "malformed": true,
+          "malformed_reasons": [
+            "SemanticProposerError: anthropic proposer call failed: http 400: Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits."
+          ],
+          "proposal_count": 0,
+          "proposals": [],
+          "confirmed_findings": [],
+          "needs_human_judgment": [],
+          "score": {
+            "expected_positive": false,
+            "caught": null,
+            "missed": null,
+            "negative_passed": true,
+            "forbidden_types": [
+              "contradicts",
+              "narrows_scope",
+              "supersedes",
+              "transfers_authority"
+            ],
+            "forbidden_confirmed_count": 0,
+            "confirmed_triplets": []
+          },
+          "ablation_remove_confirmer": {
+            "would_false_fire_without_confirmation": false,
+            "forbidden_proposal_count": 0,
+            "proposal_triplets": []
+          },
+          "ablation_remove_citation_requirement": {
+            "expected_positive": false,
+            "caught": null,
+            "missed": null,
+            "negative_passed": true,
+            "forbidden_types": [
+              "contradicts",
+              "narrows_scope",
+              "supersedes",
+              "transfers_authority"
+            ],
+            "forbidden_confirmed_count": 0,
+            "confirmed_triplets": []
+          },
+          "lexical_baseline_current_detector": {
+            "finding_types": [
+              "stale_instruction",
+              "missing_authority_layer"
+            ],
+            "stale_instruction_count": 1,
+            "missing_authority_layer": true
+          },
+          "raw_output": ""
+        },
+        {
+          "case_id": "path_a_topic_mention_negative_meta_fix_v0",
+          "class": "topic_mention_negative",
+          "malformed": true,
+          "malformed_reasons": [
+            "SemanticProposerError: anthropic proposer call failed: http 400: Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits."
+          ],
+          "proposal_count": 0,
+          "proposals": [],
+          "confirmed_findings": [],
+          "needs_human_judgment": [],
+          "score": {
+            "expected_positive": false,
+            "caught": null,
+            "missed": null,
+            "negative_passed": true,
+            "forbidden_types": [
+              "contradicts",
+              "narrows_scope",
+              "supersedes",
+              "transfers_authority"
+            ],
+            "forbidden_confirmed_count": 0,
+            "confirmed_triplets": []
+          },
+          "ablation_remove_confirmer": {
+            "would_false_fire_without_confirmation": false,
+            "forbidden_proposal_count": 0,
+            "proposal_triplets": []
+          },
+          "ablation_remove_citation_requirement": {
+            "expected_positive": false,
+            "caught": null,
+            "missed": null,
+            "negative_passed": true,
+            "forbidden_types": [
+              "contradicts",
+              "narrows_scope",
+              "supersedes",
+              "transfers_authority"
+            ],
+            "forbidden_confirmed_count": 0,
+            "confirmed_triplets": []
+          },
+          "lexical_baseline_current_detector": {
+            "finding_types": [
+              "stale_instruction",
+              "stale_instruction",
+              "missing_authority_layer"
+            ],
+            "stale_instruction_count": 2,
+            "missing_authority_layer": true
+          },
+          "raw_output": ""
+        }
+      ]
+    },
+    {
+      "engine": "local_llama3.2",
+      "summary": {
+        "cases": 6,
+        "positives": 4,
+        "positives_caught": 0,
+        "positive_misses": 4,
+        "negatives": 2,
+        "negatives_passed": 2,
+        "negative_false_fires": 0,
+        "malformed_cases": 5,
+        "remove_confirmer_negative_false_fires": 0,
+        "remove_citation_negative_false_fires": 0
+      },
+      "cases": [
+        {
+          "case_id": "path_a_supersession_password_rotation_v0",
+          "class": "supersession",
+          "malformed": true,
+          "malformed_reasons": [
+            "proposer returned non-json output"
+          ],
+          "proposal_count": 0,
+          "proposals": [],
+          "confirmed_findings": [],
+          "needs_human_judgment": [],
+          "score": {
+            "expected_positive": true,
+            "caught": false,
+            "missed": true,
+            "negative_passed": null,
+            "expected_triplets": [
+              [
+                "supersedes",
+                "M002",
+                "M001"
+              ]
+            ],
+            "confirmed_triplets": []
+          },
+          "ablation_remove_confirmer": {
+            "would_count_as_caught_without_confirmation": false,
+            "proposal_triplets": []
+          },
+          "ablation_remove_citation_requirement": {
+            "expected_positive": true,
+            "caught": false,
+            "missed": true,
+            "negative_passed": null,
+            "expected_triplets": [
+              [
+                "supersedes",
+                "M002",
+                "M001"
+              ]
+            ],
+            "confirmed_triplets": []
+          },
+          "lexical_baseline_current_detector": {
+            "finding_types": [
+              "missing_authority_layer"
+            ],
+            "stale_instruction_count": 0,
+            "missing_authority_layer": true
+          },
+          "raw_output": "{\n  \"proposals\": [\n    {\n      \"type\": \"supersedes\",\n      \"source_item_id\": \"M002\",\n      \"target_item_id\": \"M001\",\n      \"cited_evidence_span\": \"the migration exception is retired.\",\n      \"scope_terms\": [\"migration exception\", \"credential policy\"],\n      \"rationale\": \"The M002 item supersedes the M001 item regarding the st\u001b[2D\u001b[K\nstaging password during migration week.\",\n      \"confidence\": 0.8\n    }\n  ]\n}"
+        },
+        {
+          "case_id": "path_a_scope_narrowing_export_v0",
+          "class": "scope_narrowing",
+          "malformed": true,
+          "malformed_reasons": [
+            "proposer returned non-json output"
+          ],
+          "proposal_count": 0,
+          "proposals": [],
+          "confirmed_findings": [],
+          "needs_human_judgment": [],
+          "score": {
+            "expected_positive": true,
+            "caught": false,
+            "missed": true,
+            "negative_passed": null,
+            "expected_triplets": [
+              [
+                "narrows_scope",
+                "M002",
+                "M001"
+              ]
+            ],
+            "confirmed_triplets": []
+          },
+          "ablation_remove_confirmer": {
+            "would_count_as_caught_without_confirmation": false,
+            "proposal_triplets": []
+          },
+          "ablation_remove_citation_requirement": {
+            "expected_positive": true,
+            "caught": false,
+            "missed": true,
+            "negative_passed": null,
+            "expected_triplets": [
+              [
+                "narrows_scope",
+                "M002",
+                "M001"
+              ]
+            ],
+            "confirmed_triplets": []
+          },
+          "lexical_baseline_current_detector": {
+            "finding_types": [],
+            "stale_instruction_count": 0,
+            "missing_authority_layer": false
+          },
+          "raw_output": "{\n  \"proposals\": [\n    {\n      \"type\": \"supersedes\",\n      \"source_item_id\": \"M002\",\n      \"target_item_id\": \"M001\",\n      \"cited_evidence_span\": \"analysts may export only aggregated customer \u001b[K\nmetrics, never raw customer records, unless the privacy lead grants written\u001b[7D\u001b[K\nwritten approval.\",\n      \"scope_terms\": [\"aggregated customer metrics\", \"raw customer records\"\u001b[8D\u001b[K\nrecords\"],\n      \"rationale\": \"Updated policy for data export\",\n      \"confidence\": 0.72\n    }\n  ]\n}"
+        },
+        {
+          "case_id": "path_a_direct_contradiction_auto_reply_v0",
+          "class": "direct_contradiction",
+          "malformed": true,
+          "malformed_reasons": [
+            "proposer returned non-json output"
+          ],
+          "proposal_count": 0,
+          "proposals": [],
+          "confirmed_findings": [],
+          "needs_human_judgment": [],
+          "score": {
+            "expected_positive": true,
+            "caught": false,
+            "missed": true,
+            "negative_passed": null,
+            "expected_triplets": [
+              [
+                "contradicts",
+                "M002",
+                "M001"
+              ]
+            ],
+            "confirmed_triplets": []
+          },
+          "ablation_remove_confirmer": {
+            "would_count_as_caught_without_confirmation": false,
+            "proposal_triplets": []
+          },
+          "ablation_remove_citation_requirement": {
+            "expected_positive": true,
+            "caught": false,
+            "missed": true,
+            "negative_passed": null,
+            "expected_triplets": [
+              [
+                "contradicts",
+                "M002",
+                "M001"
+              ]
+            ],
+            "confirmed_triplets": []
+          },
+          "lexical_baseline_current_detector": {
+            "finding_types": [
+              "missing_authority_layer"
+            ],
+            "stale_instruction_count": 0,
+            "missing_authority_layer": true
+          },
+          "raw_output": "{\n  \"proposals\": [\n    {\n      \"type\": \"supersedes\",\n      \"source_item_id\": \"M002\",\n      \"target_item_id\": \"M001\",\n      \"cited_evidence_span\": \"\\\"No refund reply may be sent without human r\u001b[1D\u001b[K\nreview, regardless of model confidence\\\"\",\n      \"scope_terms\": [\"refund replies\", \"human review\"],\n      \"rationale\": \"M002 restricts refunds, M001 allows them without review\u001b[6D\u001b[K\nreview.\",\n      \"confidence\": 0.9\n    }\n  ]\n}"
+        },
+        {
+          "case_id": "path_a_authority_transfer_deploy_v0",
+          "class": "authority_transfer",
+          "malformed": false,
+          "malformed_reasons": [],
+          "proposal_count": 1,
+          "proposals": [
+            {
+              "type": "supersedes",
+              "source_item_id": "M002",
+              "target_item_id": "M001",
+              "cited_evidence_span": "may recommend, but they no longer approve.",
+              "scope_terms": [
+                "production deploys",
+                "release captain"
+              ],
+              "rationale": "Changes in approval process due to incident review.",
+              "confidence": 0.95
+            }
+          ],
+          "confirmed_findings": [
+            {
+              "type": "semantic_authority_change",
+              "relation_type": "supersedes",
+              "source_item_id": "M002",
+              "target_item_id": "M001",
+              "cited_evidence_span": "may recommend, but they no longer approve.",
+              "evidence": "As of the incident review, only the release captain can approve production deploys. Product managers may recommend, but they no longer approve.",
+              "target": "Product managers can approve production deploys after QA signs off.",
+              "scope_terms": [
+                "production deploys",
+                "release captain"
+              ],
+              "confidence": 0.95
+            }
+          ],
+          "needs_human_judgment": [],
+          "score": {
+            "expected_positive": true,
+            "caught": false,
+            "missed": true,
+            "negative_passed": null,
+            "expected_triplets": [
+              [
+                "transfers_authority",
+                "M002",
+                "M001"
+              ]
+            ],
+            "confirmed_triplets": [
+              [
+                "supersedes",
+                "M002",
+                "M001"
+              ]
+            ]
+          },
+          "ablation_remove_confirmer": {
+            "would_count_as_caught_without_confirmation": false,
+            "proposal_triplets": [
+              [
+                "supersedes",
+                "M002",
+                "M001"
+              ]
+            ]
+          },
+          "ablation_remove_citation_requirement": {
+            "expected_positive": true,
+            "caught": false,
+            "missed": true,
+            "negative_passed": null,
+            "expected_triplets": [
+              [
+                "transfers_authority",
+                "M002",
+                "M001"
+              ]
+            ],
+            "confirmed_triplets": [
+              [
+                "supersedes",
+                "M002",
+                "M001"
+              ]
+            ]
+          },
+          "lexical_baseline_current_detector": {
+            "finding_types": [
+              "missing_authority_layer"
+            ],
+            "stale_instruction_count": 0,
+            "missing_authority_layer": true
+          },
+          "raw_output": "{\n  \"proposals\": [\n    {\n      \"type\": \"supersedes\",\n      \"source_item_id\": \"M002\",\n      \"target_item_id\": \"M001\",\n      \"cited_evidence_span\": \"may recommend, but they no longer approve.\",\n      \"scope_terms\": [\"production deploys\", \"release captain\"],\n      \"rationale\": \"Changes in approval process due to incident review.\",\n      \"confidence\": 0.95\n    }\n  ]\n}"
+        },
+        {
+          "case_id": "path_a_topic_mention_negative_old_instructions_v0",
+          "class": "topic_mention_negative",
+          "malformed": true,
+          "malformed_reasons": [
+            "proposer returned non-json output"
+          ],
+          "proposal_count": 0,
+          "proposals": [],
+          "confirmed_findings": [],
+          "needs_human_judgment": [],
+          "score": {
+            "expected_positive": false,
+            "caught": null,
+            "missed": null,
+            "negative_passed": true,
+            "forbidden_types": [
+              "contradicts",
+              "narrows_scope",
+              "supersedes",
+              "transfers_authority"
+            ],
+            "forbidden_confirmed_count": 0,
+            "confirmed_triplets": []
+          },
+          "ablation_remove_confirmer": {
+            "would_false_fire_without_confirmation": false,
+            "forbidden_proposal_count": 0,
+            "proposal_triplets": []
+          },
+          "ablation_remove_citation_requirement": {
+            "expected_positive": false,
+            "caught": null,
+            "missed": null,
+            "negative_passed": true,
+            "forbidden_types": [
+              "contradicts",
+              "narrows_scope",
+              "supersedes",
+              "transfers_authority"
+            ],
+            "forbidden_confirmed_count": 0,
+            "confirmed_triplets": []
+          },
+          "lexical_baseline_current_detector": {
+            "finding_types": [
+              "stale_instruction",
+              "missing_authority_layer"
+            ],
+            "stale_instruction_count": 1,
+            "missing_authority_layer": true
+          },
+          "raw_output": "{\n  \"proposals\": [\n    {\n      \"type\": \"supersedes\",\n      \"source_item_id\": \"M002\",\n      \"target_item_id\": \"M001\",\n      \"cited_evidence_span\": \"...product category...\",\n      \"scope_terms\": [\"product positioning\"],\n      \"rationale\": \"This relation supersedes M001 as the correct product po\u001b[2D\u001b[K\nposition.\",\n      \"confidence\": 0.8\n    }\n  ]\n}"
+        },
+        {
+          "case_id": "path_a_topic_mention_negative_meta_fix_v0",
+          "class": "topic_mention_negative",
+          "malformed": true,
+          "malformed_reasons": [
+            "proposer returned non-json output"
+          ],
+          "proposal_count": 0,
+          "proposals": [],
+          "confirmed_findings": [],
+          "needs_human_judgment": [],
+          "score": {
+            "expected_positive": false,
+            "caught": null,
+            "missed": null,
+            "negative_passed": true,
+            "forbidden_types": [
+              "contradicts",
+              "narrows_scope",
+              "supersedes",
+              "transfers_authority"
+            ],
+            "forbidden_confirmed_count": 0,
+            "confirmed_triplets": []
+          },
+          "ablation_remove_confirmer": {
+            "would_false_fire_without_confirmation": false,
+            "forbidden_proposal_count": 0,
+            "proposal_triplets": []
+          },
+          "ablation_remove_citation_requirement": {
+            "expected_positive": false,
+            "caught": null,
+            "missed": null,
+            "negative_passed": true,
+            "forbidden_types": [
+              "contradicts",
+              "narrows_scope",
+              "supersedes",
+              "transfers_authority"
+            ],
+            "forbidden_confirmed_count": 0,
+            "confirmed_triplets": []
+          },
+          "lexical_baseline_current_detector": {
+            "finding_types": [
+              "stale_instruction",
+              "stale_instruction",
+              "missing_authority_layer"
+            ],
+            "stale_instruction_count": 2,
+            "missing_authority_layer": true
+          },
+          "raw_output": "{\n  \"proposals\": [\n    {\n      \"type\": \"supersedes\",\n      \"source_item_id\": \"M002\",\n      \"target_item_id\": \"M001\",\n      \"cited_evidence_span\": \"should not itself be treated as a superseded \u001b[K\ninstruction.\",\n      \"scope_terms\": [\"history\", \"fix\"],\n      \"rationale\": \"The source item states that it is a history of the fix,\u001b[4D\u001b[K\nfix, implying that it supersedes previous instructions.\",\n      \"confidence\": 0.72\n    }\n  ]\n}"
+        }
+      ]
+    }
+  ],
+  "boundary": "No public claim from this artifact until Ka'el and Fable re-verify."
+}
