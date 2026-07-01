@@ -17,7 +17,9 @@ This tool audits files like:
 - project memory notes
 - long-running agent instruction files
 
-It separates **relevance** from **authority**, detects stale or conflicting instructions, recommends verification gates, maps governing rules, and exports a Markdown report.
+It separates **relevance** from **authority**, detects known dangerous stale/conflicting instruction patterns, recommends verification gates, maps governing rules, and exports a Markdown report.
+
+It is intentionally not marketed as a complete semantic contradiction detector. A clean report means this audit did not detect a covered failure pattern, not that the memory file is safe.
 
 ## Live App
 
@@ -75,7 +77,7 @@ memory_extractor
 |---|---|
 | Memory Extractor | Splits raw instruction text into auditable memory items. |
 | Authority Classifier | Labels each item as `governs`, `verify_first`, `superseded_possible`, or `context_only`, then estimates action type and risk. |
-| Conflict Detector | Finds loose approvals, stale/superseded instructions, read/write overblocking, and authority collisions. |
+| Conflict Detector | Finds known dangerous patterns: loose approvals, stale/superseded instructions, read/write overblocking, and covered authority collisions. |
 | Verification Gate Agent | Converts risks into gates such as human approval, source-of-truth checks, blocking superseded memories, or conflict resolution before action. |
 | Authority Mapper | Groups governing memories into categories such as startup source of truth, archive constraints, active project constraints, budget limits, action/tool constraints, and verification requirements. |
 | Report Writer | Produces the final posture, counts, recommendations, findings, gates, authority map, and limitations. |
@@ -150,6 +152,8 @@ Notes from the first deployment:
 This is a prototype, not a formal benchmark or safety certification.
 
 The default sample file is intentionally seeded to demonstrate the failure mode. The tool is meant to make authority visible enough for human review before memory is connected to action-capable tools.
+
+The current conflict detector is a known-pattern auditor, not a general semantic contradiction engine. It can catch covered high-risk shapes, but novel contradictions still require human review or a future semantic proposer plus deterministic confirmation layer.
 
 Do not treat the output as legal, compliance, security, or production safety advice.
 

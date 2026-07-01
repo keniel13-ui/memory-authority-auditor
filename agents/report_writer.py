@@ -37,10 +37,17 @@ def write_report(items: list[dict], classifications: list[dict], conflicts: list
     if authority_map:
         recommendations.append("Review the Authority Map even when no risk findings are present; low-risk governing rules still shape agent behavior.")
 
+    limitations = [
+        "This audit detects known dangerous authority patterns; it is not a complete semantic contradiction detector.",
+        "No findings does not prove the memory file is safe. It means this audit did not detect a covered failure pattern.",
+        "Novel conflicts still require human review or a future semantic contradiction layer before action-capable deployment.",
+    ]
+
     return {
         "posture": posture,
         "summary": summary,
         "recommendations": recommendations,
+        "limitations": limitations,
         "counts": {
             "items": len(items),
             "labels": dict(label_counts),

@@ -264,12 +264,14 @@
         : `<div class="item"><strong>No agent trace recorded.</strong></div>`;
 
       const recommendations = data.report.recommendations.map(item => `<li>${escapeHTML(item)}</li>`).join("");
+      const limitations = (data.report.limitations || []).map(item => `<li>${escapeHTML(item)}</li>`).join("");
 
       report.innerHTML = `
         <div class="result-grid">${metrics}</div>
         <div class="stack">
           <div class="item"><strong>Summary</strong><ul>${data.report.summary.map(item => `<li>${escapeHTML(item)}</li>`).join("")}</ul></div>
           <div class="item"><strong>Recommendations</strong><ul>${recommendations}</ul></div>
+          <div class="item"><strong>Limitations</strong><ul>${limitations}</ul></div>
           <div><h3>Agent Trace</h3><div class="stack">${trace}</div></div>
           <div><h3>Authority Map</h3><div class="stack">${authorityMap}</div></div>
           <div><h3>Findings</h3><div class="stack">${findings}</div></div>
@@ -307,6 +309,9 @@
         "",
         "## Recommendations",
         ...data.report.recommendations.map(item => `- ${item}`),
+        "",
+        "## Limitations",
+        ...(data.report.limitations || []).map(item => `- ${item}`),
         "",
         "## Agent Trace"
       ];

@@ -35,8 +35,14 @@ def build_verification_gates(classifications: list[dict], conflicts: list[dict])
             })
 
     for conflict in conflicts:
-        if conflict["type"] in {"authority_collision", "loose_approval", "credential_exposure"}:
-            add(f"conflict-{conflict['type']}", {
+        if conflict["type"] in {
+            "authority_collision",
+            "loose_approval",
+            "credential_exposure",
+            "stale_instruction",
+            "overbroad_authority",
+        }:
+            add(f"conflict-{conflict['type']}-{conflict['item_id']}", {
                 "item_id": conflict["item_id"],
                 "gate": "resolve_conflict_before_action",
                 "rule": f"Resolve {conflict['type']} before allowing affected memories to govern.",
@@ -44,4 +50,3 @@ def build_verification_gates(classifications: list[dict], conflicts: list[dict])
             })
 
     return gates
-
