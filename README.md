@@ -102,6 +102,19 @@ The sample catches:
 - authority collision between current policy and old notes;
 - actions that should require explicit human approval or source-of-truth verification.
 
+## Client Package
+
+The buyer-facing package is documented in:
+
+- `CLIENT_AUDIT_PACKAGE.md` — offer shape, scope, buyer, pricing starting points, and sales language.
+- `SAMPLE_CLIENT_REPORT.md` — a client-readable report based on the seeded sample file.
+
+The sales claim is deliberately bounded:
+
+> We audit which memories are allowed to govern action, which ones require verification, and which old instructions should stop controlling the system.
+
+Do not sell this as a safety certification or a complete contradiction detector.
+
 ## Local Run
 
 ```bash
