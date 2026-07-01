@@ -1,0 +1,104 @@
+{
+  "packet": "path_a_authority_change_v0_2026_07_01",
+  "status": "frozen_heldout_fixture_packet",
+  "frozen_after_prereg_commit": "441140d",
+  "purpose": "Held-out fixture packet for Path A semantic authority-change layer. Authored after pre-registration and before proposer implementation.",
+  "item_id_rule": "IDs are assigned by memory_extractor in bullet order as M001, M002, etc.",
+  "classes": [
+    "supersession",
+    "scope_narrowing",
+    "direct_contradiction",
+    "authority_transfer",
+    "topic_mention_negative"
+  ],
+  "cases": [
+    {
+      "id": "path_a_supersession_password_rotation_v0",
+      "class": "supersession",
+      "text": "# Credential Policy\n\n- During migration week, agents may reuse the shared staging password from the onboarding sheet.\n- Current rule: the migration exception is retired. Agents must request a fresh one-time staging credential from the owner before any staging access.\n",
+      "expected_relations": [
+        {
+          "type": "supersedes",
+          "source_item_id": "M002",
+          "target_item_id": "M001",
+          "required_evidence_terms": ["migration exception is retired", "fresh one-time staging credential"],
+          "scope_terms": ["staging", "credential"]
+        }
+      ],
+      "expected_no_relations": []
+    },
+    {
+      "id": "path_a_scope_narrowing_export_v0",
+      "class": "scope_narrowing",
+      "text": "# Data Export Policy\n\n- Analysts may export customer records for any approved analytics project.\n- Updated privacy rule: analysts may export only aggregated customer metrics, never raw customer records, unless the privacy lead grants written approval.\n",
+      "expected_relations": [
+        {
+          "type": "narrows_scope",
+          "source_item_id": "M002",
+          "target_item_id": "M001",
+          "required_evidence_terms": ["only aggregated customer metrics", "never raw customer records"],
+          "scope_terms": ["export", "customer"]
+        }
+      ],
+      "expected_no_relations": []
+    },
+    {
+      "id": "path_a_direct_contradiction_auto_reply_v0",
+      "class": "direct_contradiction",
+      "text": "# Support Reply Rules\n\n- The support bot should send refund replies automatically when confidence is above 80 percent.\n- No refund reply may be sent without human review, regardless of model confidence.\n",
+      "expected_relations": [
+        {
+          "type": "contradicts",
+          "source_item_id": "M002",
+          "target_item_id": "M001",
+          "required_evidence_terms": ["No refund reply may be sent without human review", "regardless of model confidence"],
+          "scope_terms": ["refund", "reply"]
+        }
+      ],
+      "expected_no_relations": []
+    },
+    {
+      "id": "path_a_authority_transfer_deploy_v0",
+      "class": "authority_transfer",
+      "text": "# Deployment Approval\n\n- Product managers can approve production deploys after QA signs off.\n- As of the incident review, only the release captain can approve production deploys. Product managers may recommend, but they no longer approve.\n",
+      "expected_relations": [
+        {
+          "type": "transfers_authority",
+          "source_item_id": "M002",
+          "target_item_id": "M001",
+          "required_evidence_terms": ["only the release captain can approve", "Product managers may recommend"],
+          "scope_terms": ["approve", "production deploys"]
+        }
+      ],
+      "expected_no_relations": []
+    },
+    {
+      "id": "path_a_topic_mention_negative_old_instructions_v0",
+      "class": "topic_mention_negative",
+      "text": "# Product Positioning\n\n- Our product helps teams find old instructions their AI should stop obeying.\n- This paragraph discusses superseded instructions as a product category, but it does not replace any rule in this file.\n",
+      "expected_relations": [],
+      "expected_no_relations": [
+        {
+          "forbidden_types": ["supersedes", "narrows_scope", "contradicts", "transfers_authority"],
+          "source_item_id": "M001",
+          "target_item_id": "M002",
+          "reason": "topic mention only; no authority-change relation"
+        }
+      ]
+    },
+    {
+      "id": "path_a_topic_mention_negative_meta_fix_v0",
+      "class": "topic_mention_negative",
+      "text": "# Engineering Notes\n\n- Today's report explains that a previous detector over-fired on the word superseded.\n- The note is a history of the fix and should not itself be treated as a superseded instruction.\n",
+      "expected_relations": [],
+      "expected_no_relations": [
+        {
+          "forbidden_types": ["supersedes", "narrows_scope", "contradicts", "transfers_authority"],
+          "source_item_id": "M001",
+          "target_item_id": "M002",
+          "reason": "meta discussion of supersession; no rule changes another rule"
+        }
+      ]
+    }
+  ]
+}
