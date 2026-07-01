@@ -147,8 +147,24 @@ def call_anthropic(prompt: str) -> str:
     try:
         with urllib.request.urlopen(request, timeout=30) as response:
             payload = json.loads(response.read().decode("utf-8"))
-    except (urllib.error.URLError, TimeoutError, json.JSONDecodeError) as error:
-        raise SemanticProposerError("anthropic proposer call failed") from error
+    except urllib.error.HTTPError as error:
+        try:
+            body = error.read().decode("utf-8")
+            payload = json.loads(body)
+            message = payload.get("error", {}).get("message", body)
+        except (UnicodeDecodeError, json.JSONDecodeError):
+            message = error.reason
+        raise SemanticProposerError(
+            f"anthropic proposer call failed: http {error.code}: {str(message)[:240]}"
+        ) from error
+    except urllib.error.URLError as error:
+        raise SemanticProposerError(
+            f"anthropic proposer call failed: network error: {str(error.reason)[:240]}"
+        ) from error
+    except TimeoutError as error:
+        raise SemanticProposerError("anthropic proposer call failed: timeout") from error
+    except json.JSONDecodeError as error:
+        raise SemanticProposerError("anthropic proposer call failed: invalid json response") from error
     text = _anthropic_text_from_response(payload)
     if not text:
         raise SemanticProposerError("anthropic proposer returned no text")
