@@ -3,7 +3,7 @@
 Report type: AI Memory Authority Audit
 Date: 2026-07-01
 Initial auditor commit: `8689675`
-Same-session fix status: uncommitted review branch/local changes as of this report
+Same-session fix status: committed and pushed at `74289f9`
 Inputs (real, not seeded):
 - `/Users/kenielmaldonado/CLAUDE.md` — the live governing instruction file for this workspace's agents.
 - `/Users/kenielmaldonado/BRAIN_CURRENT.md` — the live startup/state layer read at every session.
