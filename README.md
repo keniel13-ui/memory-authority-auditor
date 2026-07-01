@@ -106,10 +106,10 @@ The sample catches:
 
 The buyer-facing package is documented in:
 
-- `CLIENT_AUDIT_PACKAGE.md` — offer shape, scope, buyer, pricing starting points, and sales language.
-- `SAMPLE_CLIENT_REPORT.md` — a client-readable report based on the seeded sample file.
-- `EXTERNAL_AUDIT_INTAKE.md` — private intake rules for the first real external memory-file audit.
-- `EXTERNAL_AUDIT_REQUEST_TEMPLATE.txt` — short outreach note for asking someone to share a redacted file.
+- `CLIENT_AUDIT_PACKAGE.md` - offer shape, scope, buyer, pricing starting points, and sales language.
+- `SAMPLE_CLIENT_REPORT.md` - a client-readable report based on the seeded sample file.
+- `EXTERNAL_AUDIT_INTAKE.md` - private intake rules for the first real external memory-file audit.
+- `EXTERNAL_AUDIT_REQUEST_TEMPLATE.txt` - short outreach note for asking someone to share a redacted file.
 
 The sales claim is deliberately bounded:
 

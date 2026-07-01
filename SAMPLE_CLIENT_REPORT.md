@@ -27,6 +27,34 @@ The audit found that several memories are relevant but should not be allowed to 
 - Findings: `6`
 - Verification gates: `17`
 - Authority map categories: `2`
+- Review queue items: `10`
+- Needs human judgment: `8`
+
+## Review Queue
+
+The report does not only return a posture. It orders the human review.
+
+Highest-priority items in this seeded sample:
+
+1. `M011` - covered-pattern finding, high risk, possibly superseded
+2. `M012` - covered-pattern finding, high risk, possibly superseded
+3. `M006` - covered-pattern finding, high risk, verify before action
+4. `M007` - covered-pattern finding, governs action
+5. `M010` - covered-pattern finding
+
+This queue is not a verdict. It is a way to make a careful review faster without hiding uncertainty.
+
+## Needs Human Judgment
+
+The audit flags `8` items as requiring human judgment before the system should trust them for action.
+
+In this sample, those items include:
+
+- current policy lines that govern high-risk actions;
+- verify-first lines involving credentials, approvals, or access;
+- superseded-possible lines that need current replacement evidence.
+
+This is the product metric applied to the report: shorten the review, but never turn uncertainty into a false green check.
 
 ## Key Findings
 
@@ -118,6 +146,8 @@ No findings does not prove the memory file is safe. It means this audit did not 
 
 Novel conflicts still require human review or a future semantic contradiction layer before action-capable deployment.
 
+The review queue orders and shortens a careful human review; it does not replace it. A short queue is not a clean bill of health.
+
 ## Client Handoff Language
 
 The strongest immediate recommendation is to separate memory into two layers:
@@ -126,4 +156,3 @@ The strongest immediate recommendation is to separate memory into two layers:
 - authority that can govern the agent.
 
 Do not let old notes, temporary exceptions, or vague approvals sit in the same authority lane as current policy.
-
