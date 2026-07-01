@@ -186,3 +186,37 @@ def test_genuine_supersession_language_is_still_flagged_stale():
         c["authority_label"] == "superseded_possible"
         for c in result["classifications"]
     )
+
+
+# The Marcus Kim metric (2026-07-01): the report must ORDER a human's review and
+# SURFACE uncertainty, not return a clean verdict. It must not drown signal in the
+# pile of low-stakes context lines.
+
+def test_report_orders_review_and_surfaces_uncertainty():
+    result = run_audit(MESSY_AGENT_RULES)
+    report = result["report"]
+
+    queue = report["review_queue"]
+    assert queue, "review queue should not be empty on a messy file"
+
+    # ordered highest-priority first
+    priorities = [entry["priority"] for entry in queue]
+    assert priorities == sorted(priorities, reverse=True)
+
+    # a real finding outranks a plain governing line
+    assert queue[0]["priority"] >= 100
+
+    # uncertainty is surfaced, and never sold as a clean bill of health
+    assert isinstance(report["needs_human_judgment"], list)
+    assert any("does not replace it" in lim for lim in report["limitations"])
+
+
+def test_review_queue_is_not_flooded_by_low_confidence_context():
+    # A file of pure low-stakes context lines should NOT produce a huge queue or a
+    # huge uncertainty list. Signal buried in noise hides uncertainty just as badly
+    # as omitting it.
+    context_only = "\n".join(f"- Note {i}: the user generally prefers concise updates." for i in range(1, 21))
+    result = run_audit(f"# Preferences\n{context_only}\n")
+    report = result["report"]
+    assert len(report["review_queue"]) == 0
+    assert len(report["needs_human_judgment"]) == 0
