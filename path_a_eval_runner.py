@@ -40,6 +40,13 @@ SCORING_RULES = {
         "Positive case with only malformed output is a miss. Negative case with malformed/no-parse "
         "output passes only if no forbidden confirmed finding results; malformed counts remain recorded."
     ),
+    "positive_caught_direction": (
+        "Secondary metric, frozen 2026-07-09 in PATH_A_V1_PREREGISTRATION before any v1 run: "
+        "a positive is direction-caught if a confirmed finding matches the expected "
+        "(source_item_id, target_item_id) pair with ANY allowed relation type. Confirmed findings "
+        "always carry a verbatim citation and scope overlap by construction. The exact-label metric "
+        "remains primary and may not be replaced by this one after results are seen."
+    ),
 }
 
 
@@ -47,8 +54,8 @@ def _utc_slug() -> str:
     return datetime.now(timezone.utc).strftime("%Y%m%dT%H%M%SZ")
 
 
-def _cases() -> list[dict]:
-    return json.loads(FIXTURE.read_text())["cases"]
+def _cases(fixture: Path) -> list[dict]:
+    return json.loads(fixture.read_text())["cases"]
 
 
 def _items(case: dict) -> list[dict]:
@@ -104,9 +111,13 @@ def _score_confirmed(case: dict, confirmed: dict) -> dict:
 
     if expected:
         caught = expected <= finding_triplets
+        expected_pairs = {(source, target) for (_rel, source, target) in expected}
+        finding_pairs = {(source, target) for (_rel, source, target) in finding_triplets}
+        direction_caught = expected_pairs <= finding_pairs
         return {
             "expected_positive": True,
             "caught": caught,
+            "direction_caught": direction_caught,
             "missed": not caught,
             "negative_passed": None,
             "expected_triplets": sorted(expected),
@@ -215,6 +226,7 @@ def run_engine(engine: str, cases: list[dict]) -> dict:
     malformed_count = 0
     positives = 0
     positives_caught = 0
+    positives_caught_direction = 0
     negatives = 0
     negatives_passed = 0
     remove_confirmer_false_fires = 0
@@ -244,6 +256,7 @@ def run_engine(engine: str, cases: list[dict]) -> dict:
         if score["expected_positive"]:
             positives += 1
             positives_caught += int(score["caught"])
+            positives_caught_direction += int(score["direction_caught"])
         else:
             negatives += 1
             negatives_passed += int(score["negative_passed"])
@@ -272,6 +285,7 @@ def run_engine(engine: str, cases: list[dict]) -> dict:
             "cases": len(cases),
             "positives": positives,
             "positives_caught": positives_caught,
+            "positives_caught_direction": positives_caught_direction,
             "positive_misses": positives - positives_caught,
             "negatives": negatives,
             "negatives_passed": negatives_passed,
@@ -337,17 +351,19 @@ def main() -> int:
     parser = argparse.ArgumentParser()
     parser.add_argument("--engines", default="anthropic,local_llama3.2")
     parser.add_argument("--output-dir", default=str(ARTIFACT_DIR))
+    parser.add_argument("--fixture", default=str(FIXTURE))
     args = parser.parse_args()
 
     run_id = _utc_slug()
     output_dir = Path(args.output_dir)
     output_dir.mkdir(parents=True, exist_ok=True)
-    cases = _cases()
+    fixture_path = Path(args.fixture)
+    cases = _cases(fixture_path)
     engines = [engine.strip() for engine in args.engines.split(",") if engine.strip()]
     result = {
         "run_id": run_id,
         "generated_at_utc": datetime.now(timezone.utc).isoformat(),
-        "fixture": str(FIXTURE),
+        "fixture": str(fixture_path),
         "scoring_rules": SCORING_RULES,
         "engines": [run_engine(engine, cases) for engine in engines],
         "boundary": "No public claim from this artifact until Ka'el and Fable re-verify.",
