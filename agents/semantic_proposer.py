@@ -2,7 +2,6 @@ from __future__ import annotations
 
 import json
 import os
-import subprocess
 import urllib.error
 import urllib.request
 from typing import Callable
@@ -12,6 +11,8 @@ from agents.semantic_confirmer import ALLOWED_RELATION_TYPES
 
 ANTHROPIC_MODEL = os.environ.get("ANTHROPIC_MODEL", "claude-sonnet-4-6")
 ANTHROPIC_API_URL = "https://api.anthropic.com/v1/messages"
+OLLAMA_MODEL = os.environ.get("OLLAMA_MODEL", "llama3.2")
+OLLAMA_API_URL = os.environ.get("OLLAMA_API_URL", "http://localhost:11434/api/generate")
 PROPOSER_SCHEMA_FIELDS = {
     "type",
     "source_item_id",
@@ -67,9 +68,20 @@ Items:
 """
 
 
+def _strip_code_fence(text: str) -> str:
+    """Strip a leading/trailing markdown code fence (```json ... ```) that models
+    commonly wrap JSON in. Capture-layer only; does not alter scoring or the gate."""
+    t = text.strip()
+    if t.startswith("```"):
+        t = t.split("\n", 1)[1] if "\n" in t else t[3:]
+        if t.rstrip().endswith("```"):
+            t = t.rstrip()[:-3]
+    return t.strip()
+
+
 def _json_from_text(text: str) -> dict:
     try:
-        parsed = json.loads(text)
+        parsed = json.loads(_strip_code_fence(text))
     except json.JSONDecodeError as error:
         raise SemanticProposerError("proposer returned non-json output") from error
     if isinstance(parsed, list):
@@ -172,17 +184,35 @@ def call_anthropic(prompt: str) -> str:
 
 
 def call_local_llama(prompt: str) -> str:
+    # HTTP API instead of `ollama run` subprocess: the CLI path corrupted
+    # captured output with ANSI/spinner bytes (2026-07-01 eval attempt #1).
+    request = urllib.request.Request(
+        OLLAMA_API_URL,
+        data=json.dumps(
+            {
+                "model": OLLAMA_MODEL,
+                "prompt": prompt,
+                "stream": False,
+            }
+        ).encode("utf-8"),
+        headers={"content-type": "application/json"},
+        method="POST",
+    )
     try:
-        completed = subprocess.run(
-            ["ollama", "run", "llama3.2", prompt],
-            check=True,
-            capture_output=True,
-            text=True,
-            timeout=60,
-        )
-    except (FileNotFoundError, subprocess.SubprocessError) as error:
-        raise SemanticProposerError("local llama proposer call failed") from error
-    return completed.stdout.strip()
+        with urllib.request.urlopen(request, timeout=120) as response:
+            payload = json.loads(response.read().decode("utf-8"))
+    except urllib.error.URLError as error:
+        raise SemanticProposerError(
+            f"local llama proposer call failed: network error: {str(error.reason)[:240]}"
+        ) from error
+    except TimeoutError as error:
+        raise SemanticProposerError("local llama proposer call failed: timeout") from error
+    except json.JSONDecodeError as error:
+        raise SemanticProposerError("local llama proposer call failed: invalid json response") from error
+    text = str(payload.get("response", "")).strip()
+    if not text:
+        raise SemanticProposerError("local llama proposer returned no text")
+    return text
 
 
 def propose_authority_changes(

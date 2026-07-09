@@ -1,0 +1,598 @@
+{
+  "run_id": "20260709T190750Z",
+  "generated_at_utc": "2026-07-09T19:07:50.037396+00:00",
+  "fixture": "tests/fixtures/path_a_authority_change_v0_2026_07_01.json",
+  "scoring_rules": {
+    "positive_caught": "A positive case is caught only if the proposer emits at least one proposal that the deterministic confirmer turns into a confirmed finding whose (type, source_item_id, target_item_id) matches the fixture expected relation.",
+    "confidence": "Fixture confidence values are replay placeholders and are never compared to model output. Proposal confidence is used only against the frozen 0.60 confirmer gate.",
+    "negative_pass": "A topic-mention negative passes only if no confirmed forbidden finding is produced.",
+    "malformed": "Malformed proposer output is counted per case and does not abort the run. Positive case with only malformed output is a miss. Negative case with malformed/no-parse output passes only if no forbidden confirmed finding results; malformed counts remain recorded."
+  },
+  "engines": [
+    {
+      "engine": "local_llama3.2",
+      "summary": {
+        "cases": 6,
+        "positives": 4,
+        "positives_caught": 0,
+        "positive_misses": 4,
+        "negatives": 2,
+        "negatives_passed": 1,
+        "negative_false_fires": 1,
+        "malformed_cases": 0,
+        "remove_confirmer_negative_false_fires": 2,
+        "remove_citation_negative_false_fires": 1
+      },
+      "cases": [
+        {
+          "case_id": "path_a_supersession_password_rotation_v0",
+          "class": "supersession",
+          "malformed": false,
+          "malformed_reasons": [],
+          "proposal_count": 1,
+          "proposals": [
+            {
+              "type": "supersedes",
+              "source_item_id": "M002",
+              "target_item_id": "M001",
+              "cited_evidence_span": "\"the migration exception is retired\"",
+              "scope_terms": [
+                "migration",
+                "credential policy"
+              ],
+              "rationale": "Current rule supersedes previous staging password usage during migration week.",
+              "confidence": 0.72
+            }
+          ],
+          "confirmed_findings": [],
+          "needs_human_judgment": [
+            {
+              "proposal": {
+                "type": "supersedes",
+                "source_item_id": "M002",
+                "target_item_id": "M001",
+                "cited_evidence_span": "\"the migration exception is retired\"",
+                "scope_terms": [
+                  "migration",
+                  "credential policy"
+                ],
+                "rationale": "Current rule supersedes previous staging password usage during migration week.",
+                "confidence": 0.72
+              },
+              "reasons": [
+                "missing or empty evidence citation"
+              ]
+            }
+          ],
+          "score": {
+            "expected_positive": true,
+            "caught": false,
+            "missed": true,
+            "negative_passed": null,
+            "expected_triplets": [
+              [
+                "supersedes",
+                "M002",
+                "M001"
+              ]
+            ],
+            "confirmed_triplets": []
+          },
+          "ablation_remove_confirmer": {
+            "would_count_as_caught_without_confirmation": true,
+            "proposal_triplets": [
+              [
+                "supersedes",
+                "M002",
+                "M001"
+              ]
+            ]
+          },
+          "ablation_remove_citation_requirement": {
+            "expected_positive": true,
+            "caught": true,
+            "missed": false,
+            "negative_passed": null,
+            "expected_triplets": [
+              [
+                "supersedes",
+                "M002",
+                "M001"
+              ]
+            ],
+            "confirmed_triplets": [
+              [
+                "supersedes",
+                "M002",
+                "M001"
+              ]
+            ]
+          },
+          "lexical_baseline_current_detector": {
+            "finding_types": [
+              "missing_authority_layer"
+            ],
+            "stale_instruction_count": 0,
+            "missing_authority_layer": true
+          },
+          "raw_output": "{\n  \"proposals\": [\n    {\n      \"type\": \"supersedes\",\n      \"source_item_id\": \"M002\",\n      \"target_item_id\": \"M001\",\n      \"cited_evidence_span\": \"\\\"the migration exception is retired\\\"\",\n      \"scope_terms\": [\"migration\", \"credential policy\"],\n      \"rationale\": \"Current rule supersedes previous staging password usage during migration week.\",\n      \"confidence\": 0.72\n    }\n  ]}"
+        },
+        {
+          "case_id": "path_a_scope_narrowing_export_v0",
+          "class": "scope_narrowing",
+          "malformed": false,
+          "malformed_reasons": [],
+          "proposal_count": 1,
+          "proposals": [
+            {
+              "type": "supersedes",
+              "source_item_id": "M002",
+              "target_item_id": "M001",
+              "cited_evidence_span": "Updated privacy rule: analysts may export only aggregated customer metrics, never raw customer records, unless the privacy lead grants written approval.",
+              "scope_terms": [
+                "aggregated customer metrics",
+                "customer records"
+              ],
+              "rationale": "The source item specifies a more restrictive policy than the target item.",
+              "confidence": 0.72
+            }
+          ],
+          "confirmed_findings": [
+            {
+              "type": "semantic_authority_change",
+              "relation_type": "supersedes",
+              "source_item_id": "M002",
+              "target_item_id": "M001",
+              "cited_evidence_span": "Updated privacy rule: analysts may export only aggregated customer metrics, never raw customer records, unless the privacy lead grants written approval.",
+              "evidence": "Updated privacy rule: analysts may export only aggregated customer metrics, never raw customer records, unless the privacy lead grants written approval.",
+              "target": "Analysts may export customer records for any approved analytics project.",
+              "scope_terms": [
+                "aggregated customer metrics",
+                "customer records"
+              ],
+              "confidence": 0.72
+            }
+          ],
+          "needs_human_judgment": [],
+          "score": {
+            "expected_positive": true,
+            "caught": false,
+            "missed": true,
+            "negative_passed": null,
+            "expected_triplets": [
+              [
+                "narrows_scope",
+                "M002",
+                "M001"
+              ]
+            ],
+            "confirmed_triplets": [
+              [
+                "supersedes",
+                "M002",
+                "M001"
+              ]
+            ]
+          },
+          "ablation_remove_confirmer": {
+            "would_count_as_caught_without_confirmation": false,
+            "proposal_triplets": [
+              [
+                "supersedes",
+                "M002",
+                "M001"
+              ]
+            ]
+          },
+          "ablation_remove_citation_requirement": {
+            "expected_positive": true,
+            "caught": false,
+            "missed": true,
+            "negative_passed": null,
+            "expected_triplets": [
+              [
+                "narrows_scope",
+                "M002",
+                "M001"
+              ]
+            ],
+            "confirmed_triplets": [
+              [
+                "supersedes",
+                "M002",
+                "M001"
+              ]
+            ]
+          },
+          "lexical_baseline_current_detector": {
+            "finding_types": [],
+            "stale_instruction_count": 0,
+            "missing_authority_layer": false
+          },
+          "raw_output": "{\n  \"proposals\": [\n    {\n      \"type\": \"supersedes\",\n      \"source_item_id\": \"M002\",\n      \"target_item_id\": \"M001\",\n      \"cited_evidence_span\": \"Updated privacy rule: analysts may export only aggregated customer metrics, never raw customer records, unless the privacy lead grants written approval.\",\n      \"scope_terms\": [\"aggregated customer metrics\", \"customer records\"],\n      \"rationale\": \"The source item specifies a more restrictive policy than the target item.\",\n      \"confidence\": 0.72\n    }\n  ]\n}"
+        },
+        {
+          "case_id": "path_a_direct_contradiction_auto_reply_v0",
+          "class": "direct_contradiction",
+          "malformed": false,
+          "malformed_reasons": [],
+          "proposal_count": 1,
+          "proposals": [
+            {
+              "type": "supersedes",
+              "source_item_id": "M002",
+              "target_item_id": "M001",
+              "cited_evidence_span": "No refund reply may be sent without human review, regardless of model confidence.",
+              "scope_terms": [
+                "refund",
+                "review"
+              ],
+              "rationale": "New policy overrides automatic refund replies for high-confidence models.",
+              "confidence": 0.72
+            }
+          ],
+          "confirmed_findings": [
+            {
+              "type": "semantic_authority_change",
+              "relation_type": "supersedes",
+              "source_item_id": "M002",
+              "target_item_id": "M001",
+              "cited_evidence_span": "No refund reply may be sent without human review, regardless of model confidence.",
+              "evidence": "No refund reply may be sent without human review, regardless of model confidence.",
+              "target": "The support bot should send refund replies automatically when confidence is above 80 percent.",
+              "scope_terms": [
+                "refund",
+                "review"
+              ],
+              "confidence": 0.72
+            }
+          ],
+          "needs_human_judgment": [],
+          "score": {
+            "expected_positive": true,
+            "caught": false,
+            "missed": true,
+            "negative_passed": null,
+            "expected_triplets": [
+              [
+                "contradicts",
+                "M002",
+                "M001"
+              ]
+            ],
+            "confirmed_triplets": [
+              [
+                "supersedes",
+                "M002",
+                "M001"
+              ]
+            ]
+          },
+          "ablation_remove_confirmer": {
+            "would_count_as_caught_without_confirmation": false,
+            "proposal_triplets": [
+              [
+                "supersedes",
+                "M002",
+                "M001"
+              ]
+            ]
+          },
+          "ablation_remove_citation_requirement": {
+            "expected_positive": true,
+            "caught": false,
+            "missed": true,
+            "negative_passed": null,
+            "expected_triplets": [
+              [
+                "contradicts",
+                "M002",
+                "M001"
+              ]
+            ],
+            "confirmed_triplets": [
+              [
+                "supersedes",
+                "M002",
+                "M001"
+              ]
+            ]
+          },
+          "lexical_baseline_current_detector": {
+            "finding_types": [
+              "missing_authority_layer"
+            ],
+            "stale_instruction_count": 0,
+            "missing_authority_layer": true
+          },
+          "raw_output": "{\n  \"proposals\": [\n    {\n      \"type\": \"supersedes\",\n      \"source_item_id\": \"M002\",\n      \"target_item_id\": \"M001\",\n      \"cited_evidence_span\": \"No refund reply may be sent without human review, regardless of model confidence.\",\n      \"scope_terms\": [\"refund\", \"review\"],\n      \"rationale\": \"New policy overrides automatic refund replies for high-confidence models.\",\n      \"confidence\": 0.72\n    }\n  ]\n}"
+        },
+        {
+          "case_id": "path_a_authority_transfer_deploy_v0",
+          "class": "authority_transfer",
+          "malformed": false,
+          "malformed_reasons": [],
+          "proposal_count": 1,
+          "proposals": [
+            {
+              "type": "supersedes",
+              "source_item_id": "M002",
+              "target_item_id": "M001",
+              "cited_evidence_span": "only the release captain can approve production deploys. Product managers may recommend, but they no longer approve.",
+              "scope_terms": [
+                "production deploy",
+                "approval process"
+              ],
+              "rationale": "Updated approval process following incident review",
+              "confidence": 0.72
+            }
+          ],
+          "confirmed_findings": [
+            {
+              "type": "semantic_authority_change",
+              "relation_type": "supersedes",
+              "source_item_id": "M002",
+              "target_item_id": "M001",
+              "cited_evidence_span": "only the release captain can approve production deploys. Product managers may recommend, but they no longer approve.",
+              "evidence": "As of the incident review, only the release captain can approve production deploys. Product managers may recommend, but they no longer approve.",
+              "target": "Product managers can approve production deploys after QA signs off.",
+              "scope_terms": [
+                "production deploy",
+                "approval process"
+              ],
+              "confidence": 0.72
+            }
+          ],
+          "needs_human_judgment": [],
+          "score": {
+            "expected_positive": true,
+            "caught": false,
+            "missed": true,
+            "negative_passed": null,
+            "expected_triplets": [
+              [
+                "transfers_authority",
+                "M002",
+                "M001"
+              ]
+            ],
+            "confirmed_triplets": [
+              [
+                "supersedes",
+                "M002",
+                "M001"
+              ]
+            ]
+          },
+          "ablation_remove_confirmer": {
+            "would_count_as_caught_without_confirmation": false,
+            "proposal_triplets": [
+              [
+                "supersedes",
+                "M002",
+                "M001"
+              ]
+            ]
+          },
+          "ablation_remove_citation_requirement": {
+            "expected_positive": true,
+            "caught": false,
+            "missed": true,
+            "negative_passed": null,
+            "expected_triplets": [
+              [
+                "transfers_authority",
+                "M002",
+                "M001"
+              ]
+            ],
+            "confirmed_triplets": [
+              [
+                "supersedes",
+                "M002",
+                "M001"
+              ]
+            ]
+          },
+          "lexical_baseline_current_detector": {
+            "finding_types": [
+              "missing_authority_layer"
+            ],
+            "stale_instruction_count": 0,
+            "missing_authority_layer": true
+          },
+          "raw_output": "{\n  \"proposals\": [\n    {\n      \"type\": \"supersedes\",\n      \"source_item_id\": \"M002\",\n      \"target_item_id\": \"M001\",\n      \"cited_evidence_span\": \"only the release captain can approve production deploys. Product managers may recommend, but they no longer approve.\",\n      \"scope_terms\": [\"production deploy\", \"approval process\"],\n      \"rationale\": \"Updated approval process following incident review\",\n      \"confidence\": 0.72\n    }\n  ]\n}"
+        },
+        {
+          "case_id": "path_a_topic_mention_negative_old_instructions_v0",
+          "class": "topic_mention_negative",
+          "malformed": false,
+          "malformed_reasons": [],
+          "proposal_count": 1,
+          "proposals": [
+            {
+              "type": "supersedes",
+              "source_item_id": "M002",
+              "target_item_id": "M001",
+              "cited_evidence_span": "superseded instructions as a product category",
+              "scope_terms": [
+                "product positioning",
+                "instructions"
+              ],
+              "rationale": "This paragraph discusses superseded instructions as a product category, but it does not replace any rule in this file.",
+              "confidence": 0.72
+            }
+          ],
+          "confirmed_findings": [
+            {
+              "type": "semantic_authority_change",
+              "relation_type": "supersedes",
+              "source_item_id": "M002",
+              "target_item_id": "M001",
+              "cited_evidence_span": "superseded instructions as a product category",
+              "evidence": "This paragraph discusses superseded instructions as a product category, but it does not replace any rule in this file.",
+              "target": "Our product helps teams find old instructions their AI should stop obeying.",
+              "scope_terms": [
+                "product positioning",
+                "instructions"
+              ],
+              "confidence": 0.72
+            }
+          ],
+          "needs_human_judgment": [],
+          "score": {
+            "expected_positive": false,
+            "caught": null,
+            "missed": null,
+            "negative_passed": false,
+            "forbidden_types": [
+              "contradicts",
+              "narrows_scope",
+              "supersedes",
+              "transfers_authority"
+            ],
+            "forbidden_confirmed_count": 1,
+            "confirmed_triplets": [
+              [
+                "supersedes",
+                "M002",
+                "M001"
+              ]
+            ]
+          },
+          "ablation_remove_confirmer": {
+            "would_false_fire_without_confirmation": true,
+            "forbidden_proposal_count": 1,
+            "proposal_triplets": [
+              [
+                "supersedes",
+                "M002",
+                "M001"
+              ]
+            ]
+          },
+          "ablation_remove_citation_requirement": {
+            "expected_positive": false,
+            "caught": null,
+            "missed": null,
+            "negative_passed": false,
+            "forbidden_types": [
+              "contradicts",
+              "narrows_scope",
+              "supersedes",
+              "transfers_authority"
+            ],
+            "forbidden_confirmed_count": 1,
+            "confirmed_triplets": [
+              [
+                "supersedes",
+                "M002",
+                "M001"
+              ]
+            ]
+          },
+          "lexical_baseline_current_detector": {
+            "finding_types": [
+              "stale_instruction",
+              "missing_authority_layer"
+            ],
+            "stale_instruction_count": 1,
+            "missing_authority_layer": true
+          },
+          "raw_output": "{\n  \"proposals\": [\n    {\n      \"type\": \"supersedes\",\n      \"source_item_id\": \"M002\",\n      \"target_item_id\": \"M001\",\n      \"cited_evidence_span\": \"superseded instructions as a product category\",\n      \"scope_terms\": [\"product positioning\", \"instructions\"],\n      \"rationale\": \"This paragraph discusses superseded instructions as a product category, but it does not replace any rule in this file.\",\n      \"confidence\": 0.72\n    }\n  ]\n}"
+        },
+        {
+          "case_id": "path_a_topic_mention_negative_meta_fix_v0",
+          "class": "topic_mention_negative",
+          "malformed": false,
+          "malformed_reasons": [],
+          "proposal_count": 1,
+          "proposals": [
+            {
+              "type": "supersedes",
+              "source_item_id": "M002",
+              "target_item_id": "M001",
+              "cited_evidence_span": "The note is a history of the fix and should not itself be treated as a superseded instruction.",
+              "scope_terms": [
+                "fix",
+                "instruction"
+              ],
+              "rationale": "Since M002 provides a history of the fix, M001 is no longer applicable for this specific context",
+              "confidence": 0.85
+            }
+          ],
+          "confirmed_findings": [],
+          "needs_human_judgment": [
+            {
+              "proposal": {
+                "type": "supersedes",
+                "source_item_id": "M002",
+                "target_item_id": "M001",
+                "cited_evidence_span": "The note is a history of the fix and should not itself be treated as a superseded instruction.",
+                "scope_terms": [
+                  "fix",
+                  "instruction"
+                ],
+                "rationale": "Since M002 provides a history of the fix, M001 is no longer applicable for this specific context",
+                "confidence": 0.85
+              },
+              "reasons": [
+                "no deterministic scope overlap between source and target"
+              ]
+            }
+          ],
+          "score": {
+            "expected_positive": false,
+            "caught": null,
+            "missed": null,
+            "negative_passed": true,
+            "forbidden_types": [
+              "contradicts",
+              "narrows_scope",
+              "supersedes",
+              "transfers_authority"
+            ],
+            "forbidden_confirmed_count": 0,
+            "confirmed_triplets": []
+          },
+          "ablation_remove_confirmer": {
+            "would_false_fire_without_confirmation": true,
+            "forbidden_proposal_count": 1,
+            "proposal_triplets": [
+              [
+                "supersedes",
+                "M002",
+                "M001"
+              ]
+            ]
+          },
+          "ablation_remove_citation_requirement": {
+            "expected_positive": false,
+            "caught": null,
+            "missed": null,
+            "negative_passed": true,
+            "forbidden_types": [
+              "contradicts",
+              "narrows_scope",
+              "supersedes",
+              "transfers_authority"
+            ],
+            "forbidden_confirmed_count": 0,
+            "confirmed_triplets": []
+          },
+          "lexical_baseline_current_detector": {
+            "finding_types": [
+              "stale_instruction",
+              "stale_instruction",
+              "missing_authority_layer"
+            ],
+            "stale_instruction_count": 2,
+            "missing_authority_layer": true
+          },
+          "raw_output": "{\n  \"proposals\": [\n    {\n      \"type\": \"supersedes\",\n      \"source_item_id\": \"M002\",\n      \"target_item_id\": \"M001\",\n      \"cited_evidence_span\": \"The note is a history of the fix and should not itself be treated as a superseded instruction.\",\n      \"scope_terms\": [\"fix\", \"instruction\"],\n      \"rationale\": \"Since M002 provides a history of the fix, M001 is no longer applicable for this specific context\",\n      \"confidence\": 0.85\n    }\n  ]\n}"
+        }
+      ]
+    }
+  ],
+  "boundary": "No public claim from this artifact until Ka'el and Fable re-verify."
+}
