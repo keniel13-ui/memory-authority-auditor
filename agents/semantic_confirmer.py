@@ -1,5 +1,7 @@
 from __future__ import annotations
 
+import re
+
 ALLOWED_RELATION_TYPES = {
     "supersedes",
     "narrows_scope",
@@ -7,6 +9,30 @@ ALLOWED_RELATION_TYPES = {
     "transfers_authority",
 }
 CONFIDENCE_THRESHOLD = 0.60
+RELATION_SPAN_LEXICON = (
+    "replace",
+    "replaced",
+    "replaces",
+    "retire",
+    "retired",
+    "retires",
+    "deprecate",
+    "deprecated",
+    "supersede",
+    "supersedes",
+    "superseded",
+    "override",
+    "overrides",
+    "overridden",
+    "discontinue",
+    "discontinued",
+    "revoke",
+    "revoked",
+    "no longer",
+    "instead",
+    "only",
+    "now",
+)
 
 
 def _norm(value: str) -> str:
@@ -35,7 +61,56 @@ def _scope_overlaps(source_text: str, target_text: str, scope_terms: list[str]) 
     return any(_norm(term) in source and _norm(term) in target for term in scope_terms)
 
 
-def confirm_authority_change(proposal: dict, items: list[dict]) -> dict:
+def _sentences(text: str) -> list[str]:
+    return [part.strip() for part in re.split(r"(?<=[.!?])\s+", text) if part.strip()]
+
+
+def _operator_pattern(operator: str) -> re.Pattern[str]:
+    escaped = r"\s+".join(re.escape(part) for part in operator.split())
+    return re.compile(rf"(?<!\w){escaped}(?!\w)", flags=re.IGNORECASE)
+
+
+def _operators_in(text: str) -> list[str]:
+    return [op for op in RELATION_SPAN_LEXICON if _operator_pattern(op).search(text)]
+
+
+def relation_span_check(cited_evidence_span: str, scope_terms: list[str]) -> dict:
+    """v2 relation-span clause.
+
+    This is a deterministic input gate, not a semantic judge. A span passes only
+    when one sentence contains both a frozen relation operator and one proposed
+    scope term. Anything else is routed away from confirmed textual findings.
+    """
+    operators = _operators_in(cited_evidence_span)
+    if not operators:
+        return {
+            "passed": False,
+            "operators": [],
+            "matching_sentence": None,
+            "reason": "no frozen relation operator in cited evidence span",
+        }
+    normalized_terms = [_norm(term) for term in scope_terms if _norm(term)]
+    for sentence in _sentences(cited_evidence_span):
+        normalized_sentence = _norm(sentence)
+        sentence_operators = _operators_in(sentence)
+        sentence_terms = [term for term in normalized_terms if term in normalized_sentence]
+        if sentence_operators and sentence_terms:
+            return {
+                "passed": True,
+                "operators": sentence_operators,
+                "matching_sentence": sentence,
+                "scope_terms_matched": sentence_terms,
+                "reason": None,
+            }
+    return {
+        "passed": False,
+        "operators": operators,
+        "matching_sentence": None,
+        "reason": "operator and scope term do not co-occur in one cited sentence",
+    }
+
+
+def confirm_authority_change(proposal: dict, items: list[dict], *, require_relation_span: bool = False) -> dict:
     """Confirm an LLM-proposed authority-change relation against deterministic evidence.
 
     The proposer may interpret. This confirmer only checks local file evidence:
@@ -77,6 +152,11 @@ def confirm_authority_change(proposal: dict, items: list[dict]) -> dict:
         reasons.append("missing or empty evidence citation")
     if not _scope_overlaps(source["text"], target["text"], scope_terms):
         reasons.append("no deterministic scope overlap between source and target")
+    relation_span = None
+    if require_relation_span:
+        relation_span = relation_span_check(cited_evidence_span, scope_terms)
+        if not relation_span["passed"]:
+            reasons.append(f"relation-span clause failed: {relation_span['reason']}")
 
     confirmed = not reasons
     return {
@@ -94,6 +174,7 @@ def confirm_authority_change(proposal: dict, items: list[dict]) -> dict:
                 "target": target["text"],
                 "scope_terms": scope_terms,
                 "confidence": confidence,
+                "relation_span": relation_span,
             }
             if confirmed
             else None
@@ -102,11 +183,16 @@ def confirm_authority_change(proposal: dict, items: list[dict]) -> dict:
     }
 
 
-def confirm_authority_changes(proposals: list[dict], items: list[dict]) -> dict:
+def confirm_authority_changes(
+    proposals: list[dict],
+    items: list[dict],
+    *,
+    require_relation_span: bool = False,
+) -> dict:
     confirmed = []
     needs_human_judgment = []
     for proposal in proposals:
-        result = confirm_authority_change(proposal, items)
+        result = confirm_authority_change(proposal, items, require_relation_span=require_relation_span)
         if result["confirmed"]:
             confirmed.append(result["finding"])
         else:

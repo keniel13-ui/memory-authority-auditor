@@ -1,0 +1,907 @@
+{
+  "run_id": "20260711T223046Z",
+  "generated_at_utc": "2026-07-11T22:30:46.469080+00:00",
+  "recorded_v1_artifact": "path_a_eval_artifacts/path_a_eval_20260709T202859Z.json",
+  "preregistration": "PATH_A_V2_PREREGISTRATION_2026-07-11.md",
+  "engines": [
+    {
+      "engine": "anthropic",
+      "summary": {
+        "textual_cases": 9,
+        "textual_direction_caught_before": 9,
+        "textual_direction_caught_after_relation_span": 9,
+        "textual_true_positive_losses": [],
+        "implicit_cases": 3,
+        "implicit_direction_caught": 3,
+        "negative_false_fires_before": 0,
+        "negative_false_fires_after_relation_span": 0
+      },
+      "cases": [
+        {
+          "case_id": "path_a_v1_supersession_backup_retention",
+          "class": "supersession",
+          "v2_class": "textual",
+          "confirmed_before": 1,
+          "confirmed_after_relation_span": 1,
+          "regated_findings": [
+            {
+              "finding": {
+                "type": "semantic_authority_change",
+                "relation_type": "supersedes",
+                "source_item_id": "M002",
+                "target_item_id": "M001",
+                "cited_evidence_span": "the old retention rule is replaced: nightly backups are kept for 90 days in the cloud archive, and the legacy NAS copies are discontinued",
+                "evidence": "Effective this quarter the old retention rule is replaced: nightly backups are kept for 90 days in the cloud archive, and the legacy NAS copies are discontinued.",
+                "target": "Nightly backups are kept for 30 days on the legacy NAS under the operations share.",
+                "scope_terms": [
+                  "nightly backups",
+                  "retention"
+                ],
+                "confidence": 0.97
+              },
+              "relation_span": {
+                "passed": true,
+                "operators": [
+                  "replaced",
+                  "discontinued"
+                ],
+                "matching_sentence": "the old retention rule is replaced: nightly backups are kept for 90 days in the cloud archive, and the legacy NAS copies are discontinued",
+                "scope_terms_matched": [
+                  "nightly backups",
+                  "retention"
+                ],
+                "reason": null
+              },
+              "survives_relation_span": true
+            }
+          ],
+          "textual_direction_caught_before": true,
+          "textual_direction_caught_after": true
+        },
+        {
+          "case_id": "path_a_v1_supersession_api_key_rotation",
+          "class": "supersession",
+          "v2_class": "textual",
+          "confirmed_before": 1,
+          "confirmed_after_relation_span": 1,
+          "regated_findings": [
+            {
+              "finding": {
+                "type": "semantic_authority_change",
+                "relation_type": "supersedes",
+                "source_item_id": "M002",
+                "target_item_id": "M001",
+                "cited_evidence_span": "the manual quarterly rotation is retired. Service API keys now rotate automatically every 30 days through the secrets manager.",
+                "evidence": "New standard: the manual quarterly rotation is retired. Service API keys now rotate automatically every 30 days through the secrets manager.",
+                "target": "Service API keys are rotated manually every quarter by the platform team.",
+                "scope_terms": [
+                  "Service API keys",
+                  "Secrets Handling"
+                ],
+                "confidence": 0.97
+              },
+              "relation_span": {
+                "passed": true,
+                "operators": [
+                  "now"
+                ],
+                "matching_sentence": "Service API keys now rotate automatically every 30 days through the secrets manager.",
+                "scope_terms_matched": [
+                  "service api keys"
+                ],
+                "reason": null
+              },
+              "survives_relation_span": true
+            }
+          ],
+          "textual_direction_caught_before": true,
+          "textual_direction_caught_after": true
+        },
+        {
+          "case_id": "path_a_v1_supersession_sync_notes_location",
+          "class": "supersession",
+          "v2_class": "textual",
+          "confirmed_before": 1,
+          "confirmed_after_relation_span": 1,
+          "regated_findings": [
+            {
+              "finding": {
+                "type": "semantic_authority_change",
+                "relation_type": "supersedes",
+                "source_item_id": "M002",
+                "target_item_id": "M001",
+                "cited_evidence_span": "posting sync notes to the shared drive is deprecated. Weekly sync notes must be posted to the project wiki instead.",
+                "evidence": "Update: posting sync notes to the shared drive is deprecated. Weekly sync notes must be posted to the project wiki instead.",
+                "target": "Weekly sync notes are posted to the shared drive folder for the whole team to read.",
+                "scope_terms": [
+                  "Weekly sync notes",
+                  "Team Communication"
+                ],
+                "confidence": 0.97
+              },
+              "relation_span": {
+                "passed": true,
+                "operators": [
+                  "instead"
+                ],
+                "matching_sentence": "Weekly sync notes must be posted to the project wiki instead.",
+                "scope_terms_matched": [
+                  "weekly sync notes"
+                ],
+                "reason": null
+              },
+              "survives_relation_span": true
+            }
+          ],
+          "textual_direction_caught_before": true,
+          "textual_direction_caught_after": true
+        },
+        {
+          "case_id": "path_a_v1_scope_narrowing_refund_limit",
+          "class": "scope_narrowing",
+          "v2_class": "textual",
+          "confirmed_before": 1,
+          "confirmed_after_relation_span": 1,
+          "regated_findings": [
+            {
+              "finding": {
+                "type": "semantic_authority_change",
+                "relation_type": "supersedes",
+                "source_item_id": "M002",
+                "target_item_id": "M001",
+                "cited_evidence_span": "Revised policy: support agents may issue refunds only up to 50 dollars on their own, and anything higher requires a team lead's approval.",
+                "evidence": "Revised policy: support agents may issue refunds only up to 50 dollars on their own, and anything higher requires a team lead's approval.",
+                "target": "Support agents may issue refunds up to 200 dollars at their own discretion.",
+                "scope_terms": [
+                  "support agents",
+                  "refunds"
+                ],
+                "confidence": 0.95
+              },
+              "relation_span": {
+                "passed": true,
+                "operators": [
+                  "only"
+                ],
+                "matching_sentence": "Revised policy: support agents may issue refunds only up to 50 dollars on their own, and anything higher requires a team lead's approval.",
+                "scope_terms_matched": [
+                  "support agents",
+                  "refunds"
+                ],
+                "reason": null
+              },
+              "survives_relation_span": true
+            }
+          ],
+          "textual_direction_caught_before": true,
+          "textual_direction_caught_after": true
+        },
+        {
+          "case_id": "path_a_v1_scope_narrowing_prod_db_access",
+          "class": "scope_narrowing",
+          "v2_class": "textual",
+          "confirmed_before": 1,
+          "confirmed_after_relation_span": 1,
+          "regated_findings": [
+            {
+              "finding": {
+                "type": "semantic_authority_change",
+                "relation_type": "narrows_scope",
+                "source_item_id": "M002",
+                "target_item_id": "M001",
+                "cited_evidence_span": "backend engineers may query only the read replica of the production database, and only during an active incident",
+                "evidence": "Tightened rule: backend engineers may query only the read replica of the production database, and only during an active incident.",
+                "target": "Backend engineers may query the production database for debugging purposes.",
+                "scope_terms": [
+                  "backend engineers",
+                  "production database"
+                ],
+                "confidence": 0.93
+              },
+              "relation_span": {
+                "passed": true,
+                "operators": [
+                  "only"
+                ],
+                "matching_sentence": "backend engineers may query only the read replica of the production database, and only during an active incident",
+                "scope_terms_matched": [
+                  "backend engineers",
+                  "production database"
+                ],
+                "reason": null
+              },
+              "survives_relation_span": true
+            }
+          ],
+          "textual_direction_caught_before": true,
+          "textual_direction_caught_after": true
+        },
+        {
+          "case_id": "path_a_v1_scope_narrowing_social_posting",
+          "class": "scope_narrowing",
+          "v2_class": "textual",
+          "confirmed_before": 1,
+          "confirmed_after_relation_span": 1,
+          "regated_findings": [
+            {
+              "finding": {
+                "type": "semantic_authority_change",
+                "relation_type": "supersedes",
+                "source_item_id": "M002",
+                "target_item_id": "M001",
+                "cited_evidence_span": "Going forward the intern may publish only pre-approved drafts to the company social accounts, never original posts.",
+                "evidence": "Going forward the intern may publish only pre-approved drafts to the company social accounts, never original posts.",
+                "target": "The marketing intern can publish posts to the company social accounts.",
+                "scope_terms": [
+                  "intern",
+                  "publish",
+                  "company social accounts"
+                ],
+                "confidence": 0.93
+              },
+              "relation_span": {
+                "passed": true,
+                "operators": [
+                  "only"
+                ],
+                "matching_sentence": "Going forward the intern may publish only pre-approved drafts to the company social accounts, never original posts.",
+                "scope_terms_matched": [
+                  "intern",
+                  "publish",
+                  "company social accounts"
+                ],
+                "reason": null
+              },
+              "survives_relation_span": true
+            }
+          ],
+          "textual_direction_caught_before": true,
+          "textual_direction_caught_after": true
+        },
+        {
+          "case_id": "path_a_v1_contradiction_logging_pii",
+          "class": "direct_contradiction",
+          "v2_class": "implicit",
+          "confirmed_before": 1,
+          "confirmed_after_relation_span": 0,
+          "regated_findings": [
+            {
+              "finding": {
+                "type": "semantic_authority_change",
+                "relation_type": "contradicts",
+                "source_item_id": "M002",
+                "target_item_id": "M001",
+                "cited_evidence_span": "Customer email addresses must never be written to request logs under any circumstances.",
+                "evidence": "Customer email addresses must never be written to request logs under any circumstances.",
+                "target": "Request logs should include the full customer email address to speed up support lookups.",
+                "scope_terms": [
+                  "customer email addresses",
+                  "request logs"
+                ],
+                "confidence": 0.97
+              },
+              "relation_span": {
+                "passed": false,
+                "operators": [],
+                "matching_sentence": null,
+                "reason": "no frozen relation operator in cited evidence span"
+              },
+              "survives_relation_span": false
+            }
+          ],
+          "implicit_policy": "not relation-span gated; report as proposer-only, semantically inferred, not span-anchored"
+        },
+        {
+          "case_id": "path_a_v1_contradiction_friday_deploys",
+          "class": "direct_contradiction",
+          "v2_class": "implicit",
+          "confirmed_before": 1,
+          "confirmed_after_relation_span": 1,
+          "regated_findings": [
+            {
+              "finding": {
+                "type": "semantic_authority_change",
+                "relation_type": "supersedes",
+                "source_item_id": "M002",
+                "target_item_id": "M001",
+                "cited_evidence_span": "Production deploys are forbidden on Fridays; schedule them Monday through Thursday only.",
+                "evidence": "Production deploys are forbidden on Fridays; schedule them Monday through Thursday only.",
+                "target": "Teams are encouraged to deploy to production on Friday afternoons to use the quiet window.",
+                "scope_terms": [
+                  "production",
+                  "deploy",
+                  "Friday"
+                ],
+                "confidence": 0.95
+              },
+              "relation_span": {
+                "passed": true,
+                "operators": [
+                  "only"
+                ],
+                "matching_sentence": "Production deploys are forbidden on Fridays; schedule them Monday through Thursday only.",
+                "scope_terms_matched": [
+                  "production",
+                  "deploy",
+                  "friday"
+                ],
+                "reason": null
+              },
+              "survives_relation_span": true
+            }
+          ],
+          "implicit_policy": "not relation-span gated; report as proposer-only, semantically inferred, not span-anchored"
+        },
+        {
+          "case_id": "path_a_v1_contradiction_vendor_contact",
+          "class": "direct_contradiction",
+          "v2_class": "implicit",
+          "confirmed_before": 2,
+          "confirmed_after_relation_span": 0,
+          "regated_findings": [
+            {
+              "finding": {
+                "type": "semantic_authority_change",
+                "relation_type": "contradicts",
+                "source_item_id": "M002",
+                "target_item_id": "M001",
+                "cited_evidence_span": "Engineers must not contact the payments vendor directly; every request goes through the partnerships desk.",
+                "evidence": "Engineers must not contact the payments vendor directly; every request goes through the partnerships desk.",
+                "target": "Engineers should contact the payments vendor directly whenever an integration question comes up.",
+                "scope_terms": [
+                  "Engineers",
+                  "payments vendor",
+                  "contact"
+                ],
+                "confidence": 0.95
+              },
+              "relation_span": {
+                "passed": false,
+                "operators": [],
+                "matching_sentence": null,
+                "reason": "no frozen relation operator in cited evidence span"
+              },
+              "survives_relation_span": false
+            },
+            {
+              "finding": {
+                "type": "semantic_authority_change",
+                "relation_type": "supersedes",
+                "source_item_id": "M002",
+                "target_item_id": "M001",
+                "cited_evidence_span": "Engineers must not contact the payments vendor directly; every request goes through the partnerships desk.",
+                "evidence": "Engineers must not contact the payments vendor directly; every request goes through the partnerships desk.",
+                "target": "Engineers should contact the payments vendor directly whenever an integration question comes up.",
+                "scope_terms": [
+                  "Engineers",
+                  "payments vendor",
+                  "contact"
+                ],
+                "confidence": 0.87
+              },
+              "relation_span": {
+                "passed": false,
+                "operators": [],
+                "matching_sentence": null,
+                "reason": "no frozen relation operator in cited evidence span"
+              },
+              "survives_relation_span": false
+            }
+          ],
+          "implicit_policy": "not relation-span gated; report as proposer-only, semantically inferred, not span-anchored"
+        },
+        {
+          "case_id": "path_a_v1_transfer_incident_severity",
+          "class": "authority_transfer",
+          "v2_class": "textual",
+          "confirmed_before": 1,
+          "confirmed_after_relation_span": 1,
+          "regated_findings": [
+            {
+              "finding": {
+                "type": "semantic_authority_change",
+                "relation_type": "supersedes",
+                "source_item_id": "M002",
+                "target_item_id": "M001",
+                "cited_evidence_span": "only the incident commander declares incident severity. The on-call engineer reports symptoms but no longer makes the call.",
+                "evidence": "After the process review, only the incident commander declares incident severity. The on-call engineer reports symptoms but no longer makes the call.",
+                "target": "The on-call engineer declares incident severity when an outage begins.",
+                "scope_terms": [
+                  "incident severity",
+                  "declares",
+                  "on-call engineer"
+                ],
+                "confidence": 0.95
+              },
+              "relation_span": {
+                "passed": true,
+                "operators": [
+                  "only"
+                ],
+                "matching_sentence": "only the incident commander declares incident severity.",
+                "scope_terms_matched": [
+                  "incident severity",
+                  "declares"
+                ],
+                "reason": null
+              },
+              "survives_relation_span": true
+            }
+          ],
+          "textual_direction_caught_before": true,
+          "textual_direction_caught_after": true
+        },
+        {
+          "case_id": "path_a_v1_transfer_purchase_approval",
+          "class": "authority_transfer",
+          "v2_class": "textual",
+          "confirmed_before": 1,
+          "confirmed_after_relation_span": 1,
+          "regated_findings": [
+            {
+              "finding": {
+                "type": "semantic_authority_change",
+                "relation_type": "transfers_authority",
+                "source_item_id": "M002",
+                "target_item_id": "M001",
+                "cited_evidence_span": "the finance office now approves all software purchases from the tools budget. Team leads submit requests but do not approve them.",
+                "evidence": "Purchasing authority has moved: the finance office now approves all software purchases from the tools budget. Team leads submit requests but do not approve them.",
+                "target": "Team leads approve software purchases under 1000 dollars from the tools budget.",
+                "scope_terms": [
+                  "software purchases",
+                  "tools budget"
+                ],
+                "confidence": 0.95
+              },
+              "relation_span": {
+                "passed": true,
+                "operators": [
+                  "now"
+                ],
+                "matching_sentence": "the finance office now approves all software purchases from the tools budget.",
+                "scope_terms_matched": [
+                  "software purchases",
+                  "tools budget"
+                ],
+                "reason": null
+              },
+              "survives_relation_span": true
+            }
+          ],
+          "textual_direction_caught_before": true,
+          "textual_direction_caught_after": true
+        },
+        {
+          "case_id": "path_a_v1_transfer_article_signoff",
+          "class": "authority_transfer",
+          "v2_class": "textual",
+          "confirmed_before": 1,
+          "confirmed_after_relation_span": 1,
+          "regated_findings": [
+            {
+              "finding": {
+                "type": "semantic_authority_change",
+                "relation_type": "supersedes",
+                "source_item_id": "M002",
+                "target_item_id": "M001",
+                "cited_evidence_span": "Final signoff on every article now belongs to the legal reviewer. The blog editor prepares drafts but no longer gives the final signoff.",
+                "evidence": "Final signoff on every article now belongs to the legal reviewer. The blog editor prepares drafts but no longer gives the final signoff.",
+                "target": "The blog editor gives final signoff on every article before it is published.",
+                "scope_terms": [
+                  "final signoff",
+                  "every article",
+                  "Content Publishing"
+                ],
+                "confidence": 0.97
+              },
+              "relation_span": {
+                "passed": true,
+                "operators": [
+                  "now"
+                ],
+                "matching_sentence": "Final signoff on every article now belongs to the legal reviewer.",
+                "scope_terms_matched": [
+                  "final signoff",
+                  "every article"
+                ],
+                "reason": null
+              },
+              "survives_relation_span": true
+            }
+          ],
+          "textual_direction_caught_before": true,
+          "textual_direction_caught_after": true
+        },
+        {
+          "case_id": "path_a_v1_topic_mention_training_workshop",
+          "class": "topic_mention_negative",
+          "v2_class": "negative",
+          "confirmed_before": 0,
+          "confirmed_after_relation_span": 0,
+          "regated_findings": [],
+          "negative_false_fire_before": false,
+          "negative_false_fire_after_relation_span": false
+        },
+        {
+          "case_id": "path_a_v1_topic_mention_changelog_history",
+          "class": "topic_mention_negative",
+          "v2_class": "negative",
+          "confirmed_before": 0,
+          "confirmed_after_relation_span": 0,
+          "regated_findings": [],
+          "negative_false_fire_before": false,
+          "negative_false_fire_after_relation_span": false
+        },
+        {
+          "case_id": "path_a_v1_topic_mention_research_abstract",
+          "class": "topic_mention_negative",
+          "v2_class": "negative",
+          "confirmed_before": 0,
+          "confirmed_after_relation_span": 0,
+          "regated_findings": [],
+          "negative_false_fire_before": false,
+          "negative_false_fire_after_relation_span": false
+        },
+        {
+          "case_id": "path_a_v1_restatement_export_approval",
+          "class": "restatement_negative",
+          "v2_class": "negative",
+          "confirmed_before": 0,
+          "confirmed_after_relation_span": 0,
+          "regated_findings": [],
+          "negative_false_fire_before": false,
+          "negative_false_fire_after_relation_span": false
+        },
+        {
+          "case_id": "path_a_v1_restatement_admin_2fa",
+          "class": "restatement_negative",
+          "v2_class": "negative",
+          "confirmed_before": 0,
+          "confirmed_after_relation_span": 0,
+          "regated_findings": [],
+          "negative_false_fire_before": false,
+          "negative_false_fire_after_relation_span": false
+        },
+        {
+          "case_id": "path_a_v1_coexistence_expenses_vs_talks",
+          "class": "coexistence_negative",
+          "v2_class": "negative",
+          "confirmed_before": 0,
+          "confirmed_after_relation_span": 0,
+          "regated_findings": [],
+          "negative_false_fire_before": false,
+          "negative_false_fire_after_relation_span": false
+        }
+      ]
+    },
+    {
+      "engine": "local_llama3.2",
+      "summary": {
+        "textual_cases": 9,
+        "textual_direction_caught_before": 3,
+        "textual_direction_caught_after_relation_span": 2,
+        "textual_true_positive_losses": [
+          "path_a_v1_transfer_incident_severity"
+        ],
+        "implicit_cases": 3,
+        "implicit_direction_caught": 1,
+        "negative_false_fires_before": 1,
+        "negative_false_fires_after_relation_span": 0
+      },
+      "cases": [
+        {
+          "case_id": "path_a_v1_supersession_backup_retention",
+          "class": "supersession",
+          "v2_class": "textual",
+          "confirmed_before": 0,
+          "confirmed_after_relation_span": 0,
+          "regated_findings": [],
+          "textual_direction_caught_before": false,
+          "textual_direction_caught_after": false
+        },
+        {
+          "case_id": "path_a_v1_supersession_api_key_rotation",
+          "class": "supersession",
+          "v2_class": "textual",
+          "confirmed_before": 0,
+          "confirmed_after_relation_span": 0,
+          "regated_findings": [],
+          "textual_direction_caught_before": false,
+          "textual_direction_caught_after": false
+        },
+        {
+          "case_id": "path_a_v1_supersession_sync_notes_location",
+          "class": "supersession",
+          "v2_class": "textual",
+          "confirmed_before": 0,
+          "confirmed_after_relation_span": 0,
+          "regated_findings": [],
+          "textual_direction_caught_before": false,
+          "textual_direction_caught_after": false
+        },
+        {
+          "case_id": "path_a_v1_scope_narrowing_refund_limit",
+          "class": "scope_narrowing",
+          "v2_class": "textual",
+          "confirmed_before": 1,
+          "confirmed_after_relation_span": 1,
+          "regated_findings": [
+            {
+              "finding": {
+                "type": "semantic_authority_change",
+                "relation_type": "supersedes",
+                "source_item_id": "M002",
+                "target_item_id": "M001",
+                "cited_evidence_span": "support agents may issue refunds only up to 50 dollars on their own, and anything higher requires a team lead's approval.",
+                "evidence": "Revised policy: support agents may issue refunds only up to 50 dollars on their own, and anything higher requires a team lead's approval.",
+                "target": "Support agents may issue refunds up to 200 dollars at their own discretion.",
+                "scope_terms": [
+                  "refunds",
+                  "support agents"
+                ],
+                "confidence": 0.72
+              },
+              "relation_span": {
+                "passed": true,
+                "operators": [
+                  "only"
+                ],
+                "matching_sentence": "support agents may issue refunds only up to 50 dollars on their own, and anything higher requires a team lead's approval.",
+                "scope_terms_matched": [
+                  "refunds",
+                  "support agents"
+                ],
+                "reason": null
+              },
+              "survives_relation_span": true
+            }
+          ],
+          "textual_direction_caught_before": true,
+          "textual_direction_caught_after": true
+        },
+        {
+          "case_id": "path_a_v1_scope_narrowing_prod_db_access",
+          "class": "scope_narrowing",
+          "v2_class": "textual",
+          "confirmed_before": 0,
+          "confirmed_after_relation_span": 0,
+          "regated_findings": [],
+          "textual_direction_caught_before": false,
+          "textual_direction_caught_after": false
+        },
+        {
+          "case_id": "path_a_v1_scope_narrowing_social_posting",
+          "class": "scope_narrowing",
+          "v2_class": "textual",
+          "confirmed_before": 0,
+          "confirmed_after_relation_span": 0,
+          "regated_findings": [],
+          "textual_direction_caught_before": false,
+          "textual_direction_caught_after": false
+        },
+        {
+          "case_id": "path_a_v1_contradiction_logging_pii",
+          "class": "direct_contradiction",
+          "v2_class": "implicit",
+          "confirmed_before": 1,
+          "confirmed_after_relation_span": 0,
+          "regated_findings": [
+            {
+              "finding": {
+                "type": "semantic_authority_change",
+                "relation_type": "supersedes",
+                "source_item_id": "M002",
+                "target_item_id": "M001",
+                "cited_evidence_span": "Customer email addresses must never be written to request logs under any circumstances.",
+                "evidence": "Customer email addresses must never be written to request logs under any circumstances.",
+                "target": "Request logs should include the full customer email address to speed up support lookups.",
+                "scope_terms": [
+                  "customer email",
+                  "request log"
+                ],
+                "confidence": 0.99
+              },
+              "relation_span": {
+                "passed": false,
+                "operators": [],
+                "matching_sentence": null,
+                "reason": "no frozen relation operator in cited evidence span"
+              },
+              "survives_relation_span": false
+            }
+          ],
+          "implicit_policy": "not relation-span gated; report as proposer-only, semantically inferred, not span-anchored"
+        },
+        {
+          "case_id": "path_a_v1_contradiction_friday_deploys",
+          "class": "direct_contradiction",
+          "v2_class": "implicit",
+          "confirmed_before": 0,
+          "confirmed_after_relation_span": 0,
+          "regated_findings": [],
+          "implicit_policy": "not relation-span gated; report as proposer-only, semantically inferred, not span-anchored"
+        },
+        {
+          "case_id": "path_a_v1_contradiction_vendor_contact",
+          "class": "direct_contradiction",
+          "v2_class": "implicit",
+          "confirmed_before": 0,
+          "confirmed_after_relation_span": 0,
+          "regated_findings": [],
+          "implicit_policy": "not relation-span gated; report as proposer-only, semantically inferred, not span-anchored"
+        },
+        {
+          "case_id": "path_a_v1_transfer_incident_severity",
+          "class": "authority_transfer",
+          "v2_class": "textual",
+          "confirmed_before": 1,
+          "confirmed_after_relation_span": 0,
+          "regated_findings": [
+            {
+              "finding": {
+                "type": "semantic_authority_change",
+                "relation_type": "supersedes",
+                "source_item_id": "M002",
+                "target_item_id": "M001",
+                "cited_evidence_span": "reports symptoms but no longer makes the call",
+                "evidence": "After the process review, only the incident commander declares incident severity. The on-call engineer reports symptoms but no longer makes the call.",
+                "target": "The on-call engineer declares incident severity when an outage begins.",
+                "scope_terms": [
+                  "incident severity",
+                  "incident commander"
+                ],
+                "confidence": 0.81
+              },
+              "relation_span": {
+                "passed": false,
+                "operators": [
+                  "no longer"
+                ],
+                "matching_sentence": null,
+                "reason": "operator and scope term do not co-occur in one cited sentence"
+              },
+              "survives_relation_span": false
+            }
+          ],
+          "textual_direction_caught_before": true,
+          "textual_direction_caught_after": false
+        },
+        {
+          "case_id": "path_a_v1_transfer_purchase_approval",
+          "class": "authority_transfer",
+          "v2_class": "textual",
+          "confirmed_before": 1,
+          "confirmed_after_relation_span": 1,
+          "regated_findings": [
+            {
+              "finding": {
+                "type": "semantic_authority_change",
+                "relation_type": "supersedes",
+                "source_item_id": "M002",
+                "target_item_id": "M001",
+                "cited_evidence_span": "the finance office now approves all software purchases from the tools budget.",
+                "evidence": "Purchasing authority has moved: the finance office now approves all software purchases from the tools budget. Team leads submit requests but do not approve them.",
+                "target": "Team leads approve software purchases under 1000 dollars from the tools budget.",
+                "scope_terms": [
+                  "tools budget",
+                  "software purchases"
+                ],
+                "confidence": 0.8
+              },
+              "relation_span": {
+                "passed": true,
+                "operators": [
+                  "now"
+                ],
+                "matching_sentence": "the finance office now approves all software purchases from the tools budget.",
+                "scope_terms_matched": [
+                  "tools budget",
+                  "software purchases"
+                ],
+                "reason": null
+              },
+              "survives_relation_span": true
+            }
+          ],
+          "textual_direction_caught_before": true,
+          "textual_direction_caught_after": true
+        },
+        {
+          "case_id": "path_a_v1_transfer_article_signoff",
+          "class": "authority_transfer",
+          "v2_class": "textual",
+          "confirmed_before": 0,
+          "confirmed_after_relation_span": 0,
+          "regated_findings": [],
+          "textual_direction_caught_before": false,
+          "textual_direction_caught_after": false
+        },
+        {
+          "case_id": "path_a_v1_topic_mention_training_workshop",
+          "class": "topic_mention_negative",
+          "v2_class": "negative",
+          "confirmed_before": 0,
+          "confirmed_after_relation_span": 0,
+          "regated_findings": [],
+          "negative_false_fire_before": false,
+          "negative_false_fire_after_relation_span": false
+        },
+        {
+          "case_id": "path_a_v1_topic_mention_changelog_history",
+          "class": "topic_mention_negative",
+          "v2_class": "negative",
+          "confirmed_before": 0,
+          "confirmed_after_relation_span": 0,
+          "regated_findings": [],
+          "negative_false_fire_before": false,
+          "negative_false_fire_after_relation_span": false
+        },
+        {
+          "case_id": "path_a_v1_topic_mention_research_abstract",
+          "class": "topic_mention_negative",
+          "v2_class": "negative",
+          "confirmed_before": 0,
+          "confirmed_after_relation_span": 0,
+          "regated_findings": [],
+          "negative_false_fire_before": false,
+          "negative_false_fire_after_relation_span": false
+        },
+        {
+          "case_id": "path_a_v1_restatement_export_approval",
+          "class": "restatement_negative",
+          "v2_class": "negative",
+          "confirmed_before": 1,
+          "confirmed_after_relation_span": 0,
+          "regated_findings": [
+            {
+              "finding": {
+                "type": "semantic_authority_change",
+                "relation_type": "supersedes",
+                "source_item_id": "M002",
+                "target_item_id": "M001",
+                "cited_evidence_span": "still require the privacy lead's written approval before they run.",
+                "evidence": "Current rule, restated for the new quarter: customer data exports still require the privacy lead's written approval before they run. Nothing about this policy has changed.",
+                "target": "All customer data exports require the privacy lead's written approval before they run.",
+                "scope_terms": [
+                  "customer data exports",
+                  "privacy lead's approval"
+                ],
+                "confidence": 0.72
+              },
+              "relation_span": {
+                "passed": false,
+                "operators": [],
+                "matching_sentence": null,
+                "reason": "no frozen relation operator in cited evidence span"
+              },
+              "survives_relation_span": false
+            }
+          ],
+          "negative_false_fire_before": true,
+          "negative_false_fire_after_relation_span": false
+        },
+        {
+          "case_id": "path_a_v1_restatement_admin_2fa",
+          "class": "restatement_negative",
+          "v2_class": "negative",
+          "confirmed_before": 0,
+          "confirmed_after_relation_span": 0,
+          "regated_findings": [],
+          "negative_false_fire_before": false,
+          "negative_false_fire_after_relation_span": false
+        },
+        {
+          "case_id": "path_a_v1_coexistence_expenses_vs_talks",
+          "class": "coexistence_negative",
+          "v2_class": "negative",
+          "confirmed_before": 0,
+          "confirmed_after_relation_span": 0,
+          "regated_findings": [],
+          "negative_false_fire_before": false,
+          "negative_false_fire_after_relation_span": false
+        }
+      ]
+    }
+  ],
+  "boundary": "PASS A only: zero model calls, applies v2 relation-span clause to recorded v1 findings."
+}

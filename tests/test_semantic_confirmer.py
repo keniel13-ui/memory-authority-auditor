@@ -4,7 +4,7 @@ import json
 from pathlib import Path
 
 from agents.memory_extractor import extract_memories
-from agents.semantic_confirmer import confirm_authority_change, confirm_authority_changes
+from agents.semantic_confirmer import confirm_authority_change, confirm_authority_changes, relation_span_check
 
 
 FIXTURE = Path(__file__).parent / "fixtures" / "path_a_authority_change_v0_2026_07_01.json"
@@ -129,3 +129,44 @@ def test_low_confidence_routes_to_human_judgment_even_with_valid_evidence():
 
     assert not result["confirmed"]
     assert "confidence below v0 threshold" in result["reasons"]
+
+
+def test_relation_span_passes_when_operator_and_scope_share_sentence():
+    check = relation_span_check(
+        "support agents may issue refunds only up to 50 dollars on their own",
+        ["issue refunds"],
+    )
+
+    assert check["passed"]
+    assert check["operators"] == ["only"]
+
+
+def test_relation_span_blocks_restatement_without_operator():
+    check = relation_span_check(
+        "still require the privacy lead's written approval before they run.",
+        ["customer data exports", "privacy lead's approval"],
+    )
+
+    assert not check["passed"]
+    assert check["reason"] == "no frozen relation operator in cited evidence span"
+
+
+def test_relation_span_blocks_operator_sentence_without_scope_term():
+    check = relation_span_check(
+        "Release notes: v2.1 superseded v2.0 for the search exporter. "
+        "Archive exports with billing records are mentioned for background context.",
+        ["archive exports", "billing records"],
+    )
+
+    assert not check["passed"]
+    assert check["reason"] == "operator and scope term do not co-occur in one cited sentence"
+
+
+def test_relation_span_operator_matching_uses_word_boundaries():
+    check = relation_span_check(
+        "The known issue affects refund tooling but does not change the rule.",
+        ["refund"],
+    )
+
+    assert not check["passed"]
+    assert check["operators"] == []
