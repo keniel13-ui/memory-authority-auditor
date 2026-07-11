@@ -73,3 +73,35 @@ From the thread: addressability is a property we can engineer. The auditor produ
 - Same-session, same-vessel fixture authorship persists for the 3 new traps (mitigation: this frozen spec is public before authoring; answer keys public before any run; every number recomputable from raw records). Weaker than fresh-author separation; named.
 - Synthetic, English, minimal two-item cases; 21 cases is still small; class-limited. Not external validation, not a client-facing safety claim.
 - The sentence test is an approximation of argument resolution — real-world rules referenced by paraphrase remain outside the decidable turf, exactly as the thread concluded: decidable to the depth the rules are addressable, no further.
+
+---
+
+## PRE-RUN ADDENDUM 1 (2026-07-11 evening — frozen before any code, fixture case, or run exists)
+
+Source: Mike Czerwinski's fourth reply on the public thread, arriving after the freeze commit `2cfda99` and before any implementation. Precedent: the v1-era pre-code schema ruling (`PATH_A_SCHEMA_RULING_2026-07-01.md`) — pre-run amendments are legitimate only as logged, dated additions. **Nothing below changes an existing bar; everything below adds measurement, trap classes, and predictions.**
+
+### A1.1 The textual class splits again: STRONG-BIND vs PROXIMITY-BIND
+
+Mike's cut, accepted: an operator sharing a sentence with principal scope terms is proximity, not binding, and proximity has a false-arm the strong tier doesn't. Frozen sub-classification of the 9 textual cases, by hand, before any run:
+
+- **STRONG-BIND (3):** the three supersessions — a relational verb whose grammatical arguments resolve to the principals ("the old retention rule is replaced: …").
+- **PROXIMITY-BIND (6):** the three narrowings and three transfers — operator (`only`, `no longer`, `now`) co-sentenced with principal scope terms, but the operator's argument structure is not itself resolved to the pair on trial.
+
+**Frozen reporting rule:** every v2 result table reports strong-bind and proximity-bind columns separately. A proximity false-arm may never be averaged into a flat "textual class" number. Nine that gate is two numbers.
+
+### A1.2 New trap class 4: the PROXIMITY TRAP (fixture spec addition)
+
+Two authored negatives of Mike's exact shape: one sentence carrying BOTH principals' scope terms AND a lexicon operator, where the operator scopes one principal to something else entirely and no relation between the principals is asserted ("A applies only to X; B is separate and unchanged"). Answer key: zero expected relations. Fixture v2 total becomes 23 cases (18 v1 + 3 mention traps + 2 proximity traps).
+
+### A1.3 Frozen prediction: our own clause cracks here, and we say so in advance
+
+The sentence test as frozen above arms on co-occurrence. **We predict the proximity traps expose it:** if a proposer fires on a proximity trap, the frozen sentence test at the confirmer level will NOT block it (prediction: 0/2 blocked by clause (b) alone; blocking, if any, comes only from the older clauses). If that happens it is published as the v2 finding — "the proximity tier is where the citation-shaped lie relocates" — and true argument-resolution (operator arguments, not co-occurrence) becomes the frozen v3 target. If the prediction is WRONG and the traps are blocked, the mechanism that blocked them is anatomized. Either way the number is reported per-subclass, never averaged away.
+
+### A1.4 The authoring deliverable now carries TWO frozen bars (liveness ≠ coverage)
+
+Mike's split, accepted verbatim: a canonical known-bad proves the auditor is not-dead; it does not prove it is not-blind.
+
+- **BAR 1 — LIVENESS:** one canonical real implicit supersession in the auditor's fixture that must STAY flagged under every configuration. The canary.
+- **BAR 2 — ADVERSARIAL COVERAGE:** at least one hollow anchor — an explicit supersession span bolted onto an actually-implicit relation, **authored by someone trying to pass the gate, not drawn from the honest fixture** — that the auditor must still flag. An adversarial object cannot come from honest-fixture authorship by definition. Frozen authorship rule: the hollow-anchor case(s) must be authored by a party OTHER than the vessel implementing the auditor — a different vessel red-teaming, or an external peer. (Mike Czerwinski is invited on the public thread to author it himself; external adversarial authorship would also be the first crack in this project's named same-session-authorship weakness.)
+
+Only Bar 2 earns the phrase "rubber-stamp-proof." Bar 1 alone may never be reported as more than liveness.
