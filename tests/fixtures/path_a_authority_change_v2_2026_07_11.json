@@ -1,411 +1,472 @@
 {
-  "packet": "path_a_authority_change_v2_2026_07_11",
-  "status": "authored_after_public_v2_prereg_before_any_v2_run",
-  "prereg": "PATH_A_V2_PREREGISTRATION_2026-07-11.md",
-  "purpose": "v2 fixture: 18 v1 cases unchanged for comparability plus 3 new mention-dressed-as-use traps frozen before any v2 run.",
-  "item_id_rule": "IDs are assigned by memory_extractor in bullet order as M001, M002, etc.",
-  "classes": [
-    "supersession",
-    "scope_narrowing",
-    "direct_contradiction",
-    "authority_transfer",
-    "topic_mention_negative",
-    "restatement_negative",
-    "coexistence_negative",
-    "mention_dressed_as_use_negative"
-  ],
-  "cases": [
+ "packet": "path_a_authority_change_v2_2026_07_11",
+ "status": "authored_after_public_v2_prereg_and_addendum1_before_any_v2_pass_b_run",
+ "prereg": "PATH_A_V2_PREREGISTRATION_2026-07-11.md",
+ "purpose": "v2 fixture: 18 v1 cases unchanged for comparability plus 3 new mention-dressed-as-use traps frozen before any v2 run.",
+ "item_id_rule": "IDs are assigned by memory_extractor in bullet order as M001, M002, etc.",
+ "classes": [
+  "supersession",
+  "scope_narrowing",
+  "direct_contradiction",
+  "authority_transfer",
+  "topic_mention_negative",
+  "restatement_negative",
+  "coexistence_negative",
+  "mention_dressed_as_use_negative",
+  "proximity_trap_negative"
+ ],
+ "cases": [
+  {
+   "id": "path_a_v1_supersession_backup_retention",
+   "class": "supersession",
+   "text": "# Backup Policy\n\n- Nightly backups are kept for 30 days on the legacy NAS under the operations share.\n- Effective this quarter the old retention rule is replaced: nightly backups are kept for 90 days in the cloud archive, and the legacy NAS copies are discontinued.\n",
+   "expected_relations": [
     {
-      "id": "path_a_v1_supersession_backup_retention",
-      "class": "supersession",
-      "text": "# Backup Policy\n\n- Nightly backups are kept for 30 days on the legacy NAS under the operations share.\n- Effective this quarter the old retention rule is replaced: nightly backups are kept for 90 days in the cloud archive, and the legacy NAS copies are discontinued.\n",
-      "expected_relations": [
-        {
-          "type": "supersedes",
-          "source_item_id": "M002",
-          "target_item_id": "M001",
-          "cited_evidence_span": "the old retention rule is replaced: nightly backups are kept for 90 days in the cloud archive",
-          "scope_terms": [
-            "nightly backups"
-          ],
-          "confidence": 0.78
-        }
-      ],
-      "expected_no_relations": []
-    },
-    {
-      "id": "path_a_v1_supersession_api_key_rotation",
-      "class": "supersession",
-      "text": "# Secrets Handling\n\n- Service API keys are rotated manually every quarter by the platform team.\n- New standard: the manual quarterly rotation is retired. Service API keys now rotate automatically every 30 days through the secrets manager.\n",
-      "expected_relations": [
-        {
-          "type": "supersedes",
-          "source_item_id": "M002",
-          "target_item_id": "M001",
-          "cited_evidence_span": "the manual quarterly rotation is retired. Service API keys now rotate automatically every 30 days",
-          "scope_terms": [
-            "service api keys"
-          ],
-          "confidence": 0.78
-        }
-      ],
-      "expected_no_relations": []
-    },
-    {
-      "id": "path_a_v1_supersession_sync_notes_location",
-      "class": "supersession",
-      "text": "# Team Communication\n\n- Weekly sync notes are posted to the shared drive folder for the whole team to read.\n- Update: posting sync notes to the shared drive is deprecated. Weekly sync notes must be posted to the project wiki instead.\n",
-      "expected_relations": [
-        {
-          "type": "supersedes",
-          "source_item_id": "M002",
-          "target_item_id": "M001",
-          "cited_evidence_span": "posting sync notes to the shared drive is deprecated. Weekly sync notes must be posted to the project wiki instead.",
-          "scope_terms": [
-            "sync notes"
-          ],
-          "confidence": 0.78
-        }
-      ],
-      "expected_no_relations": []
-    },
-    {
-      "id": "path_a_v1_scope_narrowing_refund_limit",
-      "class": "scope_narrowing",
-      "text": "# Support Refunds\n\n- Support agents may issue refunds up to 200 dollars at their own discretion.\n- Revised policy: support agents may issue refunds only up to 50 dollars on their own, and anything higher requires a team lead's approval.\n",
-      "expected_relations": [
-        {
-          "type": "narrows_scope",
-          "source_item_id": "M002",
-          "target_item_id": "M001",
-          "cited_evidence_span": "support agents may issue refunds only up to 50 dollars on their own",
-          "scope_terms": [
-            "issue refunds"
-          ],
-          "confidence": 0.78
-        }
-      ],
-      "expected_no_relations": []
-    },
-    {
-      "id": "path_a_v1_scope_narrowing_prod_db_access",
-      "class": "scope_narrowing",
-      "text": "# Database Access\n\n- Backend engineers may query the production database for debugging purposes.\n- Tightened rule: backend engineers may query only the read replica of the production database, and only during an active incident.\n",
-      "expected_relations": [
-        {
-          "type": "narrows_scope",
-          "source_item_id": "M002",
-          "target_item_id": "M001",
-          "cited_evidence_span": "backend engineers may query only the read replica of the production database, and only during an active incident.",
-          "scope_terms": [
-            "production database"
-          ],
-          "confidence": 0.78
-        }
-      ],
-      "expected_no_relations": []
-    },
-    {
-      "id": "path_a_v1_scope_narrowing_social_posting",
-      "class": "scope_narrowing",
-      "text": "# Marketing Publishing\n\n- The marketing intern can publish posts to the company social accounts.\n- Going forward the intern may publish only pre-approved drafts to the company social accounts, never original posts.\n",
-      "expected_relations": [
-        {
-          "type": "narrows_scope",
-          "source_item_id": "M002",
-          "target_item_id": "M001",
-          "cited_evidence_span": "the intern may publish only pre-approved drafts to the company social accounts",
-          "scope_terms": [
-            "company social accounts",
-            "publish"
-          ],
-          "confidence": 0.78
-        }
-      ],
-      "expected_no_relations": []
-    },
-    {
-      "id": "path_a_v1_contradiction_logging_pii",
-      "class": "direct_contradiction",
-      "text": "# Logging Rules\n\n- Request logs should include the full customer email address to speed up support lookups.\n- Customer email addresses must never be written to request logs under any circumstances.\n",
-      "expected_relations": [
-        {
-          "type": "contradicts",
-          "source_item_id": "M002",
-          "target_item_id": "M001",
-          "cited_evidence_span": "Customer email addresses must never be written to request logs under any circumstances.",
-          "scope_terms": [
-            "request logs",
-            "email address"
-          ],
-          "confidence": 0.78
-        }
-      ],
-      "expected_no_relations": []
-    },
-    {
-      "id": "path_a_v1_contradiction_friday_deploys",
-      "class": "direct_contradiction",
-      "text": "# Release Practices\n\n- Teams are encouraged to deploy to production on Friday afternoons to use the quiet window.\n- Production deploys are forbidden on Fridays; schedule them Monday through Thursday only.\n",
-      "expected_relations": [
-        {
-          "type": "contradicts",
-          "source_item_id": "M002",
-          "target_item_id": "M001",
-          "cited_evidence_span": "Production deploys are forbidden on Fridays",
-          "scope_terms": [
-            "production",
-            "friday"
-          ],
-          "confidence": 0.78
-        }
-      ],
-      "expected_no_relations": []
-    },
-    {
-      "id": "path_a_v1_contradiction_vendor_contact",
-      "class": "direct_contradiction",
-      "text": "# Vendor Relations\n\n- Engineers should contact the payments vendor directly whenever an integration question comes up.\n- Engineers must not contact the payments vendor directly; every request goes through the partnerships desk.\n",
-      "expected_relations": [
-        {
-          "type": "contradicts",
-          "source_item_id": "M002",
-          "target_item_id": "M001",
-          "cited_evidence_span": "Engineers must not contact the payments vendor directly",
-          "scope_terms": [
-            "payments vendor"
-          ],
-          "confidence": 0.78
-        }
-      ],
-      "expected_no_relations": []
-    },
-    {
-      "id": "path_a_v1_transfer_incident_severity",
-      "class": "authority_transfer",
-      "text": "# Incident Process\n\n- The on-call engineer declares incident severity when an outage begins.\n- After the process review, only the incident commander declares incident severity. The on-call engineer reports symptoms but no longer makes the call.\n",
-      "expected_relations": [
-        {
-          "type": "transfers_authority",
-          "source_item_id": "M002",
-          "target_item_id": "M001",
-          "cited_evidence_span": "only the incident commander declares incident severity. The on-call engineer reports symptoms but no longer makes the call.",
-          "scope_terms": [
-            "incident severity"
-          ],
-          "confidence": 0.78
-        }
-      ],
-      "expected_no_relations": []
-    },
-    {
-      "id": "path_a_v1_transfer_purchase_approval",
-      "class": "authority_transfer",
-      "text": "# Purchasing\n\n- Team leads approve software purchases under 1000 dollars from the tools budget.\n- Purchasing authority has moved: the finance office now approves all software purchases from the tools budget. Team leads submit requests but do not approve them.\n",
-      "expected_relations": [
-        {
-          "type": "transfers_authority",
-          "source_item_id": "M002",
-          "target_item_id": "M001",
-          "cited_evidence_span": "the finance office now approves all software purchases from the tools budget. Team leads submit requests but do not approve them.",
-          "scope_terms": [
-            "software purchases",
-            "tools budget"
-          ],
-          "confidence": 0.78
-        }
-      ],
-      "expected_no_relations": []
-    },
-    {
-      "id": "path_a_v1_transfer_article_signoff",
-      "class": "authority_transfer",
-      "text": "# Content Publishing\n\n- The blog editor gives final signoff on every article before it is published.\n- Final signoff on every article now belongs to the legal reviewer. The blog editor prepares drafts but no longer gives the final signoff.\n",
-      "expected_relations": [
-        {
-          "type": "transfers_authority",
-          "source_item_id": "M002",
-          "target_item_id": "M001",
-          "cited_evidence_span": "Final signoff on every article now belongs to the legal reviewer.",
-          "scope_terms": [
-            "final signoff",
-            "article"
-          ],
-          "confidence": 0.78
-        }
-      ],
-      "expected_no_relations": []
-    },
-    {
-      "id": "path_a_v1_topic_mention_training_workshop",
-      "class": "topic_mention_negative",
-      "text": "# Onboarding Materials\n\n- The onboarding workshop teaches new agents how to spot when one instruction supersedes another in a memory file.\n- The workshop materials include worked examples of superseded rules, narrowed scopes, and transferred authority for practice.\n",
-      "expected_relations": [],
-      "expected_no_relations": [
-        {
-          "forbidden_types": [
-            "supersedes",
-            "narrows_scope",
-            "contradicts",
-            "transfers_authority"
-          ],
-          "source_item_id": "M001",
-          "target_item_id": "M002",
-          "reason": "training material discusses authority changes as a subject; nothing here changes any rule"
-        }
-      ]
-    },
-    {
-      "id": "path_a_v1_topic_mention_changelog_history",
-      "class": "topic_mention_negative",
-      "text": "# Team Changelog\n\n- The team changelog notes that last month several outdated instructions were retired from the assistant's memory.\n- The changelog entry describes that cleanup as an example of catching contradictions early; it does not itself retire any instruction in this file.\n",
-      "expected_relations": [],
-      "expected_no_relations": [
-        {
-          "forbidden_types": [
-            "supersedes",
-            "narrows_scope",
-            "contradicts",
-            "transfers_authority"
-          ],
-          "source_item_id": "M001",
-          "target_item_id": "M002",
-          "reason": "historical narrative about past retirements; no rule in this file changes another"
-        }
-      ]
-    },
-    {
-      "id": "path_a_v1_topic_mention_research_abstract",
-      "class": "topic_mention_negative",
-      "text": "# Research Notes\n\n- Our research paper argues that agent memory needs an authority layer to catch superseded and contradicted instructions.\n- Reviewer two asked us to clarify that the paper analyzes authority transfer as a failure class rather than transferring any authority itself.\n",
-      "expected_relations": [],
-      "expected_no_relations": [
-        {
-          "forbidden_types": [
-            "supersedes",
-            "narrows_scope",
-            "contradicts",
-            "transfers_authority"
-          ],
-          "source_item_id": "M001",
-          "target_item_id": "M002",
-          "reason": "research meta-discussion of authority change; nothing enacted"
-        }
-      ]
-    },
-    {
-      "id": "path_a_v1_restatement_export_approval",
-      "class": "restatement_negative",
-      "text": "# Privacy Rules\n\n- All customer data exports require the privacy lead's written approval before they run.\n- Current rule, restated for the new quarter: customer data exports still require the privacy lead's written approval before they run. Nothing about this policy has changed.\n",
-      "expected_relations": [],
-      "expected_no_relations": [
-        {
-          "forbidden_types": [
-            "supersedes",
-            "narrows_scope",
-            "contradicts",
-            "transfers_authority"
-          ],
-          "source_item_id": "M001",
-          "target_item_id": "M002",
-          "reason": "reaffirmation with update-flavored language; the rule is unchanged, so there is no authority-change relation"
-        }
-      ]
-    },
-    {
-      "id": "path_a_v1_restatement_admin_2fa",
-      "class": "restatement_negative",
-      "text": "# Security Baseline\n\n- Two-factor authentication is mandatory for every admin account on the platform.\n- Reminder from the security review: two-factor authentication remains mandatory for every admin account on the platform, exactly as before.\n",
-      "expected_relations": [],
-      "expected_no_relations": [
-        {
-          "forbidden_types": [
-            "supersedes",
-            "narrows_scope",
-            "contradicts",
-            "transfers_authority"
-          ],
-          "source_item_id": "M001",
-          "target_item_id": "M002",
-          "reason": "reminder restating an unchanged rule; reaffirmation is not an authority change"
-        }
-      ]
-    },
-    {
-      "id": "path_a_v1_coexistence_expenses_vs_talks",
-      "class": "coexistence_negative",
-      "text": "# Operations Notes\n\n- Expense reports are submitted through the finance portal by the last day of the month.\n- Conference talk proposals need a manager's thumbs-up before submission to the events team.\n",
-      "expected_relations": [],
-      "expected_no_relations": [
-        {
-          "forbidden_types": [
-            "supersedes",
-            "narrows_scope",
-            "contradicts",
-            "transfers_authority"
-          ],
-          "source_item_id": "M001",
-          "target_item_id": "M002",
-          "reason": "two rules in unrelated scopes merely coexist; no shared scope, no authority-change relation"
-        }
-      ]
-    },
-    {
-      "id": "path_a_v2_mention_use_changelog_archive_exporter",
-      "class": "mention_dressed_as_use_negative",
-      "text": "# Archive Export Policy\n\n- Archive exports that contain customer billing records require privacy review before release.\n- Release notes: v2.1 superseded v2.0 for the search exporter after its index was rebuilt. Separately, archive exports and customer billing records are mentioned in the same changelog for reporting context; this does not change the privacy-review rule above.\n",
-      "expected_relations": [],
-      "expected_no_relations": [
-        {
-          "forbidden_types": [
-            "supersedes",
-            "narrows_scope",
-            "contradicts",
-            "transfers_authority"
-          ],
-          "source_item_id": "M001",
-          "target_item_id": "M002",
-          "reason": "operator sentence names software versions, not the archive-export privacy-review rule; genuine scope overlap is present but no authority relation is enacted"
-        }
-      ]
-    },
-    {
-      "id": "path_a_v2_mention_use_meeting_minutes_vendor_access",
-      "class": "mention_dressed_as_use_negative",
-      "text": "# Vendor Access Notes\n\n- Engineers may request vendor sandbox access through the security desk for integration debugging.\n- Platform meeting minutes: the data-science dashboard rule was replaced last quarter. Vendor sandbox access came up later during the same meeting for background context. These minutes report another team's policy history and do not change the engineering access rule.\n",
-      "expected_relations": [],
-      "expected_no_relations": [
-        {
-          "forbidden_types": [
-            "supersedes",
-            "narrows_scope",
-            "contradicts",
-            "transfers_authority"
-          ],
-          "source_item_id": "M001",
-          "target_item_id": "M002",
-          "reason": "operator sentence references another team rule; shared vendor sandbox vocabulary should not become a relation between the two local rules"
-        }
-      ]
-    },
-    {
-      "id": "path_a_v2_mention_use_quoted_draft_incident_page",
-      "class": "mention_dressed_as_use_negative",
-      "text": "# Incident Page Ownership\n\n- The on-call engineer updates the public incident page during active outages.\n- Design review note: an old draft once said, \"this policy supersedes all prior guidance,\" but that draft was rejected before launch. The note separately mentions public incident pages and active outages for historical context; it does not alter incident-page ownership.\n",
-      "expected_relations": [],
-      "expected_no_relations": [
-        {
-          "forbidden_types": [
-            "supersedes",
-            "narrows_scope",
-            "contradicts",
-            "transfers_authority"
-          ],
-          "source_item_id": "M001",
-          "target_item_id": "M002",
-          "reason": "operator lives inside a rejected draft quote; historical quotation is mention, not an enacted authority change"
-        }
-      ]
+     "type": "supersedes",
+     "source_item_id": "M002",
+     "target_item_id": "M001",
+     "cited_evidence_span": "the old retention rule is replaced: nightly backups are kept for 90 days in the cloud archive",
+     "scope_terms": [
+      "nightly backups"
+     ],
+     "confidence": 0.78
     }
-  ]
+   ],
+   "expected_no_relations": []
+  },
+  {
+   "id": "path_a_v1_supersession_api_key_rotation",
+   "class": "supersession",
+   "text": "# Secrets Handling\n\n- Service API keys are rotated manually every quarter by the platform team.\n- New standard: the manual quarterly rotation is retired. Service API keys now rotate automatically every 30 days through the secrets manager.\n",
+   "expected_relations": [
+    {
+     "type": "supersedes",
+     "source_item_id": "M002",
+     "target_item_id": "M001",
+     "cited_evidence_span": "the manual quarterly rotation is retired. Service API keys now rotate automatically every 30 days",
+     "scope_terms": [
+      "service api keys"
+     ],
+     "confidence": 0.78
+    }
+   ],
+   "expected_no_relations": []
+  },
+  {
+   "id": "path_a_v1_supersession_sync_notes_location",
+   "class": "supersession",
+   "text": "# Team Communication\n\n- Weekly sync notes are posted to the shared drive folder for the whole team to read.\n- Update: posting sync notes to the shared drive is deprecated. Weekly sync notes must be posted to the project wiki instead.\n",
+   "expected_relations": [
+    {
+     "type": "supersedes",
+     "source_item_id": "M002",
+     "target_item_id": "M001",
+     "cited_evidence_span": "posting sync notes to the shared drive is deprecated. Weekly sync notes must be posted to the project wiki instead.",
+     "scope_terms": [
+      "sync notes"
+     ],
+     "confidence": 0.78
+    }
+   ],
+   "expected_no_relations": []
+  },
+  {
+   "id": "path_a_v1_scope_narrowing_refund_limit",
+   "class": "scope_narrowing",
+   "text": "# Support Refunds\n\n- Support agents may issue refunds up to 200 dollars at their own discretion.\n- Revised policy: support agents may issue refunds only up to 50 dollars on their own, and anything higher requires a team lead's approval.\n",
+   "expected_relations": [
+    {
+     "type": "narrows_scope",
+     "source_item_id": "M002",
+     "target_item_id": "M001",
+     "cited_evidence_span": "support agents may issue refunds only up to 50 dollars on their own",
+     "scope_terms": [
+      "issue refunds"
+     ],
+     "confidence": 0.78
+    }
+   ],
+   "expected_no_relations": []
+  },
+  {
+   "id": "path_a_v1_scope_narrowing_prod_db_access",
+   "class": "scope_narrowing",
+   "text": "# Database Access\n\n- Backend engineers may query the production database for debugging purposes.\n- Tightened rule: backend engineers may query only the read replica of the production database, and only during an active incident.\n",
+   "expected_relations": [
+    {
+     "type": "narrows_scope",
+     "source_item_id": "M002",
+     "target_item_id": "M001",
+     "cited_evidence_span": "backend engineers may query only the read replica of the production database, and only during an active incident.",
+     "scope_terms": [
+      "production database"
+     ],
+     "confidence": 0.78
+    }
+   ],
+   "expected_no_relations": []
+  },
+  {
+   "id": "path_a_v1_scope_narrowing_social_posting",
+   "class": "scope_narrowing",
+   "text": "# Marketing Publishing\n\n- The marketing intern can publish posts to the company social accounts.\n- Going forward the intern may publish only pre-approved drafts to the company social accounts, never original posts.\n",
+   "expected_relations": [
+    {
+     "type": "narrows_scope",
+     "source_item_id": "M002",
+     "target_item_id": "M001",
+     "cited_evidence_span": "the intern may publish only pre-approved drafts to the company social accounts",
+     "scope_terms": [
+      "company social accounts",
+      "publish"
+     ],
+     "confidence": 0.78
+    }
+   ],
+   "expected_no_relations": []
+  },
+  {
+   "id": "path_a_v1_contradiction_logging_pii",
+   "class": "direct_contradiction",
+   "text": "# Logging Rules\n\n- Request logs should include the full customer email address to speed up support lookups.\n- Customer email addresses must never be written to request logs under any circumstances.\n",
+   "expected_relations": [
+    {
+     "type": "contradicts",
+     "source_item_id": "M002",
+     "target_item_id": "M001",
+     "cited_evidence_span": "Customer email addresses must never be written to request logs under any circumstances.",
+     "scope_terms": [
+      "request logs",
+      "email address"
+     ],
+     "confidence": 0.78
+    }
+   ],
+   "expected_no_relations": []
+  },
+  {
+   "id": "path_a_v1_contradiction_friday_deploys",
+   "class": "direct_contradiction",
+   "text": "# Release Practices\n\n- Teams are encouraged to deploy to production on Friday afternoons to use the quiet window.\n- Production deploys are forbidden on Fridays; schedule them Monday through Thursday only.\n",
+   "expected_relations": [
+    {
+     "type": "contradicts",
+     "source_item_id": "M002",
+     "target_item_id": "M001",
+     "cited_evidence_span": "Production deploys are forbidden on Fridays",
+     "scope_terms": [
+      "production",
+      "friday"
+     ],
+     "confidence": 0.78
+    }
+   ],
+   "expected_no_relations": []
+  },
+  {
+   "id": "path_a_v1_contradiction_vendor_contact",
+   "class": "direct_contradiction",
+   "text": "# Vendor Relations\n\n- Engineers should contact the payments vendor directly whenever an integration question comes up.\n- Engineers must not contact the payments vendor directly; every request goes through the partnerships desk.\n",
+   "expected_relations": [
+    {
+     "type": "contradicts",
+     "source_item_id": "M002",
+     "target_item_id": "M001",
+     "cited_evidence_span": "Engineers must not contact the payments vendor directly",
+     "scope_terms": [
+      "payments vendor"
+     ],
+     "confidence": 0.78
+    }
+   ],
+   "expected_no_relations": []
+  },
+  {
+   "id": "path_a_v1_transfer_incident_severity",
+   "class": "authority_transfer",
+   "text": "# Incident Process\n\n- The on-call engineer declares incident severity when an outage begins.\n- After the process review, only the incident commander declares incident severity. The on-call engineer reports symptoms but no longer makes the call.\n",
+   "expected_relations": [
+    {
+     "type": "transfers_authority",
+     "source_item_id": "M002",
+     "target_item_id": "M001",
+     "cited_evidence_span": "only the incident commander declares incident severity. The on-call engineer reports symptoms but no longer makes the call.",
+     "scope_terms": [
+      "incident severity"
+     ],
+     "confidence": 0.78
+    }
+   ],
+   "expected_no_relations": []
+  },
+  {
+   "id": "path_a_v1_transfer_purchase_approval",
+   "class": "authority_transfer",
+   "text": "# Purchasing\n\n- Team leads approve software purchases under 1000 dollars from the tools budget.\n- Purchasing authority has moved: the finance office now approves all software purchases from the tools budget. Team leads submit requests but do not approve them.\n",
+   "expected_relations": [
+    {
+     "type": "transfers_authority",
+     "source_item_id": "M002",
+     "target_item_id": "M001",
+     "cited_evidence_span": "the finance office now approves all software purchases from the tools budget. Team leads submit requests but do not approve them.",
+     "scope_terms": [
+      "software purchases",
+      "tools budget"
+     ],
+     "confidence": 0.78
+    }
+   ],
+   "expected_no_relations": []
+  },
+  {
+   "id": "path_a_v1_transfer_article_signoff",
+   "class": "authority_transfer",
+   "text": "# Content Publishing\n\n- The blog editor gives final signoff on every article before it is published.\n- Final signoff on every article now belongs to the legal reviewer. The blog editor prepares drafts but no longer gives the final signoff.\n",
+   "expected_relations": [
+    {
+     "type": "transfers_authority",
+     "source_item_id": "M002",
+     "target_item_id": "M001",
+     "cited_evidence_span": "Final signoff on every article now belongs to the legal reviewer.",
+     "scope_terms": [
+      "final signoff",
+      "article"
+     ],
+     "confidence": 0.78
+    }
+   ],
+   "expected_no_relations": []
+  },
+  {
+   "id": "path_a_v1_topic_mention_training_workshop",
+   "class": "topic_mention_negative",
+   "text": "# Onboarding Materials\n\n- The onboarding workshop teaches new agents how to spot when one instruction supersedes another in a memory file.\n- The workshop materials include worked examples of superseded rules, narrowed scopes, and transferred authority for practice.\n",
+   "expected_relations": [],
+   "expected_no_relations": [
+    {
+     "forbidden_types": [
+      "supersedes",
+      "narrows_scope",
+      "contradicts",
+      "transfers_authority"
+     ],
+     "source_item_id": "M001",
+     "target_item_id": "M002",
+     "reason": "training material discusses authority changes as a subject; nothing here changes any rule"
+    }
+   ]
+  },
+  {
+   "id": "path_a_v1_topic_mention_changelog_history",
+   "class": "topic_mention_negative",
+   "text": "# Team Changelog\n\n- The team changelog notes that last month several outdated instructions were retired from the assistant's memory.\n- The changelog entry describes that cleanup as an example of catching contradictions early; it does not itself retire any instruction in this file.\n",
+   "expected_relations": [],
+   "expected_no_relations": [
+    {
+     "forbidden_types": [
+      "supersedes",
+      "narrows_scope",
+      "contradicts",
+      "transfers_authority"
+     ],
+     "source_item_id": "M001",
+     "target_item_id": "M002",
+     "reason": "historical narrative about past retirements; no rule in this file changes another"
+    }
+   ]
+  },
+  {
+   "id": "path_a_v1_topic_mention_research_abstract",
+   "class": "topic_mention_negative",
+   "text": "# Research Notes\n\n- Our research paper argues that agent memory needs an authority layer to catch superseded and contradicted instructions.\n- Reviewer two asked us to clarify that the paper analyzes authority transfer as a failure class rather than transferring any authority itself.\n",
+   "expected_relations": [],
+   "expected_no_relations": [
+    {
+     "forbidden_types": [
+      "supersedes",
+      "narrows_scope",
+      "contradicts",
+      "transfers_authority"
+     ],
+     "source_item_id": "M001",
+     "target_item_id": "M002",
+     "reason": "research meta-discussion of authority change; nothing enacted"
+    }
+   ]
+  },
+  {
+   "id": "path_a_v1_restatement_export_approval",
+   "class": "restatement_negative",
+   "text": "# Privacy Rules\n\n- All customer data exports require the privacy lead's written approval before they run.\n- Current rule, restated for the new quarter: customer data exports still require the privacy lead's written approval before they run. Nothing about this policy has changed.\n",
+   "expected_relations": [],
+   "expected_no_relations": [
+    {
+     "forbidden_types": [
+      "supersedes",
+      "narrows_scope",
+      "contradicts",
+      "transfers_authority"
+     ],
+     "source_item_id": "M001",
+     "target_item_id": "M002",
+     "reason": "reaffirmation with update-flavored language; the rule is unchanged, so there is no authority-change relation"
+    }
+   ]
+  },
+  {
+   "id": "path_a_v1_restatement_admin_2fa",
+   "class": "restatement_negative",
+   "text": "# Security Baseline\n\n- Two-factor authentication is mandatory for every admin account on the platform.\n- Reminder from the security review: two-factor authentication remains mandatory for every admin account on the platform, exactly as before.\n",
+   "expected_relations": [],
+   "expected_no_relations": [
+    {
+     "forbidden_types": [
+      "supersedes",
+      "narrows_scope",
+      "contradicts",
+      "transfers_authority"
+     ],
+     "source_item_id": "M001",
+     "target_item_id": "M002",
+     "reason": "reminder restating an unchanged rule; reaffirmation is not an authority change"
+    }
+   ]
+  },
+  {
+   "id": "path_a_v1_coexistence_expenses_vs_talks",
+   "class": "coexistence_negative",
+   "text": "# Operations Notes\n\n- Expense reports are submitted through the finance portal by the last day of the month.\n- Conference talk proposals need a manager's thumbs-up before submission to the events team.\n",
+   "expected_relations": [],
+   "expected_no_relations": [
+    {
+     "forbidden_types": [
+      "supersedes",
+      "narrows_scope",
+      "contradicts",
+      "transfers_authority"
+     ],
+     "source_item_id": "M001",
+     "target_item_id": "M002",
+     "reason": "two rules in unrelated scopes merely coexist; no shared scope, no authority-change relation"
+    }
+   ]
+  },
+  {
+   "id": "path_a_v2_mention_use_changelog_archive_exporter",
+   "class": "mention_dressed_as_use_negative",
+   "text": "# Archive Export Policy\n\n- Archive exports that contain customer billing records require privacy review before release.\n- Release notes: v2.1 superseded v2.0 for the search exporter after its index was rebuilt. Separately, archive exports and customer billing records are mentioned in the same changelog for reporting context; this does not change the privacy-review rule above.\n",
+   "expected_relations": [],
+   "expected_no_relations": [
+    {
+     "forbidden_types": [
+      "supersedes",
+      "narrows_scope",
+      "contradicts",
+      "transfers_authority"
+     ],
+     "source_item_id": "M001",
+     "target_item_id": "M002",
+     "reason": "operator sentence names software versions, not the archive-export privacy-review rule; genuine scope overlap is present but no authority relation is enacted"
+    }
+   ]
+  },
+  {
+   "id": "path_a_v2_mention_use_meeting_minutes_vendor_access",
+   "class": "mention_dressed_as_use_negative",
+   "text": "# Vendor Access Notes\n\n- Engineers may request vendor sandbox access through the security desk for integration debugging.\n- Platform meeting minutes: the data-science dashboard rule was replaced last quarter. Vendor sandbox access came up later during the same meeting for background context. These minutes report another team's policy history and do not change the engineering access rule.\n",
+   "expected_relations": [],
+   "expected_no_relations": [
+    {
+     "forbidden_types": [
+      "supersedes",
+      "narrows_scope",
+      "contradicts",
+      "transfers_authority"
+     ],
+     "source_item_id": "M001",
+     "target_item_id": "M002",
+     "reason": "operator sentence references another team rule; shared vendor sandbox vocabulary should not become a relation between the two local rules"
+    }
+   ]
+  },
+  {
+   "id": "path_a_v2_mention_use_quoted_draft_incident_page",
+   "class": "mention_dressed_as_use_negative",
+   "text": "# Incident Page Ownership\n\n- The on-call engineer updates the public incident page during active outages.\n- Design review note: an old draft once said, \"this policy supersedes all prior guidance,\" but that draft was rejected before launch. The note separately mentions public incident pages and active outages for historical context; it does not alter incident-page ownership.\n",
+   "expected_relations": [],
+   "expected_no_relations": [
+    {
+     "forbidden_types": [
+      "supersedes",
+      "narrows_scope",
+      "contradicts",
+      "transfers_authority"
+     ],
+     "source_item_id": "M001",
+     "target_item_id": "M002",
+     "reason": "operator lives inside a rejected draft quote; historical quotation is mention, not an enacted authority change"
+    }
+   ]
+  },
+  {
+   "id": "path_a_v2_proximity_trap_expense_approval",
+   "class": "proximity_trap_negative",
+   "text": "# Expense Handbook\n\n- Expense reports over 100 dollars require manager approval before reimbursement.\n- Clarification for the handbook: the manager approval requirement applies only to expense reports over 100 dollars, exactly as already written; vendor invoices follow a separate purchasing process and are unchanged.\n",
+   "expected_relations": [],
+   "expected_no_relations": [
+    {
+     "forbidden_types": [
+      "supersedes",
+      "narrows_scope",
+      "contradicts",
+      "transfers_authority"
+     ],
+     "source_item_id": "M002",
+     "target_item_id": "M001",
+     "reason": "the operator sentence carries both principals' scope terms (manager approval, expense reports) plus 'only', but the operator scopes the requirement to what M001 already said and points elsewhere (vendor invoices); no relation between the principals is asserted \u2014 Addendum A1.2 proximity shape"
+    },
+    {
+     "forbidden_types": [
+      "supersedes",
+      "narrows_scope",
+      "contradicts",
+      "transfers_authority"
+     ],
+     "source_item_id": "M001",
+     "target_item_id": "M002",
+     "reason": "same proximity shape, reverse direction"
+    }
+   ]
+  },
+  {
+   "id": "path_a_v2_proximity_trap_weekly_updates",
+   "class": "proximity_trap_negative",
+   "text": "# Team Reporting\n\n- Weekly status updates must be posted to the team channel by Friday.\n- Reminder: the Friday deadline applies only to weekly status updates; the monthly report timeline is separate and stays on the finance calendar as before.\n",
+   "expected_relations": [],
+   "expected_no_relations": [
+    {
+     "forbidden_types": [
+      "supersedes",
+      "narrows_scope",
+      "contradicts",
+      "transfers_authority"
+     ],
+     "source_item_id": "M002",
+     "target_item_id": "M001",
+     "reason": "operator sentence carries both principals' scope terms (Friday, weekly status updates) plus 'only', while the operator merely restates M001's existing scope and points elsewhere (monthly reports); nothing is narrowed, changed, or transferred \u2014 Addendum A1.2 proximity shape"
+    },
+    {
+     "forbidden_types": [
+      "supersedes",
+      "narrows_scope",
+      "contradicts",
+      "transfers_authority"
+     ],
+     "source_item_id": "M001",
+     "target_item_id": "M002",
+     "reason": "same proximity shape, reverse direction"
+    }
+   ]
+  }
+ ]
 }
