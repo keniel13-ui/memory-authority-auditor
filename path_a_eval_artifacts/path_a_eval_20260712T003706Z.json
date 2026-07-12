@@ -1,0 +1,3887 @@
+{
+  "run_id": "20260712T003706Z",
+  "generated_at_utc": "2026-07-12T00:37:06.545853+00:00",
+  "fixture": "tests/fixtures/path_a_authority_change_v2_2026_07_11.json",
+  "scoring_rules": {
+    "positive_caught": "A positive case is caught only if the proposer emits at least one proposal that the deterministic confirmer turns into a confirmed finding whose (type, source_item_id, target_item_id) matches the fixture expected relation.",
+    "confidence": "Fixture confidence values are replay placeholders and are never compared to model output. Proposal confidence is used only against the frozen 0.60 confirmer gate.",
+    "negative_pass": "A topic-mention negative passes only if no confirmed forbidden finding is produced.",
+    "malformed": "Malformed proposer output is counted per case and does not abort the run. Positive case with only malformed output is a miss. Negative case with malformed/no-parse output passes only if no forbidden confirmed finding results; malformed counts remain recorded.",
+    "positive_caught_direction": "Secondary metric, frozen 2026-07-09 in PATH_A_V1_PREREGISTRATION before any v1 run: a positive is direction-caught if a confirmed finding matches the expected (source_item_id, target_item_id) pair with ANY allowed relation type. Confirmed findings always carry a verbatim citation and scope overlap by construction. The exact-label metric remains primary and may not be replaced by this one after results are seen."
+  },
+  "engines": [
+    {
+      "engine": "anthropic",
+      "summary": {
+        "cases": 23,
+        "positives": 12,
+        "positives_caught": 6,
+        "positives_caught_direction": 12,
+        "positive_misses": 6,
+        "negatives": 11,
+        "negatives_passed": 10,
+        "negative_false_fires": 1,
+        "malformed_cases": 0,
+        "remove_confirmer_negative_false_fires": 1,
+        "remove_citation_negative_false_fires": 1
+      },
+      "cases": [
+        {
+          "case_id": "path_a_v1_supersession_backup_retention",
+          "class": "supersession",
+          "malformed": false,
+          "malformed_reasons": [],
+          "proposal_count": 1,
+          "proposals": [
+            {
+              "type": "supersedes",
+              "source_item_id": "M002",
+              "target_item_id": "M001",
+              "cited_evidence_span": "the old retention rule is replaced: nightly backups are kept for 90 days in the cloud archive, and the legacy NAS copies are discontinued",
+              "scope_terms": [
+                "nightly backups",
+                "retention"
+              ],
+              "rationale": "M002 explicitly replaces the retention rule in M001, extending retention from 30 to 90 days and migrating storage from the legacy NAS to the cloud archive, fully superseding the prior policy.",
+              "confidence": 0.97
+            }
+          ],
+          "confirmed_findings": [
+            {
+              "type": "semantic_authority_change",
+              "relation_type": "supersedes",
+              "source_item_id": "M002",
+              "target_item_id": "M001",
+              "cited_evidence_span": "the old retention rule is replaced: nightly backups are kept for 90 days in the cloud archive, and the legacy NAS copies are discontinued",
+              "evidence": "Effective this quarter the old retention rule is replaced: nightly backups are kept for 90 days in the cloud archive, and the legacy NAS copies are discontinued.",
+              "target": "Nightly backups are kept for 30 days on the legacy NAS under the operations share.",
+              "scope_terms": [
+                "nightly backups",
+                "retention"
+              ],
+              "confidence": 0.97,
+              "relation_span": null
+            }
+          ],
+          "needs_human_judgment": [],
+          "score": {
+            "expected_positive": true,
+            "caught": true,
+            "direction_caught": true,
+            "missed": false,
+            "negative_passed": null,
+            "expected_triplets": [
+              [
+                "supersedes",
+                "M002",
+                "M001"
+              ]
+            ],
+            "confirmed_triplets": [
+              [
+                "supersedes",
+                "M002",
+                "M001"
+              ]
+            ]
+          },
+          "ablation_remove_confirmer": {
+            "would_count_as_caught_without_confirmation": true,
+            "proposal_triplets": [
+              [
+                "supersedes",
+                "M002",
+                "M001"
+              ]
+            ]
+          },
+          "ablation_remove_citation_requirement": {
+            "expected_positive": true,
+            "caught": true,
+            "direction_caught": true,
+            "missed": false,
+            "negative_passed": null,
+            "expected_triplets": [
+              [
+                "supersedes",
+                "M002",
+                "M001"
+              ]
+            ],
+            "confirmed_triplets": [
+              [
+                "supersedes",
+                "M002",
+                "M001"
+              ]
+            ]
+          },
+          "lexical_baseline_current_detector": {
+            "finding_types": [],
+            "stale_instruction_count": 0,
+            "missing_authority_layer": false
+          },
+          "raw_output": "```json\n{\n  \"proposals\": [\n    {\n      \"type\": \"supersedes\",\n      \"source_item_id\": \"M002\",\n      \"target_item_id\": \"M001\",\n      \"cited_evidence_span\": \"the old retention rule is replaced: nightly backups are kept for 90 days in the cloud archive, and the legacy NAS copies are discontinued\",\n      \"scope_terms\": [\"nightly backups\", \"retention\"],\n      \"rationale\": \"M002 explicitly replaces the retention rule in M001, extending retention from 30 to 90 days and migrating storage from the legacy NAS to the cloud archive, fully superseding the prior policy.\",\n      \"confidence\": 0.97\n    }\n  ]\n}\n```"
+        },
+        {
+          "case_id": "path_a_v1_supersession_api_key_rotation",
+          "class": "supersession",
+          "malformed": false,
+          "malformed_reasons": [],
+          "proposal_count": 1,
+          "proposals": [
+            {
+              "type": "supersedes",
+              "source_item_id": "M002",
+              "target_item_id": "M001",
+              "cited_evidence_span": "the manual quarterly rotation is retired. Service API keys now rotate automatically every 30 days through the secrets manager.",
+              "scope_terms": [
+                "Service API keys",
+                "Secrets Handling"
+              ],
+              "rationale": "M002 explicitly retires the manual quarterly rotation policy described in M001 and replaces it with an automated 30-day rotation, making M001 no longer authoritative.",
+              "confidence": 0.97
+            }
+          ],
+          "confirmed_findings": [
+            {
+              "type": "semantic_authority_change",
+              "relation_type": "supersedes",
+              "source_item_id": "M002",
+              "target_item_id": "M001",
+              "cited_evidence_span": "the manual quarterly rotation is retired. Service API keys now rotate automatically every 30 days through the secrets manager.",
+              "evidence": "New standard: the manual quarterly rotation is retired. Service API keys now rotate automatically every 30 days through the secrets manager.",
+              "target": "Service API keys are rotated manually every quarter by the platform team.",
+              "scope_terms": [
+                "Service API keys",
+                "Secrets Handling"
+              ],
+              "confidence": 0.97,
+              "relation_span": null
+            }
+          ],
+          "needs_human_judgment": [],
+          "score": {
+            "expected_positive": true,
+            "caught": true,
+            "direction_caught": true,
+            "missed": false,
+            "negative_passed": null,
+            "expected_triplets": [
+              [
+                "supersedes",
+                "M002",
+                "M001"
+              ]
+            ],
+            "confirmed_triplets": [
+              [
+                "supersedes",
+                "M002",
+                "M001"
+              ]
+            ]
+          },
+          "ablation_remove_confirmer": {
+            "would_count_as_caught_without_confirmation": true,
+            "proposal_triplets": [
+              [
+                "supersedes",
+                "M002",
+                "M001"
+              ]
+            ]
+          },
+          "ablation_remove_citation_requirement": {
+            "expected_positive": true,
+            "caught": true,
+            "direction_caught": true,
+            "missed": false,
+            "negative_passed": null,
+            "expected_triplets": [
+              [
+                "supersedes",
+                "M002",
+                "M001"
+              ]
+            ],
+            "confirmed_triplets": [
+              [
+                "supersedes",
+                "M002",
+                "M001"
+              ]
+            ]
+          },
+          "lexical_baseline_current_detector": {
+            "finding_types": [
+              "missing_authority_layer"
+            ],
+            "stale_instruction_count": 0,
+            "missing_authority_layer": true
+          },
+          "raw_output": "```json\n{\n  \"proposals\": [\n    {\n      \"type\": \"supersedes\",\n      \"source_item_id\": \"M002\",\n      \"target_item_id\": \"M001\",\n      \"cited_evidence_span\": \"the manual quarterly rotation is retired. Service API keys now rotate automatically every 30 days through the secrets manager.\",\n      \"scope_terms\": [\"Service API keys\", \"Secrets Handling\"],\n      \"rationale\": \"M002 explicitly retires the manual quarterly rotation policy described in M001 and replaces it with an automated 30-day rotation, making M001 no longer authoritative.\",\n      \"confidence\": 0.97\n    }\n  ]\n}\n```"
+        },
+        {
+          "case_id": "path_a_v1_supersession_sync_notes_location",
+          "class": "supersession",
+          "malformed": false,
+          "malformed_reasons": [],
+          "proposal_count": 1,
+          "proposals": [
+            {
+              "type": "supersedes",
+              "source_item_id": "M002",
+              "target_item_id": "M001",
+              "cited_evidence_span": "posting sync notes to the shared drive is deprecated. Weekly sync notes must be posted to the project wiki instead.",
+              "scope_terms": [
+                "Weekly sync notes",
+                "Team Communication"
+              ],
+              "rationale": "M002 explicitly deprecates the practice described in M001 (posting sync notes to the shared drive) and mandates a new location (project wiki), fully replacing the prior instruction.",
+              "confidence": 0.97
+            }
+          ],
+          "confirmed_findings": [
+            {
+              "type": "semantic_authority_change",
+              "relation_type": "supersedes",
+              "source_item_id": "M002",
+              "target_item_id": "M001",
+              "cited_evidence_span": "posting sync notes to the shared drive is deprecated. Weekly sync notes must be posted to the project wiki instead.",
+              "evidence": "Update: posting sync notes to the shared drive is deprecated. Weekly sync notes must be posted to the project wiki instead.",
+              "target": "Weekly sync notes are posted to the shared drive folder for the whole team to read.",
+              "scope_terms": [
+                "Weekly sync notes",
+                "Team Communication"
+              ],
+              "confidence": 0.97,
+              "relation_span": null
+            }
+          ],
+          "needs_human_judgment": [],
+          "score": {
+            "expected_positive": true,
+            "caught": true,
+            "direction_caught": true,
+            "missed": false,
+            "negative_passed": null,
+            "expected_triplets": [
+              [
+                "supersedes",
+                "M002",
+                "M001"
+              ]
+            ],
+            "confirmed_triplets": [
+              [
+                "supersedes",
+                "M002",
+                "M001"
+              ]
+            ]
+          },
+          "ablation_remove_confirmer": {
+            "would_count_as_caught_without_confirmation": true,
+            "proposal_triplets": [
+              [
+                "supersedes",
+                "M002",
+                "M001"
+              ]
+            ]
+          },
+          "ablation_remove_citation_requirement": {
+            "expected_positive": true,
+            "caught": true,
+            "direction_caught": true,
+            "missed": false,
+            "negative_passed": null,
+            "expected_triplets": [
+              [
+                "supersedes",
+                "M002",
+                "M001"
+              ]
+            ],
+            "confirmed_triplets": [
+              [
+                "supersedes",
+                "M002",
+                "M001"
+              ]
+            ]
+          },
+          "lexical_baseline_current_detector": {
+            "finding_types": [
+              "stale_instruction",
+              "missing_authority_layer"
+            ],
+            "stale_instruction_count": 1,
+            "missing_authority_layer": true
+          },
+          "raw_output": "```json\n{\n  \"proposals\": [\n    {\n      \"type\": \"supersedes\",\n      \"source_item_id\": \"M002\",\n      \"target_item_id\": \"M001\",\n      \"cited_evidence_span\": \"posting sync notes to the shared drive is deprecated. Weekly sync notes must be posted to the project wiki instead.\",\n      \"scope_terms\": [\"Weekly sync notes\", \"Team Communication\"],\n      \"rationale\": \"M002 explicitly deprecates the practice described in M001 (posting sync notes to the shared drive) and mandates a new location (project wiki), fully replacing the prior instruction.\",\n      \"confidence\": 0.97\n    }\n  ]\n}\n```"
+        },
+        {
+          "case_id": "path_a_v1_scope_narrowing_refund_limit",
+          "class": "scope_narrowing",
+          "malformed": false,
+          "malformed_reasons": [],
+          "proposal_count": 1,
+          "proposals": [
+            {
+              "type": "supersedes",
+              "source_item_id": "M002",
+              "target_item_id": "M001",
+              "cited_evidence_span": "Revised policy: support agents may issue refunds only up to 50 dollars on their own, and anything higher requires a team lead's approval.",
+              "scope_terms": [
+                "support agents",
+                "refunds"
+              ],
+              "rationale": "M002 explicitly introduces a revised policy that lowers the discretionary refund limit from $200 to $50 and adds an approval requirement for higher amounts, directly replacing the rule stated in M001.",
+              "confidence": 0.95
+            }
+          ],
+          "confirmed_findings": [
+            {
+              "type": "semantic_authority_change",
+              "relation_type": "supersedes",
+              "source_item_id": "M002",
+              "target_item_id": "M001",
+              "cited_evidence_span": "Revised policy: support agents may issue refunds only up to 50 dollars on their own, and anything higher requires a team lead's approval.",
+              "evidence": "Revised policy: support agents may issue refunds only up to 50 dollars on their own, and anything higher requires a team lead's approval.",
+              "target": "Support agents may issue refunds up to 200 dollars at their own discretion.",
+              "scope_terms": [
+                "support agents",
+                "refunds"
+              ],
+              "confidence": 0.95,
+              "relation_span": null
+            }
+          ],
+          "needs_human_judgment": [],
+          "score": {
+            "expected_positive": true,
+            "caught": false,
+            "direction_caught": true,
+            "missed": true,
+            "negative_passed": null,
+            "expected_triplets": [
+              [
+                "narrows_scope",
+                "M002",
+                "M001"
+              ]
+            ],
+            "confirmed_triplets": [
+              [
+                "supersedes",
+                "M002",
+                "M001"
+              ]
+            ]
+          },
+          "ablation_remove_confirmer": {
+            "would_count_as_caught_without_confirmation": false,
+            "proposal_triplets": [
+              [
+                "supersedes",
+                "M002",
+                "M001"
+              ]
+            ]
+          },
+          "ablation_remove_citation_requirement": {
+            "expected_positive": true,
+            "caught": false,
+            "direction_caught": true,
+            "missed": true,
+            "negative_passed": null,
+            "expected_triplets": [
+              [
+                "narrows_scope",
+                "M002",
+                "M001"
+              ]
+            ],
+            "confirmed_triplets": [
+              [
+                "supersedes",
+                "M002",
+                "M001"
+              ]
+            ]
+          },
+          "lexical_baseline_current_detector": {
+            "finding_types": [],
+            "stale_instruction_count": 0,
+            "missing_authority_layer": false
+          },
+          "raw_output": "```json\n{\n  \"proposals\": [\n    {\n      \"type\": \"supersedes\",\n      \"source_item_id\": \"M002\",\n      \"target_item_id\": \"M001\",\n      \"cited_evidence_span\": \"Revised policy: support agents may issue refunds only up to 50 dollars on their own, and anything higher requires a team lead's approval.\",\n      \"scope_terms\": [\"support agents\", \"refunds\"],\n      \"rationale\": \"M002 explicitly introduces a revised policy that lowers the discretionary refund limit from $200 to $50 and adds an approval requirement for higher amounts, directly replacing the rule stated in M001.\",\n      \"confidence\": 0.95\n    }\n  ]\n}\n```"
+        },
+        {
+          "case_id": "path_a_v1_scope_narrowing_prod_db_access",
+          "class": "scope_narrowing",
+          "malformed": false,
+          "malformed_reasons": [],
+          "proposal_count": 1,
+          "proposals": [
+            {
+              "type": "narrows_scope",
+              "source_item_id": "M002",
+              "target_item_id": "M001",
+              "cited_evidence_span": "backend engineers may query only the read replica of the production database, and only during an active incident",
+              "scope_terms": [
+                "backend engineers",
+                "production database",
+                "query"
+              ],
+              "rationale": "M002 explicitly tightens M001 by restricting queries to the read replica only and adding the condition that an active incident must be in progress, narrowing both the target and the circumstance under which access is permitted.",
+              "confidence": 0.93
+            }
+          ],
+          "confirmed_findings": [
+            {
+              "type": "semantic_authority_change",
+              "relation_type": "narrows_scope",
+              "source_item_id": "M002",
+              "target_item_id": "M001",
+              "cited_evidence_span": "backend engineers may query only the read replica of the production database, and only during an active incident",
+              "evidence": "Tightened rule: backend engineers may query only the read replica of the production database, and only during an active incident.",
+              "target": "Backend engineers may query the production database for debugging purposes.",
+              "scope_terms": [
+                "backend engineers",
+                "production database",
+                "query"
+              ],
+              "confidence": 0.93,
+              "relation_span": null
+            }
+          ],
+          "needs_human_judgment": [],
+          "score": {
+            "expected_positive": true,
+            "caught": true,
+            "direction_caught": true,
+            "missed": false,
+            "negative_passed": null,
+            "expected_triplets": [
+              [
+                "narrows_scope",
+                "M002",
+                "M001"
+              ]
+            ],
+            "confirmed_triplets": [
+              [
+                "narrows_scope",
+                "M002",
+                "M001"
+              ]
+            ]
+          },
+          "ablation_remove_confirmer": {
+            "would_count_as_caught_without_confirmation": true,
+            "proposal_triplets": [
+              [
+                "narrows_scope",
+                "M002",
+                "M001"
+              ]
+            ]
+          },
+          "ablation_remove_citation_requirement": {
+            "expected_positive": true,
+            "caught": true,
+            "direction_caught": true,
+            "missed": false,
+            "negative_passed": null,
+            "expected_triplets": [
+              [
+                "narrows_scope",
+                "M002",
+                "M001"
+              ]
+            ],
+            "confirmed_triplets": [
+              [
+                "narrows_scope",
+                "M002",
+                "M001"
+              ]
+            ]
+          },
+          "lexical_baseline_current_detector": {
+            "finding_types": [
+              "missing_authority_layer"
+            ],
+            "stale_instruction_count": 0,
+            "missing_authority_layer": true
+          },
+          "raw_output": "```json\n{\n  \"proposals\": [\n    {\n      \"type\": \"narrows_scope\",\n      \"source_item_id\": \"M002\",\n      \"target_item_id\": \"M001\",\n      \"cited_evidence_span\": \"backend engineers may query only the read replica of the production database, and only during an active incident\",\n      \"scope_terms\": [\"backend engineers\", \"production database\", \"query\"],\n      \"rationale\": \"M002 explicitly tightens M001 by restricting queries to the read replica only and adding the condition that an active incident must be in progress, narrowing both the target and the circumstance under which access is permitted.\",\n      \"confidence\": 0.93\n    }\n  ]\n}\n```"
+        },
+        {
+          "case_id": "path_a_v1_scope_narrowing_social_posting",
+          "class": "scope_narrowing",
+          "malformed": false,
+          "malformed_reasons": [],
+          "proposal_count": 1,
+          "proposals": [
+            {
+              "type": "supersedes",
+              "source_item_id": "M002",
+              "target_item_id": "M001",
+              "cited_evidence_span": "Going forward the intern may publish only pre-approved drafts to the company social accounts, never original posts.",
+              "scope_terms": [
+                "intern",
+                "publish",
+                "company social accounts"
+              ],
+              "rationale": "M002 replaces M001's blanket permission for the intern to publish posts by restricting publication to pre-approved drafts only and explicitly prohibiting original posts, superseding the prior unrestricted authority.",
+              "confidence": 0.93
+            }
+          ],
+          "confirmed_findings": [
+            {
+              "type": "semantic_authority_change",
+              "relation_type": "supersedes",
+              "source_item_id": "M002",
+              "target_item_id": "M001",
+              "cited_evidence_span": "Going forward the intern may publish only pre-approved drafts to the company social accounts, never original posts.",
+              "evidence": "Going forward the intern may publish only pre-approved drafts to the company social accounts, never original posts.",
+              "target": "The marketing intern can publish posts to the company social accounts.",
+              "scope_terms": [
+                "intern",
+                "publish",
+                "company social accounts"
+              ],
+              "confidence": 0.93,
+              "relation_span": null
+            }
+          ],
+          "needs_human_judgment": [],
+          "score": {
+            "expected_positive": true,
+            "caught": false,
+            "direction_caught": true,
+            "missed": true,
+            "negative_passed": null,
+            "expected_triplets": [
+              [
+                "narrows_scope",
+                "M002",
+                "M001"
+              ]
+            ],
+            "confirmed_triplets": [
+              [
+                "supersedes",
+                "M002",
+                "M001"
+              ]
+            ]
+          },
+          "ablation_remove_confirmer": {
+            "would_count_as_caught_without_confirmation": false,
+            "proposal_triplets": [
+              [
+                "supersedes",
+                "M002",
+                "M001"
+              ]
+            ]
+          },
+          "ablation_remove_citation_requirement": {
+            "expected_positive": true,
+            "caught": false,
+            "direction_caught": true,
+            "missed": true,
+            "negative_passed": null,
+            "expected_triplets": [
+              [
+                "narrows_scope",
+                "M002",
+                "M001"
+              ]
+            ],
+            "confirmed_triplets": [
+              [
+                "supersedes",
+                "M002",
+                "M001"
+              ]
+            ]
+          },
+          "lexical_baseline_current_detector": {
+            "finding_types": [],
+            "stale_instruction_count": 0,
+            "missing_authority_layer": false
+          },
+          "raw_output": "```json\n{\n  \"proposals\": [\n    {\n      \"type\": \"supersedes\",\n      \"source_item_id\": \"M002\",\n      \"target_item_id\": \"M001\",\n      \"cited_evidence_span\": \"Going forward the intern may publish only pre-approved drafts to the company social accounts, never original posts.\",\n      \"scope_terms\": [\"intern\", \"publish\", \"company social accounts\"],\n      \"rationale\": \"M002 replaces M001's blanket permission for the intern to publish posts by restricting publication to pre-approved drafts only and explicitly prohibiting original posts, superseding the prior unrestricted authority.\",\n      \"confidence\": 0.93\n    }\n  ]\n}\n```"
+        },
+        {
+          "case_id": "path_a_v1_contradiction_logging_pii",
+          "class": "direct_contradiction",
+          "malformed": false,
+          "malformed_reasons": [],
+          "proposal_count": 1,
+          "proposals": [
+            {
+              "type": "contradicts",
+              "source_item_id": "M002",
+              "target_item_id": "M001",
+              "cited_evidence_span": "Customer email addresses must never be written to request logs under any circumstances.",
+              "scope_terms": [
+                "customer email addresses",
+                "request logs"
+              ],
+              "rationale": "M002 explicitly prohibits writing customer email addresses to request logs under any circumstances, directly opposing M001's instruction to include the full customer email address in request logs.",
+              "confidence": 0.97
+            }
+          ],
+          "confirmed_findings": [
+            {
+              "type": "semantic_authority_change",
+              "relation_type": "contradicts",
+              "source_item_id": "M002",
+              "target_item_id": "M001",
+              "cited_evidence_span": "Customer email addresses must never be written to request logs under any circumstances.",
+              "evidence": "Customer email addresses must never be written to request logs under any circumstances.",
+              "target": "Request logs should include the full customer email address to speed up support lookups.",
+              "scope_terms": [
+                "customer email addresses",
+                "request logs"
+              ],
+              "confidence": 0.97,
+              "relation_span": null
+            }
+          ],
+          "needs_human_judgment": [],
+          "score": {
+            "expected_positive": true,
+            "caught": true,
+            "direction_caught": true,
+            "missed": false,
+            "negative_passed": null,
+            "expected_triplets": [
+              [
+                "contradicts",
+                "M002",
+                "M001"
+              ]
+            ],
+            "confirmed_triplets": [
+              [
+                "contradicts",
+                "M002",
+                "M001"
+              ]
+            ]
+          },
+          "ablation_remove_confirmer": {
+            "would_count_as_caught_without_confirmation": true,
+            "proposal_triplets": [
+              [
+                "contradicts",
+                "M002",
+                "M001"
+              ]
+            ]
+          },
+          "ablation_remove_citation_requirement": {
+            "expected_positive": true,
+            "caught": true,
+            "direction_caught": true,
+            "missed": false,
+            "negative_passed": null,
+            "expected_triplets": [
+              [
+                "contradicts",
+                "M002",
+                "M001"
+              ]
+            ],
+            "confirmed_triplets": [
+              [
+                "contradicts",
+                "M002",
+                "M001"
+              ]
+            ]
+          },
+          "lexical_baseline_current_detector": {
+            "finding_types": [],
+            "stale_instruction_count": 0,
+            "missing_authority_layer": false
+          },
+          "raw_output": "```json\n{\n  \"proposals\": [\n    {\n      \"type\": \"contradicts\",\n      \"source_item_id\": \"M002\",\n      \"target_item_id\": \"M001\",\n      \"cited_evidence_span\": \"Customer email addresses must never be written to request logs under any circumstances.\",\n      \"scope_terms\": [\"customer email addresses\", \"request logs\"],\n      \"rationale\": \"M002 explicitly prohibits writing customer email addresses to request logs under any circumstances, directly opposing M001's instruction to include the full customer email address in request logs.\",\n      \"confidence\": 0.97\n    }\n  ]\n}\n```"
+        },
+        {
+          "case_id": "path_a_v1_contradiction_friday_deploys",
+          "class": "direct_contradiction",
+          "malformed": false,
+          "malformed_reasons": [],
+          "proposal_count": 1,
+          "proposals": [
+            {
+              "type": "supersedes",
+              "source_item_id": "M002",
+              "target_item_id": "M001",
+              "cited_evidence_span": "Production deploys are forbidden on Fridays; schedule them Monday through Thursday only.",
+              "scope_terms": [
+                "production",
+                "deploy",
+                "Friday"
+              ],
+              "rationale": "M002 issues a strict prohibition on Friday production deploys, directly overriding M001's encouragement to deploy on Friday afternoons. The newer, more authoritative rule replaces the prior guidance entirely.",
+              "confidence": 0.95
+            }
+          ],
+          "confirmed_findings": [
+            {
+              "type": "semantic_authority_change",
+              "relation_type": "supersedes",
+              "source_item_id": "M002",
+              "target_item_id": "M001",
+              "cited_evidence_span": "Production deploys are forbidden on Fridays; schedule them Monday through Thursday only.",
+              "evidence": "Production deploys are forbidden on Fridays; schedule them Monday through Thursday only.",
+              "target": "Teams are encouraged to deploy to production on Friday afternoons to use the quiet window.",
+              "scope_terms": [
+                "production",
+                "deploy",
+                "Friday"
+              ],
+              "confidence": 0.95,
+              "relation_span": null
+            }
+          ],
+          "needs_human_judgment": [],
+          "score": {
+            "expected_positive": true,
+            "caught": false,
+            "direction_caught": true,
+            "missed": true,
+            "negative_passed": null,
+            "expected_triplets": [
+              [
+                "contradicts",
+                "M002",
+                "M001"
+              ]
+            ],
+            "confirmed_triplets": [
+              [
+                "supersedes",
+                "M002",
+                "M001"
+              ]
+            ]
+          },
+          "ablation_remove_confirmer": {
+            "would_count_as_caught_without_confirmation": false,
+            "proposal_triplets": [
+              [
+                "supersedes",
+                "M002",
+                "M001"
+              ]
+            ]
+          },
+          "ablation_remove_citation_requirement": {
+            "expected_positive": true,
+            "caught": false,
+            "direction_caught": true,
+            "missed": true,
+            "negative_passed": null,
+            "expected_triplets": [
+              [
+                "contradicts",
+                "M002",
+                "M001"
+              ]
+            ],
+            "confirmed_triplets": [
+              [
+                "supersedes",
+                "M002",
+                "M001"
+              ]
+            ]
+          },
+          "lexical_baseline_current_detector": {
+            "finding_types": [
+              "missing_authority_layer"
+            ],
+            "stale_instruction_count": 0,
+            "missing_authority_layer": true
+          },
+          "raw_output": "```json\n{\n  \"proposals\": [\n    {\n      \"type\": \"supersedes\",\n      \"source_item_id\": \"M002\",\n      \"target_item_id\": \"M001\",\n      \"cited_evidence_span\": \"Production deploys are forbidden on Fridays; schedule them Monday through Thursday only.\",\n      \"scope_terms\": [\"production\", \"deploy\", \"Friday\"],\n      \"rationale\": \"M002 issues a strict prohibition on Friday production deploys, directly overriding M001's encouragement to deploy on Friday afternoons. The newer, more authoritative rule replaces the prior guidance entirely.\",\n      \"confidence\": 0.95\n    }\n  ]\n}\n```"
+        },
+        {
+          "case_id": "path_a_v1_contradiction_vendor_contact",
+          "class": "direct_contradiction",
+          "malformed": false,
+          "malformed_reasons": [],
+          "proposal_count": 1,
+          "proposals": [
+            {
+              "type": "contradicts",
+              "source_item_id": "M002",
+              "target_item_id": "M001",
+              "cited_evidence_span": "Engineers must not contact the payments vendor directly; every request goes through the partnerships desk.",
+              "scope_terms": [
+                "Engineers",
+                "payments vendor",
+                "contact"
+              ],
+              "rationale": "M002 explicitly prohibits direct engineer contact with the payments vendor and mandates routing through the partnerships desk, directly contradicting M001's instruction that engineers should contact the vendor directly.",
+              "confidence": 0.95
+            }
+          ],
+          "confirmed_findings": [
+            {
+              "type": "semantic_authority_change",
+              "relation_type": "contradicts",
+              "source_item_id": "M002",
+              "target_item_id": "M001",
+              "cited_evidence_span": "Engineers must not contact the payments vendor directly; every request goes through the partnerships desk.",
+              "evidence": "Engineers must not contact the payments vendor directly; every request goes through the partnerships desk.",
+              "target": "Engineers should contact the payments vendor directly whenever an integration question comes up.",
+              "scope_terms": [
+                "Engineers",
+                "payments vendor",
+                "contact"
+              ],
+              "confidence": 0.95,
+              "relation_span": null
+            }
+          ],
+          "needs_human_judgment": [],
+          "score": {
+            "expected_positive": true,
+            "caught": true,
+            "direction_caught": true,
+            "missed": false,
+            "negative_passed": null,
+            "expected_triplets": [
+              [
+                "contradicts",
+                "M002",
+                "M001"
+              ]
+            ],
+            "confirmed_triplets": [
+              [
+                "contradicts",
+                "M002",
+                "M001"
+              ]
+            ]
+          },
+          "ablation_remove_confirmer": {
+            "would_count_as_caught_without_confirmation": true,
+            "proposal_triplets": [
+              [
+                "contradicts",
+                "M002",
+                "M001"
+              ]
+            ]
+          },
+          "ablation_remove_citation_requirement": {
+            "expected_positive": true,
+            "caught": true,
+            "direction_caught": true,
+            "missed": false,
+            "negative_passed": null,
+            "expected_triplets": [
+              [
+                "contradicts",
+                "M002",
+                "M001"
+              ]
+            ],
+            "confirmed_triplets": [
+              [
+                "contradicts",
+                "M002",
+                "M001"
+              ]
+            ]
+          },
+          "lexical_baseline_current_detector": {
+            "finding_types": [],
+            "stale_instruction_count": 0,
+            "missing_authority_layer": false
+          },
+          "raw_output": "```json\n{\n  \"proposals\": [\n    {\n      \"type\": \"contradicts\",\n      \"source_item_id\": \"M002\",\n      \"target_item_id\": \"M001\",\n      \"cited_evidence_span\": \"Engineers must not contact the payments vendor directly; every request goes through the partnerships desk.\",\n      \"scope_terms\": [\"Engineers\", \"payments vendor\", \"contact\"],\n      \"rationale\": \"M002 explicitly prohibits direct engineer contact with the payments vendor and mandates routing through the partnerships desk, directly contradicting M001's instruction that engineers should contact the vendor directly.\",\n      \"confidence\": 0.95\n    }\n  ]\n}\n```"
+        },
+        {
+          "case_id": "path_a_v1_transfer_incident_severity",
+          "class": "authority_transfer",
+          "malformed": false,
+          "malformed_reasons": [],
+          "proposal_count": 1,
+          "proposals": [
+            {
+              "type": "supersedes",
+              "source_item_id": "M002",
+              "target_item_id": "M001",
+              "cited_evidence_span": "only the incident commander declares incident severity. The on-call engineer reports symptoms but no longer makes the call.",
+              "scope_terms": [
+                "incident severity",
+                "declares",
+                "on-call engineer"
+              ],
+              "rationale": "M002 explicitly reassigns the authority to declare incident severity from the on-call engineer to the incident commander, directly replacing the rule stated in M001.",
+              "confidence": 0.95
+            }
+          ],
+          "confirmed_findings": [
+            {
+              "type": "semantic_authority_change",
+              "relation_type": "supersedes",
+              "source_item_id": "M002",
+              "target_item_id": "M001",
+              "cited_evidence_span": "only the incident commander declares incident severity. The on-call engineer reports symptoms but no longer makes the call.",
+              "evidence": "After the process review, only the incident commander declares incident severity. The on-call engineer reports symptoms but no longer makes the call.",
+              "target": "The on-call engineer declares incident severity when an outage begins.",
+              "scope_terms": [
+                "incident severity",
+                "declares",
+                "on-call engineer"
+              ],
+              "confidence": 0.95,
+              "relation_span": null
+            }
+          ],
+          "needs_human_judgment": [],
+          "score": {
+            "expected_positive": true,
+            "caught": false,
+            "direction_caught": true,
+            "missed": true,
+            "negative_passed": null,
+            "expected_triplets": [
+              [
+                "transfers_authority",
+                "M002",
+                "M001"
+              ]
+            ],
+            "confirmed_triplets": [
+              [
+                "supersedes",
+                "M002",
+                "M001"
+              ]
+            ]
+          },
+          "ablation_remove_confirmer": {
+            "would_count_as_caught_without_confirmation": false,
+            "proposal_triplets": [
+              [
+                "supersedes",
+                "M002",
+                "M001"
+              ]
+            ]
+          },
+          "ablation_remove_citation_requirement": {
+            "expected_positive": true,
+            "caught": false,
+            "direction_caught": true,
+            "missed": true,
+            "negative_passed": null,
+            "expected_triplets": [
+              [
+                "transfers_authority",
+                "M002",
+                "M001"
+              ]
+            ],
+            "confirmed_triplets": [
+              [
+                "supersedes",
+                "M002",
+                "M001"
+              ]
+            ]
+          },
+          "lexical_baseline_current_detector": {
+            "finding_types": [
+              "missing_authority_layer"
+            ],
+            "stale_instruction_count": 0,
+            "missing_authority_layer": true
+          },
+          "raw_output": "```json\n{\n  \"proposals\": [\n    {\n      \"type\": \"supersedes\",\n      \"source_item_id\": \"M002\",\n      \"target_item_id\": \"M001\",\n      \"cited_evidence_span\": \"only the incident commander declares incident severity. The on-call engineer reports symptoms but no longer makes the call.\",\n      \"scope_terms\": [\"incident severity\", \"declares\", \"on-call engineer\"],\n      \"rationale\": \"M002 explicitly reassigns the authority to declare incident severity from the on-call engineer to the incident commander, directly replacing the rule stated in M001.\",\n      \"confidence\": 0.95\n    }\n  ]\n}\n```"
+        },
+        {
+          "case_id": "path_a_v1_transfer_purchase_approval",
+          "class": "authority_transfer",
+          "malformed": false,
+          "malformed_reasons": [],
+          "proposal_count": 1,
+          "proposals": [
+            {
+              "type": "supersedes",
+              "source_item_id": "M002",
+              "target_item_id": "M001",
+              "cited_evidence_span": "the finance office now approves all software purchases from the tools budget. Team leads submit requests but do not approve them.",
+              "scope_terms": [
+                "software purchases",
+                "tools budget"
+              ],
+              "rationale": "M002 explicitly reassigns approval authority for software purchases from the tools budget away from team leads to the finance office, directly replacing the rule in M001.",
+              "confidence": 0.97
+            }
+          ],
+          "confirmed_findings": [
+            {
+              "type": "semantic_authority_change",
+              "relation_type": "supersedes",
+              "source_item_id": "M002",
+              "target_item_id": "M001",
+              "cited_evidence_span": "the finance office now approves all software purchases from the tools budget. Team leads submit requests but do not approve them.",
+              "evidence": "Purchasing authority has moved: the finance office now approves all software purchases from the tools budget. Team leads submit requests but do not approve them.",
+              "target": "Team leads approve software purchases under 1000 dollars from the tools budget.",
+              "scope_terms": [
+                "software purchases",
+                "tools budget"
+              ],
+              "confidence": 0.97,
+              "relation_span": null
+            }
+          ],
+          "needs_human_judgment": [],
+          "score": {
+            "expected_positive": true,
+            "caught": false,
+            "direction_caught": true,
+            "missed": true,
+            "negative_passed": null,
+            "expected_triplets": [
+              [
+                "transfers_authority",
+                "M002",
+                "M001"
+              ]
+            ],
+            "confirmed_triplets": [
+              [
+                "supersedes",
+                "M002",
+                "M001"
+              ]
+            ]
+          },
+          "ablation_remove_confirmer": {
+            "would_count_as_caught_without_confirmation": false,
+            "proposal_triplets": [
+              [
+                "supersedes",
+                "M002",
+                "M001"
+              ]
+            ]
+          },
+          "ablation_remove_citation_requirement": {
+            "expected_positive": true,
+            "caught": false,
+            "direction_caught": true,
+            "missed": true,
+            "negative_passed": null,
+            "expected_triplets": [
+              [
+                "transfers_authority",
+                "M002",
+                "M001"
+              ]
+            ],
+            "confirmed_triplets": [
+              [
+                "supersedes",
+                "M002",
+                "M001"
+              ]
+            ]
+          },
+          "lexical_baseline_current_detector": {
+            "finding_types": [],
+            "stale_instruction_count": 0,
+            "missing_authority_layer": false
+          },
+          "raw_output": "```json\n{\n  \"proposals\": [\n    {\n      \"type\": \"supersedes\",\n      \"source_item_id\": \"M002\",\n      \"target_item_id\": \"M001\",\n      \"cited_evidence_span\": \"the finance office now approves all software purchases from the tools budget. Team leads submit requests but do not approve them.\",\n      \"scope_terms\": [\"software purchases\", \"tools budget\"],\n      \"rationale\": \"M002 explicitly reassigns approval authority for software purchases from the tools budget away from team leads to the finance office, directly replacing the rule in M001.\",\n      \"confidence\": 0.97\n    }\n  ]\n}\n```"
+        },
+        {
+          "case_id": "path_a_v1_transfer_article_signoff",
+          "class": "authority_transfer",
+          "malformed": false,
+          "malformed_reasons": [],
+          "proposal_count": 1,
+          "proposals": [
+            {
+              "type": "supersedes",
+              "source_item_id": "M002",
+              "target_item_id": "M001",
+              "cited_evidence_span": "Final signoff on every article now belongs to the legal reviewer. The blog editor prepares drafts but no longer gives the final signoff.",
+              "scope_terms": [
+                "final signoff",
+                "every article",
+                "Content Publishing"
+              ],
+              "rationale": "M002 explicitly reassigns the final signoff authority from the blog editor to the legal reviewer, directly replacing the rule stated in M001.",
+              "confidence": 0.97
+            }
+          ],
+          "confirmed_findings": [
+            {
+              "type": "semantic_authority_change",
+              "relation_type": "supersedes",
+              "source_item_id": "M002",
+              "target_item_id": "M001",
+              "cited_evidence_span": "Final signoff on every article now belongs to the legal reviewer. The blog editor prepares drafts but no longer gives the final signoff.",
+              "evidence": "Final signoff on every article now belongs to the legal reviewer. The blog editor prepares drafts but no longer gives the final signoff.",
+              "target": "The blog editor gives final signoff on every article before it is published.",
+              "scope_terms": [
+                "final signoff",
+                "every article",
+                "Content Publishing"
+              ],
+              "confidence": 0.97,
+              "relation_span": null
+            }
+          ],
+          "needs_human_judgment": [],
+          "score": {
+            "expected_positive": true,
+            "caught": false,
+            "direction_caught": true,
+            "missed": true,
+            "negative_passed": null,
+            "expected_triplets": [
+              [
+                "transfers_authority",
+                "M002",
+                "M001"
+              ]
+            ],
+            "confirmed_triplets": [
+              [
+                "supersedes",
+                "M002",
+                "M001"
+              ]
+            ]
+          },
+          "ablation_remove_confirmer": {
+            "would_count_as_caught_without_confirmation": false,
+            "proposal_triplets": [
+              [
+                "supersedes",
+                "M002",
+                "M001"
+              ]
+            ]
+          },
+          "ablation_remove_citation_requirement": {
+            "expected_positive": true,
+            "caught": false,
+            "direction_caught": true,
+            "missed": true,
+            "negative_passed": null,
+            "expected_triplets": [
+              [
+                "transfers_authority",
+                "M002",
+                "M001"
+              ]
+            ],
+            "confirmed_triplets": [
+              [
+                "supersedes",
+                "M002",
+                "M001"
+              ]
+            ]
+          },
+          "lexical_baseline_current_detector": {
+            "finding_types": [],
+            "stale_instruction_count": 0,
+            "missing_authority_layer": false
+          },
+          "raw_output": "```json\n{\n  \"proposals\": [\n    {\n      \"type\": \"supersedes\",\n      \"source_item_id\": \"M002\",\n      \"target_item_id\": \"M001\",\n      \"cited_evidence_span\": \"Final signoff on every article now belongs to the legal reviewer. The blog editor prepares drafts but no longer gives the final signoff.\",\n      \"scope_terms\": [\"final signoff\", \"every article\", \"Content Publishing\"],\n      \"rationale\": \"M002 explicitly reassigns the final signoff authority from the blog editor to the legal reviewer, directly replacing the rule stated in M001.\",\n      \"confidence\": 0.97\n    }\n  ]\n}\n```"
+        },
+        {
+          "case_id": "path_a_v1_topic_mention_training_workshop",
+          "class": "topic_mention_negative",
+          "malformed": false,
+          "malformed_reasons": [],
+          "proposal_count": 0,
+          "proposals": [],
+          "confirmed_findings": [],
+          "needs_human_judgment": [],
+          "score": {
+            "expected_positive": false,
+            "caught": null,
+            "missed": null,
+            "negative_passed": true,
+            "forbidden_types": [
+              "contradicts",
+              "narrows_scope",
+              "supersedes",
+              "transfers_authority"
+            ],
+            "forbidden_confirmed_count": 0,
+            "confirmed_triplets": []
+          },
+          "ablation_remove_confirmer": {
+            "would_false_fire_without_confirmation": false,
+            "forbidden_proposal_count": 0,
+            "proposal_triplets": []
+          },
+          "ablation_remove_citation_requirement": {
+            "expected_positive": false,
+            "caught": null,
+            "missed": null,
+            "negative_passed": true,
+            "forbidden_types": [
+              "contradicts",
+              "narrows_scope",
+              "supersedes",
+              "transfers_authority"
+            ],
+            "forbidden_confirmed_count": 0,
+            "confirmed_triplets": []
+          },
+          "lexical_baseline_current_detector": {
+            "finding_types": [
+              "stale_instruction",
+              "missing_authority_layer"
+            ],
+            "stale_instruction_count": 1,
+            "missing_authority_layer": true
+          },
+          "raw_output": "```json\n{\n  \"proposals\": []\n}\n```"
+        },
+        {
+          "case_id": "path_a_v1_topic_mention_changelog_history",
+          "class": "topic_mention_negative",
+          "malformed": false,
+          "malformed_reasons": [],
+          "proposal_count": 0,
+          "proposals": [],
+          "confirmed_findings": [],
+          "needs_human_judgment": [],
+          "score": {
+            "expected_positive": false,
+            "caught": null,
+            "missed": null,
+            "negative_passed": true,
+            "forbidden_types": [
+              "contradicts",
+              "narrows_scope",
+              "supersedes",
+              "transfers_authority"
+            ],
+            "forbidden_confirmed_count": 0,
+            "confirmed_triplets": []
+          },
+          "ablation_remove_confirmer": {
+            "would_false_fire_without_confirmation": false,
+            "forbidden_proposal_count": 0,
+            "proposal_triplets": []
+          },
+          "ablation_remove_citation_requirement": {
+            "expected_positive": false,
+            "caught": null,
+            "missed": null,
+            "negative_passed": true,
+            "forbidden_types": [
+              "contradicts",
+              "narrows_scope",
+              "supersedes",
+              "transfers_authority"
+            ],
+            "forbidden_confirmed_count": 0,
+            "confirmed_triplets": []
+          },
+          "lexical_baseline_current_detector": {
+            "finding_types": [
+              "stale_instruction",
+              "stale_instruction",
+              "missing_authority_layer"
+            ],
+            "stale_instruction_count": 2,
+            "missing_authority_layer": true
+          },
+          "raw_output": "```json\n{\n  \"proposals\": []\n}\n```"
+        },
+        {
+          "case_id": "path_a_v1_topic_mention_research_abstract",
+          "class": "topic_mention_negative",
+          "malformed": false,
+          "malformed_reasons": [],
+          "proposal_count": 0,
+          "proposals": [],
+          "confirmed_findings": [],
+          "needs_human_judgment": [],
+          "score": {
+            "expected_positive": false,
+            "caught": null,
+            "missed": null,
+            "negative_passed": true,
+            "forbidden_types": [
+              "contradicts",
+              "narrows_scope",
+              "supersedes",
+              "transfers_authority"
+            ],
+            "forbidden_confirmed_count": 0,
+            "confirmed_triplets": []
+          },
+          "ablation_remove_confirmer": {
+            "would_false_fire_without_confirmation": false,
+            "forbidden_proposal_count": 0,
+            "proposal_triplets": []
+          },
+          "ablation_remove_citation_requirement": {
+            "expected_positive": false,
+            "caught": null,
+            "missed": null,
+            "negative_passed": true,
+            "forbidden_types": [
+              "contradicts",
+              "narrows_scope",
+              "supersedes",
+              "transfers_authority"
+            ],
+            "forbidden_confirmed_count": 0,
+            "confirmed_triplets": []
+          },
+          "lexical_baseline_current_detector": {
+            "finding_types": [
+              "stale_instruction",
+              "missing_authority_layer"
+            ],
+            "stale_instruction_count": 1,
+            "missing_authority_layer": true
+          },
+          "raw_output": "```json\n{\n  \"proposals\": []\n}\n```"
+        },
+        {
+          "case_id": "path_a_v1_restatement_export_approval",
+          "class": "restatement_negative",
+          "malformed": false,
+          "malformed_reasons": [],
+          "proposal_count": 0,
+          "proposals": [],
+          "confirmed_findings": [],
+          "needs_human_judgment": [],
+          "score": {
+            "expected_positive": false,
+            "caught": null,
+            "missed": null,
+            "negative_passed": true,
+            "forbidden_types": [
+              "contradicts",
+              "narrows_scope",
+              "supersedes",
+              "transfers_authority"
+            ],
+            "forbidden_confirmed_count": 0,
+            "confirmed_triplets": []
+          },
+          "ablation_remove_confirmer": {
+            "would_false_fire_without_confirmation": false,
+            "forbidden_proposal_count": 0,
+            "proposal_triplets": []
+          },
+          "ablation_remove_citation_requirement": {
+            "expected_positive": false,
+            "caught": null,
+            "missed": null,
+            "negative_passed": true,
+            "forbidden_types": [
+              "contradicts",
+              "narrows_scope",
+              "supersedes",
+              "transfers_authority"
+            ],
+            "forbidden_confirmed_count": 0,
+            "confirmed_triplets": []
+          },
+          "lexical_baseline_current_detector": {
+            "finding_types": [],
+            "stale_instruction_count": 0,
+            "missing_authority_layer": false
+          },
+          "raw_output": "```json\n{\n  \"proposals\": []\n}\n```"
+        },
+        {
+          "case_id": "path_a_v1_restatement_admin_2fa",
+          "class": "restatement_negative",
+          "malformed": false,
+          "malformed_reasons": [],
+          "proposal_count": 0,
+          "proposals": [],
+          "confirmed_findings": [],
+          "needs_human_judgment": [],
+          "score": {
+            "expected_positive": false,
+            "caught": null,
+            "missed": null,
+            "negative_passed": true,
+            "forbidden_types": [
+              "contradicts",
+              "narrows_scope",
+              "supersedes",
+              "transfers_authority"
+            ],
+            "forbidden_confirmed_count": 0,
+            "confirmed_triplets": []
+          },
+          "ablation_remove_confirmer": {
+            "would_false_fire_without_confirmation": false,
+            "forbidden_proposal_count": 0,
+            "proposal_triplets": []
+          },
+          "ablation_remove_citation_requirement": {
+            "expected_positive": false,
+            "caught": null,
+            "missed": null,
+            "negative_passed": true,
+            "forbidden_types": [
+              "contradicts",
+              "narrows_scope",
+              "supersedes",
+              "transfers_authority"
+            ],
+            "forbidden_confirmed_count": 0,
+            "confirmed_triplets": []
+          },
+          "lexical_baseline_current_detector": {
+            "finding_types": [],
+            "stale_instruction_count": 0,
+            "missing_authority_layer": false
+          },
+          "raw_output": "```json\n{\n  \"proposals\": []\n}\n```"
+        },
+        {
+          "case_id": "path_a_v1_coexistence_expenses_vs_talks",
+          "class": "coexistence_negative",
+          "malformed": false,
+          "malformed_reasons": [],
+          "proposal_count": 0,
+          "proposals": [],
+          "confirmed_findings": [],
+          "needs_human_judgment": [],
+          "score": {
+            "expected_positive": false,
+            "caught": null,
+            "missed": null,
+            "negative_passed": true,
+            "forbidden_types": [
+              "contradicts",
+              "narrows_scope",
+              "supersedes",
+              "transfers_authority"
+            ],
+            "forbidden_confirmed_count": 0,
+            "confirmed_triplets": []
+          },
+          "ablation_remove_confirmer": {
+            "would_false_fire_without_confirmation": false,
+            "forbidden_proposal_count": 0,
+            "proposal_triplets": []
+          },
+          "ablation_remove_citation_requirement": {
+            "expected_positive": false,
+            "caught": null,
+            "missed": null,
+            "negative_passed": true,
+            "forbidden_types": [
+              "contradicts",
+              "narrows_scope",
+              "supersedes",
+              "transfers_authority"
+            ],
+            "forbidden_confirmed_count": 0,
+            "confirmed_triplets": []
+          },
+          "lexical_baseline_current_detector": {
+            "finding_types": [],
+            "stale_instruction_count": 0,
+            "missing_authority_layer": false
+          },
+          "raw_output": "```json\n{\n  \"proposals\": []\n}\n```"
+        },
+        {
+          "case_id": "path_a_v2_mention_use_changelog_archive_exporter",
+          "class": "mention_dressed_as_use_negative",
+          "malformed": false,
+          "malformed_reasons": [],
+          "proposal_count": 0,
+          "proposals": [],
+          "confirmed_findings": [],
+          "needs_human_judgment": [],
+          "score": {
+            "expected_positive": false,
+            "caught": null,
+            "missed": null,
+            "negative_passed": true,
+            "forbidden_types": [
+              "contradicts",
+              "narrows_scope",
+              "supersedes",
+              "transfers_authority"
+            ],
+            "forbidden_confirmed_count": 0,
+            "confirmed_triplets": []
+          },
+          "ablation_remove_confirmer": {
+            "would_false_fire_without_confirmation": false,
+            "forbidden_proposal_count": 0,
+            "proposal_triplets": []
+          },
+          "ablation_remove_citation_requirement": {
+            "expected_positive": false,
+            "caught": null,
+            "missed": null,
+            "negative_passed": true,
+            "forbidden_types": [
+              "contradicts",
+              "narrows_scope",
+              "supersedes",
+              "transfers_authority"
+            ],
+            "forbidden_confirmed_count": 0,
+            "confirmed_triplets": []
+          },
+          "lexical_baseline_current_detector": {
+            "finding_types": [
+              "stale_instruction"
+            ],
+            "stale_instruction_count": 1,
+            "missing_authority_layer": false
+          },
+          "raw_output": "```json\n{\n  \"proposals\": []\n}\n```"
+        },
+        {
+          "case_id": "path_a_v2_mention_use_meeting_minutes_vendor_access",
+          "class": "mention_dressed_as_use_negative",
+          "malformed": false,
+          "malformed_reasons": [],
+          "proposal_count": 0,
+          "proposals": [],
+          "confirmed_findings": [],
+          "needs_human_judgment": [],
+          "score": {
+            "expected_positive": false,
+            "caught": null,
+            "missed": null,
+            "negative_passed": true,
+            "forbidden_types": [
+              "contradicts",
+              "narrows_scope",
+              "supersedes",
+              "transfers_authority"
+            ],
+            "forbidden_confirmed_count": 0,
+            "confirmed_triplets": []
+          },
+          "ablation_remove_confirmer": {
+            "would_false_fire_without_confirmation": false,
+            "forbidden_proposal_count": 0,
+            "proposal_triplets": []
+          },
+          "ablation_remove_citation_requirement": {
+            "expected_positive": false,
+            "caught": null,
+            "missed": null,
+            "negative_passed": true,
+            "forbidden_types": [
+              "contradicts",
+              "narrows_scope",
+              "supersedes",
+              "transfers_authority"
+            ],
+            "forbidden_confirmed_count": 0,
+            "confirmed_triplets": []
+          },
+          "lexical_baseline_current_detector": {
+            "finding_types": [],
+            "stale_instruction_count": 0,
+            "missing_authority_layer": false
+          },
+          "raw_output": "```json\n{\n  \"proposals\": []\n}\n```"
+        },
+        {
+          "case_id": "path_a_v2_mention_use_quoted_draft_incident_page",
+          "class": "mention_dressed_as_use_negative",
+          "malformed": false,
+          "malformed_reasons": [],
+          "proposal_count": 0,
+          "proposals": [],
+          "confirmed_findings": [],
+          "needs_human_judgment": [],
+          "score": {
+            "expected_positive": false,
+            "caught": null,
+            "missed": null,
+            "negative_passed": true,
+            "forbidden_types": [
+              "contradicts",
+              "narrows_scope",
+              "supersedes",
+              "transfers_authority"
+            ],
+            "forbidden_confirmed_count": 0,
+            "confirmed_triplets": []
+          },
+          "ablation_remove_confirmer": {
+            "would_false_fire_without_confirmation": false,
+            "forbidden_proposal_count": 0,
+            "proposal_triplets": []
+          },
+          "ablation_remove_citation_requirement": {
+            "expected_positive": false,
+            "caught": null,
+            "missed": null,
+            "negative_passed": true,
+            "forbidden_types": [
+              "contradicts",
+              "narrows_scope",
+              "supersedes",
+              "transfers_authority"
+            ],
+            "forbidden_confirmed_count": 0,
+            "confirmed_triplets": []
+          },
+          "lexical_baseline_current_detector": {
+            "finding_types": [],
+            "stale_instruction_count": 0,
+            "missing_authority_layer": false
+          },
+          "raw_output": "```json\n{\n  \"proposals\": []\n}\n```"
+        },
+        {
+          "case_id": "path_a_v2_proximity_trap_expense_approval",
+          "class": "proximity_trap_negative",
+          "malformed": false,
+          "malformed_reasons": [],
+          "proposal_count": 0,
+          "proposals": [],
+          "confirmed_findings": [],
+          "needs_human_judgment": [],
+          "score": {
+            "expected_positive": false,
+            "caught": null,
+            "missed": null,
+            "negative_passed": true,
+            "forbidden_types": [
+              "contradicts",
+              "narrows_scope",
+              "supersedes",
+              "transfers_authority"
+            ],
+            "forbidden_confirmed_count": 0,
+            "confirmed_triplets": []
+          },
+          "ablation_remove_confirmer": {
+            "would_false_fire_without_confirmation": false,
+            "forbidden_proposal_count": 0,
+            "proposal_triplets": []
+          },
+          "ablation_remove_citation_requirement": {
+            "expected_positive": false,
+            "caught": null,
+            "missed": null,
+            "negative_passed": true,
+            "forbidden_types": [
+              "contradicts",
+              "narrows_scope",
+              "supersedes",
+              "transfers_authority"
+            ],
+            "forbidden_confirmed_count": 0,
+            "confirmed_triplets": []
+          },
+          "lexical_baseline_current_detector": {
+            "finding_types": [],
+            "stale_instruction_count": 0,
+            "missing_authority_layer": false
+          },
+          "raw_output": "```json\n{\n  \"proposals\": []\n}\n```"
+        },
+        {
+          "case_id": "path_a_v2_proximity_trap_weekly_updates",
+          "class": "proximity_trap_negative",
+          "malformed": false,
+          "malformed_reasons": [],
+          "proposal_count": 1,
+          "proposals": [
+            {
+              "type": "narrows_scope",
+              "source_item_id": "M002",
+              "target_item_id": "M001",
+              "cited_evidence_span": "the Friday deadline applies only to weekly status updates",
+              "scope_terms": [
+                "weekly status updates",
+                "Friday deadline"
+              ],
+              "rationale": "M002 explicitly restricts the Friday deadline rule in M001 to weekly status updates only, clarifying it does not extend to monthly reports, thereby narrowing the scope of M001's applicability.",
+              "confidence": 0.85
+            }
+          ],
+          "confirmed_findings": [
+            {
+              "type": "semantic_authority_change",
+              "relation_type": "narrows_scope",
+              "source_item_id": "M002",
+              "target_item_id": "M001",
+              "cited_evidence_span": "the Friday deadline applies only to weekly status updates",
+              "evidence": "Reminder: the Friday deadline applies only to weekly status updates; the monthly report timeline is separate and stays on the finance calendar as before.",
+              "target": "Weekly status updates must be posted to the team channel by Friday.",
+              "scope_terms": [
+                "weekly status updates",
+                "Friday deadline"
+              ],
+              "confidence": 0.85,
+              "relation_span": null
+            }
+          ],
+          "needs_human_judgment": [],
+          "score": {
+            "expected_positive": false,
+            "caught": null,
+            "missed": null,
+            "negative_passed": false,
+            "forbidden_types": [
+              "contradicts",
+              "narrows_scope",
+              "supersedes",
+              "transfers_authority"
+            ],
+            "forbidden_confirmed_count": 1,
+            "confirmed_triplets": [
+              [
+                "narrows_scope",
+                "M002",
+                "M001"
+              ]
+            ]
+          },
+          "ablation_remove_confirmer": {
+            "would_false_fire_without_confirmation": true,
+            "forbidden_proposal_count": 1,
+            "proposal_triplets": [
+              [
+                "narrows_scope",
+                "M002",
+                "M001"
+              ]
+            ]
+          },
+          "ablation_remove_citation_requirement": {
+            "expected_positive": false,
+            "caught": null,
+            "missed": null,
+            "negative_passed": false,
+            "forbidden_types": [
+              "contradicts",
+              "narrows_scope",
+              "supersedes",
+              "transfers_authority"
+            ],
+            "forbidden_confirmed_count": 1,
+            "confirmed_triplets": [
+              [
+                "narrows_scope",
+                "M002",
+                "M001"
+              ]
+            ]
+          },
+          "lexical_baseline_current_detector": {
+            "finding_types": [],
+            "stale_instruction_count": 0,
+            "missing_authority_layer": false
+          },
+          "raw_output": "```json\n{\n  \"proposals\": [\n    {\n      \"type\": \"narrows_scope\",\n      \"source_item_id\": \"M002\",\n      \"target_item_id\": \"M001\",\n      \"cited_evidence_span\": \"the Friday deadline applies only to weekly status updates\",\n      \"scope_terms\": [\"weekly status updates\", \"Friday deadline\"],\n      \"rationale\": \"M002 explicitly restricts the Friday deadline rule in M001 to weekly status updates only, clarifying it does not extend to monthly reports, thereby narrowing the scope of M001's applicability.\",\n      \"confidence\": 0.85\n    }\n  ]\n}\n```"
+        }
+      ]
+    },
+    {
+      "engine": "local_llama3.2",
+      "summary": {
+        "cases": 23,
+        "positives": 12,
+        "positives_caught": 1,
+        "positives_caught_direction": 5,
+        "positive_misses": 11,
+        "negatives": 11,
+        "negatives_passed": 6,
+        "negative_false_fires": 5,
+        "malformed_cases": 2,
+        "remove_confirmer_negative_false_fires": 10,
+        "remove_citation_negative_false_fires": 6
+      },
+      "cases": [
+        {
+          "case_id": "path_a_v1_supersession_backup_retention",
+          "class": "supersession",
+          "malformed": false,
+          "malformed_reasons": [],
+          "proposal_count": 1,
+          "proposals": [
+            {
+              "type": "supersedes",
+              "source_item_id": "M002",
+              "target_item_id": "M001",
+              "cited_evidence_span": "\"Effective this quarter the old retention rule is replaced: nightly backups are kept for 90 days in the cloud archive, and the legacy NAS copies are discontinued.\"",
+              "scope_terms": [
+                "retention rule",
+                "cloud archive"
+              ],
+              "rationale": "old policy no longer applies due to new rule",
+              "confidence": 0.9
+            }
+          ],
+          "confirmed_findings": [],
+          "needs_human_judgment": [
+            {
+              "proposal": {
+                "type": "supersedes",
+                "source_item_id": "M002",
+                "target_item_id": "M001",
+                "cited_evidence_span": "\"Effective this quarter the old retention rule is replaced: nightly backups are kept for 90 days in the cloud archive, and the legacy NAS copies are discontinued.\"",
+                "scope_terms": [
+                  "retention rule",
+                  "cloud archive"
+                ],
+                "rationale": "old policy no longer applies due to new rule",
+                "confidence": 0.9
+              },
+              "reasons": [
+                "missing or empty evidence citation",
+                "no deterministic scope overlap between source and target"
+              ]
+            }
+          ],
+          "score": {
+            "expected_positive": true,
+            "caught": false,
+            "direction_caught": false,
+            "missed": true,
+            "negative_passed": null,
+            "expected_triplets": [
+              [
+                "supersedes",
+                "M002",
+                "M001"
+              ]
+            ],
+            "confirmed_triplets": []
+          },
+          "ablation_remove_confirmer": {
+            "would_count_as_caught_without_confirmation": true,
+            "proposal_triplets": [
+              [
+                "supersedes",
+                "M002",
+                "M001"
+              ]
+            ]
+          },
+          "ablation_remove_citation_requirement": {
+            "expected_positive": true,
+            "caught": false,
+            "direction_caught": false,
+            "missed": true,
+            "negative_passed": null,
+            "expected_triplets": [
+              [
+                "supersedes",
+                "M002",
+                "M001"
+              ]
+            ],
+            "confirmed_triplets": []
+          },
+          "lexical_baseline_current_detector": {
+            "finding_types": [],
+            "stale_instruction_count": 0,
+            "missing_authority_layer": false
+          },
+          "raw_output": "{\n  \"proposals\": [\n    {\n      \"type\": \"supersedes\",\n      \"source_item_id\": \"M002\",\n      \"target_item_id\": \"M001\",\n      \"cited_evidence_span\": \"\\\"Effective this quarter the old retention rule is replaced: nightly backups are kept for 90 days in the cloud archive, and the legacy NAS copies are discontinued.\\\"\",\n      \"scope_terms\": [\"retention rule\", \"cloud archive\"],\n      \"rationale\": \"old policy no longer applies due to new rule\",\n      \"confidence\": 0.9\n    }\n  ]\n}"
+        },
+        {
+          "case_id": "path_a_v1_supersession_api_key_rotation",
+          "class": "supersession",
+          "malformed": false,
+          "malformed_reasons": [],
+          "proposal_count": 1,
+          "proposals": [
+            {
+              "type": "supersedes",
+              "source_item_id": "M002",
+              "target_item_id": "M001",
+              "cited_evidence_span": "now rotate automatically every 30 days through the secrets manager.",
+              "scope_terms": [
+                "Secrets Handling"
+              ],
+              "rationale": "Manual quarterly rotation is no longer needed",
+              "confidence": 0.8
+            }
+          ],
+          "confirmed_findings": [],
+          "needs_human_judgment": [
+            {
+              "proposal": {
+                "type": "supersedes",
+                "source_item_id": "M002",
+                "target_item_id": "M001",
+                "cited_evidence_span": "now rotate automatically every 30 days through the secrets manager.",
+                "scope_terms": [
+                  "Secrets Handling"
+                ],
+                "rationale": "Manual quarterly rotation is no longer needed",
+                "confidence": 0.8
+              },
+              "reasons": [
+                "no deterministic scope overlap between source and target"
+              ]
+            }
+          ],
+          "score": {
+            "expected_positive": true,
+            "caught": false,
+            "direction_caught": false,
+            "missed": true,
+            "negative_passed": null,
+            "expected_triplets": [
+              [
+                "supersedes",
+                "M002",
+                "M001"
+              ]
+            ],
+            "confirmed_triplets": []
+          },
+          "ablation_remove_confirmer": {
+            "would_count_as_caught_without_confirmation": true,
+            "proposal_triplets": [
+              [
+                "supersedes",
+                "M002",
+                "M001"
+              ]
+            ]
+          },
+          "ablation_remove_citation_requirement": {
+            "expected_positive": true,
+            "caught": false,
+            "direction_caught": false,
+            "missed": true,
+            "negative_passed": null,
+            "expected_triplets": [
+              [
+                "supersedes",
+                "M002",
+                "M001"
+              ]
+            ],
+            "confirmed_triplets": []
+          },
+          "lexical_baseline_current_detector": {
+            "finding_types": [
+              "missing_authority_layer"
+            ],
+            "stale_instruction_count": 0,
+            "missing_authority_layer": true
+          },
+          "raw_output": "{\n  \"proposals\": [\n    {\n      \"type\": \"supersedes\",\n      \"source_item_id\": \"M002\",\n      \"target_item_id\": \"M001\",\n      \"cited_evidence_span\": \"now rotate automatically every 30 days through the secrets manager.\",\n      \"scope_terms\": [\"Secrets Handling\"],\n      \"rationale\": \"Manual quarterly rotation is no longer needed\",\n      \"confidence\": 0.8\n    }\n  ]\n}"
+        },
+        {
+          "case_id": "path_a_v1_supersession_sync_notes_location",
+          "class": "supersession",
+          "malformed": false,
+          "malformed_reasons": [],
+          "proposal_count": 1,
+          "proposals": [
+            {
+              "type": "supersedes",
+              "source_item_id": "M002",
+              "target_item_id": "M001",
+              "cited_evidence_span": "posting sync notes to the shared drive is deprecated.",
+              "scope_terms": [
+                "project wiki",
+                "sync notes"
+              ],
+              "rationale": "Outdated posting method",
+              "confidence": 0.7
+            }
+          ],
+          "confirmed_findings": [
+            {
+              "type": "semantic_authority_change",
+              "relation_type": "supersedes",
+              "source_item_id": "M002",
+              "target_item_id": "M001",
+              "cited_evidence_span": "posting sync notes to the shared drive is deprecated.",
+              "evidence": "Update: posting sync notes to the shared drive is deprecated. Weekly sync notes must be posted to the project wiki instead.",
+              "target": "Weekly sync notes are posted to the shared drive folder for the whole team to read.",
+              "scope_terms": [
+                "project wiki",
+                "sync notes"
+              ],
+              "confidence": 0.7,
+              "relation_span": null
+            }
+          ],
+          "needs_human_judgment": [],
+          "score": {
+            "expected_positive": true,
+            "caught": true,
+            "direction_caught": true,
+            "missed": false,
+            "negative_passed": null,
+            "expected_triplets": [
+              [
+                "supersedes",
+                "M002",
+                "M001"
+              ]
+            ],
+            "confirmed_triplets": [
+              [
+                "supersedes",
+                "M002",
+                "M001"
+              ]
+            ]
+          },
+          "ablation_remove_confirmer": {
+            "would_count_as_caught_without_confirmation": true,
+            "proposal_triplets": [
+              [
+                "supersedes",
+                "M002",
+                "M001"
+              ]
+            ]
+          },
+          "ablation_remove_citation_requirement": {
+            "expected_positive": true,
+            "caught": true,
+            "direction_caught": true,
+            "missed": false,
+            "negative_passed": null,
+            "expected_triplets": [
+              [
+                "supersedes",
+                "M002",
+                "M001"
+              ]
+            ],
+            "confirmed_triplets": [
+              [
+                "supersedes",
+                "M002",
+                "M001"
+              ]
+            ]
+          },
+          "lexical_baseline_current_detector": {
+            "finding_types": [
+              "stale_instruction",
+              "missing_authority_layer"
+            ],
+            "stale_instruction_count": 1,
+            "missing_authority_layer": true
+          },
+          "raw_output": "{\n  \"proposals\": [\n    {\n      \"type\": \"supersedes\",\n      \"source_item_id\": \"M002\",\n      \"target_item_id\": \"M001\",\n      \"cited_evidence_span\": \"posting sync notes to the shared drive is deprecated.\",\n      \"scope_terms\": [\"project wiki\", \"sync notes\"],\n      \"rationale\": \"Outdated posting method\",\n      \"confidence\": 0.7\n    }\n  ]\n}"
+        },
+        {
+          "case_id": "path_a_v1_scope_narrowing_refund_limit",
+          "class": "scope_narrowing",
+          "malformed": false,
+          "malformed_reasons": [],
+          "proposal_count": 1,
+          "proposals": [
+            {
+              "type": "supersedes",
+              "source_item_id": "M002",
+              "target_item_id": "M001",
+              "cited_evidence_span": "Support agents may issue refunds only up to 50 dollars on their own, and anything higher requires a team lead's approval.",
+              "scope_terms": [
+                "refunds",
+                "support agents"
+              ],
+              "rationale": "Revised policy supersedes the original one",
+              "confidence": 0.99
+            }
+          ],
+          "confirmed_findings": [
+            {
+              "type": "semantic_authority_change",
+              "relation_type": "supersedes",
+              "source_item_id": "M002",
+              "target_item_id": "M001",
+              "cited_evidence_span": "Support agents may issue refunds only up to 50 dollars on their own, and anything higher requires a team lead's approval.",
+              "evidence": "Revised policy: support agents may issue refunds only up to 50 dollars on their own, and anything higher requires a team lead's approval.",
+              "target": "Support agents may issue refunds up to 200 dollars at their own discretion.",
+              "scope_terms": [
+                "refunds",
+                "support agents"
+              ],
+              "confidence": 0.99,
+              "relation_span": null
+            }
+          ],
+          "needs_human_judgment": [],
+          "score": {
+            "expected_positive": true,
+            "caught": false,
+            "direction_caught": true,
+            "missed": true,
+            "negative_passed": null,
+            "expected_triplets": [
+              [
+                "narrows_scope",
+                "M002",
+                "M001"
+              ]
+            ],
+            "confirmed_triplets": [
+              [
+                "supersedes",
+                "M002",
+                "M001"
+              ]
+            ]
+          },
+          "ablation_remove_confirmer": {
+            "would_count_as_caught_without_confirmation": false,
+            "proposal_triplets": [
+              [
+                "supersedes",
+                "M002",
+                "M001"
+              ]
+            ]
+          },
+          "ablation_remove_citation_requirement": {
+            "expected_positive": true,
+            "caught": false,
+            "direction_caught": true,
+            "missed": true,
+            "negative_passed": null,
+            "expected_triplets": [
+              [
+                "narrows_scope",
+                "M002",
+                "M001"
+              ]
+            ],
+            "confirmed_triplets": [
+              [
+                "supersedes",
+                "M002",
+                "M001"
+              ]
+            ]
+          },
+          "lexical_baseline_current_detector": {
+            "finding_types": [],
+            "stale_instruction_count": 0,
+            "missing_authority_layer": false
+          },
+          "raw_output": "{\n  \"proposals\": [\n    {\n      \"type\": \"supersedes\",\n      \"source_item_id\": \"M002\",\n      \"target_item_id\": \"M001\",\n      \"cited_evidence_span\": \"Support agents may issue refunds only up to 50 dollars on their own, and anything higher requires a team lead's approval.\",\n      \"scope_terms\": [\"refunds\", \"support agents\"],\n      \"rationale\": \"Revised policy supersedes the original one\",\n      \"confidence\": 0.99\n    }\n  ]\n}"
+        },
+        {
+          "case_id": "path_a_v1_scope_narrowing_prod_db_access",
+          "class": "scope_narrowing",
+          "malformed": false,
+          "malformed_reasons": [],
+          "proposal_count": 1,
+          "proposals": [
+            {
+              "type": "supersedes",
+              "source_item_id": "M002",
+              "target_item_id": "M001",
+              "cited_evidence_span": "backend engineers may query only the read replica of the production database, and only during an active incident.",
+              "scope_terms": [
+                "database access",
+                "incident response"
+              ],
+              "rationale": "Tighter rule for backend engineers during incidents",
+              "confidence": 0.72
+            }
+          ],
+          "confirmed_findings": [],
+          "needs_human_judgment": [
+            {
+              "proposal": {
+                "type": "supersedes",
+                "source_item_id": "M002",
+                "target_item_id": "M001",
+                "cited_evidence_span": "backend engineers may query only the read replica of the production database, and only during an active incident.",
+                "scope_terms": [
+                  "database access",
+                  "incident response"
+                ],
+                "rationale": "Tighter rule for backend engineers during incidents",
+                "confidence": 0.72
+              },
+              "reasons": [
+                "no deterministic scope overlap between source and target"
+              ]
+            }
+          ],
+          "score": {
+            "expected_positive": true,
+            "caught": false,
+            "direction_caught": false,
+            "missed": true,
+            "negative_passed": null,
+            "expected_triplets": [
+              [
+                "narrows_scope",
+                "M002",
+                "M001"
+              ]
+            ],
+            "confirmed_triplets": []
+          },
+          "ablation_remove_confirmer": {
+            "would_count_as_caught_without_confirmation": false,
+            "proposal_triplets": [
+              [
+                "supersedes",
+                "M002",
+                "M001"
+              ]
+            ]
+          },
+          "ablation_remove_citation_requirement": {
+            "expected_positive": true,
+            "caught": false,
+            "direction_caught": false,
+            "missed": true,
+            "negative_passed": null,
+            "expected_triplets": [
+              [
+                "narrows_scope",
+                "M002",
+                "M001"
+              ]
+            ],
+            "confirmed_triplets": []
+          },
+          "lexical_baseline_current_detector": {
+            "finding_types": [
+              "missing_authority_layer"
+            ],
+            "stale_instruction_count": 0,
+            "missing_authority_layer": true
+          },
+          "raw_output": "{\n  \"proposals\": [\n    {\n      \"type\": \"supersedes\",\n      \"source_item_id\": \"M002\",\n      \"target_item_id\": \"M001\",\n      \"cited_evidence_span\": \"backend engineers may query only the read replica of the production database, and only during an active incident.\",\n      \"scope_terms\": [\"database access\", \"incident response\"],\n      \"rationale\": \"Tighter rule for backend engineers during incidents\",\n      \"confidence\": 0.72\n    }\n  ]\n}"
+        },
+        {
+          "case_id": "path_a_v1_scope_narrowing_social_posting",
+          "class": "scope_narrowing",
+          "malformed": false,
+          "malformed_reasons": [],
+          "proposal_count": 1,
+          "proposals": [
+            {
+              "type": "supersedes",
+              "source_item_id": "M002",
+              "target_item_id": "M001",
+              "cited_evidence_span": "may publish only pre-approved drafts to the company social accounts, never original posts.",
+              "scope_terms": [
+                "marketing social media publishing"
+              ],
+              "rationale": "Changes in marketing policy for social media publication",
+              "confidence": 0.72
+            }
+          ],
+          "confirmed_findings": [],
+          "needs_human_judgment": [
+            {
+              "proposal": {
+                "type": "supersedes",
+                "source_item_id": "M002",
+                "target_item_id": "M001",
+                "cited_evidence_span": "may publish only pre-approved drafts to the company social accounts, never original posts.",
+                "scope_terms": [
+                  "marketing social media publishing"
+                ],
+                "rationale": "Changes in marketing policy for social media publication",
+                "confidence": 0.72
+              },
+              "reasons": [
+                "no deterministic scope overlap between source and target"
+              ]
+            }
+          ],
+          "score": {
+            "expected_positive": true,
+            "caught": false,
+            "direction_caught": false,
+            "missed": true,
+            "negative_passed": null,
+            "expected_triplets": [
+              [
+                "narrows_scope",
+                "M002",
+                "M001"
+              ]
+            ],
+            "confirmed_triplets": []
+          },
+          "ablation_remove_confirmer": {
+            "would_count_as_caught_without_confirmation": false,
+            "proposal_triplets": [
+              [
+                "supersedes",
+                "M002",
+                "M001"
+              ]
+            ]
+          },
+          "ablation_remove_citation_requirement": {
+            "expected_positive": true,
+            "caught": false,
+            "direction_caught": false,
+            "missed": true,
+            "negative_passed": null,
+            "expected_triplets": [
+              [
+                "narrows_scope",
+                "M002",
+                "M001"
+              ]
+            ],
+            "confirmed_triplets": []
+          },
+          "lexical_baseline_current_detector": {
+            "finding_types": [],
+            "stale_instruction_count": 0,
+            "missing_authority_layer": false
+          },
+          "raw_output": "{\n  \"proposals\": [\n    {\n      \"type\": \"supersedes\",\n      \"source_item_id\": \"M002\",\n      \"target_item_id\": \"M001\",\n      \"cited_evidence_span\": \"may publish only pre-approved drafts to the company social accounts, never original posts.\",\n      \"scope_terms\": [\"marketing social media publishing\"],\n      \"rationale\": \"Changes in marketing policy for social media publication\",\n      \"confidence\": 0.72\n    }\n  ]\n}"
+        },
+        {
+          "case_id": "path_a_v1_contradiction_logging_pii",
+          "class": "direct_contradiction",
+          "malformed": true,
+          "malformed_reasons": [
+            "proposer returned non-json output"
+          ],
+          "proposal_count": 0,
+          "proposals": [],
+          "confirmed_findings": [],
+          "needs_human_judgment": [],
+          "score": {
+            "expected_positive": true,
+            "caught": false,
+            "direction_caught": false,
+            "missed": true,
+            "negative_passed": null,
+            "expected_triplets": [
+              [
+                "contradicts",
+                "M002",
+                "M001"
+              ]
+            ],
+            "confirmed_triplets": []
+          },
+          "ablation_remove_confirmer": {
+            "would_count_as_caught_without_confirmation": false,
+            "proposal_triplets": []
+          },
+          "ablation_remove_citation_requirement": {
+            "expected_positive": true,
+            "caught": false,
+            "direction_caught": false,
+            "missed": true,
+            "negative_passed": null,
+            "expected_triplets": [
+              [
+                "contradicts",
+                "M002",
+                "M001"
+              ]
+            ],
+            "confirmed_triplets": []
+          },
+          "lexical_baseline_current_detector": {
+            "finding_types": [],
+            "stale_instruction_count": 0,
+            "missing_authority_layer": false
+          },
+          "raw_output": "{\n  \"proposals\": [\n    {\n      \"type\": \"supersedes\",\n      \"source_item_id\": \"M002\",\n      \"target_item_id\": \"M001\",\n      \"cited_evidence_span\": \"must never be written to request logs\",\n      \"scope_terms\": [\"customer email\", \"request logs\"],\n      \"rationale\": \"The target item restricts the source item's requirement.\",\n      \"confidence\": 0.92\n    }\n  ]"
+        },
+        {
+          "case_id": "path_a_v1_contradiction_friday_deploys",
+          "class": "direct_contradiction",
+          "malformed": false,
+          "malformed_reasons": [],
+          "proposal_count": 1,
+          "proposals": [
+            {
+              "type": "supersedes",
+              "source_item_id": "M002",
+              "target_item_id": "M001",
+              "cited_evidence_span": "Production deploys are forbidden on Fridays; schedule them Monday through Thursday only.",
+              "scope_terms": [
+                "Release Practices",
+                "Deployment Schedule"
+              ],
+              "rationale": "Source item supersedes target item regarding deployment schedule.",
+              "confidence": 0.99
+            }
+          ],
+          "confirmed_findings": [],
+          "needs_human_judgment": [
+            {
+              "proposal": {
+                "type": "supersedes",
+                "source_item_id": "M002",
+                "target_item_id": "M001",
+                "cited_evidence_span": "Production deploys are forbidden on Fridays; schedule them Monday through Thursday only.",
+                "scope_terms": [
+                  "Release Practices",
+                  "Deployment Schedule"
+                ],
+                "rationale": "Source item supersedes target item regarding deployment schedule.",
+                "confidence": 0.99
+              },
+              "reasons": [
+                "no deterministic scope overlap between source and target"
+              ]
+            }
+          ],
+          "score": {
+            "expected_positive": true,
+            "caught": false,
+            "direction_caught": false,
+            "missed": true,
+            "negative_passed": null,
+            "expected_triplets": [
+              [
+                "contradicts",
+                "M002",
+                "M001"
+              ]
+            ],
+            "confirmed_triplets": []
+          },
+          "ablation_remove_confirmer": {
+            "would_count_as_caught_without_confirmation": false,
+            "proposal_triplets": [
+              [
+                "supersedes",
+                "M002",
+                "M001"
+              ]
+            ]
+          },
+          "ablation_remove_citation_requirement": {
+            "expected_positive": true,
+            "caught": false,
+            "direction_caught": false,
+            "missed": true,
+            "negative_passed": null,
+            "expected_triplets": [
+              [
+                "contradicts",
+                "M002",
+                "M001"
+              ]
+            ],
+            "confirmed_triplets": []
+          },
+          "lexical_baseline_current_detector": {
+            "finding_types": [
+              "missing_authority_layer"
+            ],
+            "stale_instruction_count": 0,
+            "missing_authority_layer": true
+          },
+          "raw_output": "{\n  \"proposals\": [\n    {\n      \"type\": \"supersedes\",\n      \"source_item_id\": \"M002\",\n      \"target_item_id\": \"M001\",\n      \"cited_evidence_span\": \"Production deploys are forbidden on Fridays; schedule them Monday through Thursday only.\",\n      \"scope_terms\": [\"Release Practices\", \"Deployment Schedule\"],\n      \"rationale\": \"Source item supersedes target item regarding deployment schedule.\",\n      \"confidence\": 0.99\n    }\n  ]\n}"
+        },
+        {
+          "case_id": "path_a_v1_contradiction_vendor_contact",
+          "class": "direct_contradiction",
+          "malformed": false,
+          "malformed_reasons": [],
+          "proposal_count": 1,
+          "proposals": [
+            {
+              "type": "supersedes",
+              "source_item_id": "M002",
+              "target_item_id": "M001",
+              "cited_evidence_span": "every request goes through the partnerships desk",
+              "scope_terms": [
+                "Vendor Relations",
+                "payments vendor"
+              ],
+              "rationale": "Changes in contact procedure for payments vendor.",
+              "confidence": 0.72
+            }
+          ],
+          "confirmed_findings": [
+            {
+              "type": "semantic_authority_change",
+              "relation_type": "supersedes",
+              "source_item_id": "M002",
+              "target_item_id": "M001",
+              "cited_evidence_span": "every request goes through the partnerships desk",
+              "evidence": "Engineers must not contact the payments vendor directly; every request goes through the partnerships desk.",
+              "target": "Engineers should contact the payments vendor directly whenever an integration question comes up.",
+              "scope_terms": [
+                "Vendor Relations",
+                "payments vendor"
+              ],
+              "confidence": 0.72,
+              "relation_span": null
+            }
+          ],
+          "needs_human_judgment": [],
+          "score": {
+            "expected_positive": true,
+            "caught": false,
+            "direction_caught": true,
+            "missed": true,
+            "negative_passed": null,
+            "expected_triplets": [
+              [
+                "contradicts",
+                "M002",
+                "M001"
+              ]
+            ],
+            "confirmed_triplets": [
+              [
+                "supersedes",
+                "M002",
+                "M001"
+              ]
+            ]
+          },
+          "ablation_remove_confirmer": {
+            "would_count_as_caught_without_confirmation": false,
+            "proposal_triplets": [
+              [
+                "supersedes",
+                "M002",
+                "M001"
+              ]
+            ]
+          },
+          "ablation_remove_citation_requirement": {
+            "expected_positive": true,
+            "caught": false,
+            "direction_caught": true,
+            "missed": true,
+            "negative_passed": null,
+            "expected_triplets": [
+              [
+                "contradicts",
+                "M002",
+                "M001"
+              ]
+            ],
+            "confirmed_triplets": [
+              [
+                "supersedes",
+                "M002",
+                "M001"
+              ]
+            ]
+          },
+          "lexical_baseline_current_detector": {
+            "finding_types": [],
+            "stale_instruction_count": 0,
+            "missing_authority_layer": false
+          },
+          "raw_output": "{\n  \"proposals\": [\n    {\n      \"type\": \"supersedes\",\n      \"source_item_id\": \"M002\",\n      \"target_item_id\": \"M001\",\n      \"cited_evidence_span\": \"every request goes through the partnerships desk\",\n      \"scope_terms\": [\"Vendor Relations\", \"payments vendor\"],\n      \"rationale\": \"Changes in contact procedure for payments vendor.\",\n      \"confidence\": 0.72\n    }\n  ]\n}"
+        },
+        {
+          "case_id": "path_a_v1_transfer_incident_severity",
+          "class": "authority_transfer",
+          "malformed": false,
+          "malformed_reasons": [],
+          "proposal_count": 1,
+          "proposals": [
+            {
+              "type": "supersedes",
+              "source_item_id": "M002",
+              "target_item_id": "M001",
+              "cited_evidence_span": "After the process review, only the incident commander declares incident severity.",
+              "scope_terms": [
+                "incident severity",
+                "incident commander"
+              ],
+              "rationale": "The source item describes a shift in authority from on-call engineer to incident commander.",
+              "confidence": 0.8
+            }
+          ],
+          "confirmed_findings": [
+            {
+              "type": "semantic_authority_change",
+              "relation_type": "supersedes",
+              "source_item_id": "M002",
+              "target_item_id": "M001",
+              "cited_evidence_span": "After the process review, only the incident commander declares incident severity.",
+              "evidence": "After the process review, only the incident commander declares incident severity. The on-call engineer reports symptoms but no longer makes the call.",
+              "target": "The on-call engineer declares incident severity when an outage begins.",
+              "scope_terms": [
+                "incident severity",
+                "incident commander"
+              ],
+              "confidence": 0.8,
+              "relation_span": null
+            }
+          ],
+          "needs_human_judgment": [],
+          "score": {
+            "expected_positive": true,
+            "caught": false,
+            "direction_caught": true,
+            "missed": true,
+            "negative_passed": null,
+            "expected_triplets": [
+              [
+                "transfers_authority",
+                "M002",
+                "M001"
+              ]
+            ],
+            "confirmed_triplets": [
+              [
+                "supersedes",
+                "M002",
+                "M001"
+              ]
+            ]
+          },
+          "ablation_remove_confirmer": {
+            "would_count_as_caught_without_confirmation": false,
+            "proposal_triplets": [
+              [
+                "supersedes",
+                "M002",
+                "M001"
+              ]
+            ]
+          },
+          "ablation_remove_citation_requirement": {
+            "expected_positive": true,
+            "caught": false,
+            "direction_caught": true,
+            "missed": true,
+            "negative_passed": null,
+            "expected_triplets": [
+              [
+                "transfers_authority",
+                "M002",
+                "M001"
+              ]
+            ],
+            "confirmed_triplets": [
+              [
+                "supersedes",
+                "M002",
+                "M001"
+              ]
+            ]
+          },
+          "lexical_baseline_current_detector": {
+            "finding_types": [
+              "missing_authority_layer"
+            ],
+            "stale_instruction_count": 0,
+            "missing_authority_layer": true
+          },
+          "raw_output": "{\n  \"proposals\": [\n    {\n      \"type\": \"supersedes\",\n      \"source_item_id\": \"M002\",\n      \"target_item_id\": \"M001\",\n      \"cited_evidence_span\": \"After the process review, only the incident commander declares incident severity.\",\n      \"scope_terms\": [\"incident severity\", \"incident commander\"],\n      \"rationale\": \"The source item describes a shift in authority from on-call engineer to incident commander.\",\n      \"confidence\": 0.8\n    }\n  ]\n}"
+        },
+        {
+          "case_id": "path_a_v1_transfer_purchase_approval",
+          "class": "authority_transfer",
+          "malformed": false,
+          "malformed_reasons": [],
+          "proposal_count": 1,
+          "proposals": [
+            {
+              "type": "supersedes",
+              "source_item_id": "M002",
+              "target_item_id": "M001",
+              "cited_evidence_span": "\"the finance office now approves all software purchases from the tools budget.\"",
+              "scope_terms": [
+                "tools budget",
+                "software purchases"
+              ],
+              "rationale": "The target item's scope is a subset of the source item's scope and describes the specific authority change.",
+              "confidence": 0.9
+            }
+          ],
+          "confirmed_findings": [],
+          "needs_human_judgment": [
+            {
+              "proposal": {
+                "type": "supersedes",
+                "source_item_id": "M002",
+                "target_item_id": "M001",
+                "cited_evidence_span": "\"the finance office now approves all software purchases from the tools budget.\"",
+                "scope_terms": [
+                  "tools budget",
+                  "software purchases"
+                ],
+                "rationale": "The target item's scope is a subset of the source item's scope and describes the specific authority change.",
+                "confidence": 0.9
+              },
+              "reasons": [
+                "missing or empty evidence citation"
+              ]
+            }
+          ],
+          "score": {
+            "expected_positive": true,
+            "caught": false,
+            "direction_caught": false,
+            "missed": true,
+            "negative_passed": null,
+            "expected_triplets": [
+              [
+                "transfers_authority",
+                "M002",
+                "M001"
+              ]
+            ],
+            "confirmed_triplets": []
+          },
+          "ablation_remove_confirmer": {
+            "would_count_as_caught_without_confirmation": false,
+            "proposal_triplets": [
+              [
+                "supersedes",
+                "M002",
+                "M001"
+              ]
+            ]
+          },
+          "ablation_remove_citation_requirement": {
+            "expected_positive": true,
+            "caught": false,
+            "direction_caught": true,
+            "missed": true,
+            "negative_passed": null,
+            "expected_triplets": [
+              [
+                "transfers_authority",
+                "M002",
+                "M001"
+              ]
+            ],
+            "confirmed_triplets": [
+              [
+                "supersedes",
+                "M002",
+                "M001"
+              ]
+            ]
+          },
+          "lexical_baseline_current_detector": {
+            "finding_types": [],
+            "stale_instruction_count": 0,
+            "missing_authority_layer": false
+          },
+          "raw_output": "{\n  \"proposals\": [\n    {\n      \"type\": \"supersedes\",\n      \"source_item_id\": \"M002\",\n      \"target_item_id\": \"M001\",\n      \"cited_evidence_span\": \"\\\"the finance office now approves all software purchases from the tools budget.\\\"\",\n      \"scope_terms\": [\"tools budget\", \"software purchases\"],\n      \"rationale\": \"The target item's scope is a subset of the source item's scope and describes the specific authority change.\",\n      \"confidence\": 0.9\n    }\n  ]\n}"
+        },
+        {
+          "case_id": "path_a_v1_transfer_article_signoff",
+          "class": "authority_transfer",
+          "malformed": false,
+          "malformed_reasons": [],
+          "proposal_count": 1,
+          "proposals": [
+            {
+              "type": "supersedes",
+              "source_item_id": "M002",
+              "target_item_id": "M001",
+              "cited_evidence_span": "Final signoff on every article now belongs to the legal reviewer.",
+              "scope_terms": [
+                "final signoff",
+                "legal review"
+              ],
+              "rationale": "The target item describes a shift in final signoff authority from the blog editor to the legal reviewer, which is consistent with the source item.",
+              "confidence": 0.9
+            }
+          ],
+          "confirmed_findings": [
+            {
+              "type": "semantic_authority_change",
+              "relation_type": "supersedes",
+              "source_item_id": "M002",
+              "target_item_id": "M001",
+              "cited_evidence_span": "Final signoff on every article now belongs to the legal reviewer.",
+              "evidence": "Final signoff on every article now belongs to the legal reviewer. The blog editor prepares drafts but no longer gives the final signoff.",
+              "target": "The blog editor gives final signoff on every article before it is published.",
+              "scope_terms": [
+                "final signoff",
+                "legal review"
+              ],
+              "confidence": 0.9,
+              "relation_span": null
+            }
+          ],
+          "needs_human_judgment": [],
+          "score": {
+            "expected_positive": true,
+            "caught": false,
+            "direction_caught": true,
+            "missed": true,
+            "negative_passed": null,
+            "expected_triplets": [
+              [
+                "transfers_authority",
+                "M002",
+                "M001"
+              ]
+            ],
+            "confirmed_triplets": [
+              [
+                "supersedes",
+                "M002",
+                "M001"
+              ]
+            ]
+          },
+          "ablation_remove_confirmer": {
+            "would_count_as_caught_without_confirmation": false,
+            "proposal_triplets": [
+              [
+                "supersedes",
+                "M002",
+                "M001"
+              ]
+            ]
+          },
+          "ablation_remove_citation_requirement": {
+            "expected_positive": true,
+            "caught": false,
+            "direction_caught": true,
+            "missed": true,
+            "negative_passed": null,
+            "expected_triplets": [
+              [
+                "transfers_authority",
+                "M002",
+                "M001"
+              ]
+            ],
+            "confirmed_triplets": [
+              [
+                "supersedes",
+                "M002",
+                "M001"
+              ]
+            ]
+          },
+          "lexical_baseline_current_detector": {
+            "finding_types": [],
+            "stale_instruction_count": 0,
+            "missing_authority_layer": false
+          },
+          "raw_output": "{\n  \"proposals\": [\n    {\n      \"type\": \"supersedes\",\n      \"source_item_id\": \"M002\",\n      \"target_item_id\": \"M001\",\n      \"cited_evidence_span\": \"Final signoff on every article now belongs to the legal reviewer.\",\n      \"scope_terms\": [\"final signoff\", \"legal review\"],\n      \"rationale\": \"The target item describes a shift in final signoff authority from the blog editor to the legal reviewer, which is consistent with the source item.\",\n      \"confidence\": 0.9\n    }\n  ]\n}"
+        },
+        {
+          "case_id": "path_a_v1_topic_mention_training_workshop",
+          "class": "topic_mention_negative",
+          "malformed": false,
+          "malformed_reasons": [],
+          "proposal_count": 1,
+          "proposals": [
+            {
+              "type": "supersedes",
+              "source_item_id": "M002",
+              "target_item_id": "M001",
+              "cited_evidence_span": "\"The workshop materials include worked examples of superseded rules, narrowed scopes, and transferred authority for practice.\"",
+              "scope_terms": [
+                "Supersedes",
+                "narrowed scope"
+              ],
+              "rationale": "The source item explicitly states the target item's content.",
+              "confidence": 0.96
+            }
+          ],
+          "confirmed_findings": [],
+          "needs_human_judgment": [
+            {
+              "proposal": {
+                "type": "supersedes",
+                "source_item_id": "M002",
+                "target_item_id": "M001",
+                "cited_evidence_span": "\"The workshop materials include worked examples of superseded rules, narrowed scopes, and transferred authority for practice.\"",
+                "scope_terms": [
+                  "Supersedes",
+                  "narrowed scope"
+                ],
+                "rationale": "The source item explicitly states the target item's content.",
+                "confidence": 0.96
+              },
+              "reasons": [
+                "missing or empty evidence citation",
+                "no deterministic scope overlap between source and target"
+              ]
+            }
+          ],
+          "score": {
+            "expected_positive": false,
+            "caught": null,
+            "missed": null,
+            "negative_passed": true,
+            "forbidden_types": [
+              "contradicts",
+              "narrows_scope",
+              "supersedes",
+              "transfers_authority"
+            ],
+            "forbidden_confirmed_count": 0,
+            "confirmed_triplets": []
+          },
+          "ablation_remove_confirmer": {
+            "would_false_fire_without_confirmation": true,
+            "forbidden_proposal_count": 1,
+            "proposal_triplets": [
+              [
+                "supersedes",
+                "M002",
+                "M001"
+              ]
+            ]
+          },
+          "ablation_remove_citation_requirement": {
+            "expected_positive": false,
+            "caught": null,
+            "missed": null,
+            "negative_passed": true,
+            "forbidden_types": [
+              "contradicts",
+              "narrows_scope",
+              "supersedes",
+              "transfers_authority"
+            ],
+            "forbidden_confirmed_count": 0,
+            "confirmed_triplets": []
+          },
+          "lexical_baseline_current_detector": {
+            "finding_types": [
+              "stale_instruction",
+              "missing_authority_layer"
+            ],
+            "stale_instruction_count": 1,
+            "missing_authority_layer": true
+          },
+          "raw_output": "{\n  \"proposals\": [\n    {\n      \"type\": \"supersedes\",\n      \"source_item_id\": \"M002\",\n      \"target_item_id\": \"M001\",\n      \"cited_evidence_span\": \"\\\"The workshop materials include worked examples of superseded rules, narrowed scopes, and transferred authority for practice.\\\"\",\n      \"scope_terms\": [\"Supersedes\", \"narrowed scope\"],\n      \"rationale\": \"The source item explicitly states the target item's content.\",\n      \"confidence\": 0.96\n    }\n  ]\n}"
+        },
+        {
+          "case_id": "path_a_v1_topic_mention_changelog_history",
+          "class": "topic_mention_negative",
+          "malformed": true,
+          "malformed_reasons": [
+            "proposer returned non-json output"
+          ],
+          "proposal_count": 0,
+          "proposals": [],
+          "confirmed_findings": [],
+          "needs_human_judgment": [],
+          "score": {
+            "expected_positive": false,
+            "caught": null,
+            "missed": null,
+            "negative_passed": true,
+            "forbidden_types": [
+              "contradicts",
+              "narrows_scope",
+              "supersedes",
+              "transfers_authority"
+            ],
+            "forbidden_confirmed_count": 0,
+            "confirmed_triplets": []
+          },
+          "ablation_remove_confirmer": {
+            "would_false_fire_without_confirmation": false,
+            "forbidden_proposal_count": 0,
+            "proposal_triplets": []
+          },
+          "ablation_remove_citation_requirement": {
+            "expected_positive": false,
+            "caught": null,
+            "missed": null,
+            "negative_passed": true,
+            "forbidden_types": [
+              "contradicts",
+              "narrows_scope",
+              "supersedes",
+              "transfers_authority"
+            ],
+            "forbidden_confirmed_count": 0,
+            "confirmed_triplets": []
+          },
+          "lexical_baseline_current_detector": {
+            "finding_types": [
+              "stale_instruction",
+              "stale_instruction",
+              "missing_authority_layer"
+            ],
+            "stale_instruction_count": 2,
+            "missing_authority_layer": true
+          },
+          "raw_output": "{\n  \"proposals\": [\n    {\n      \"type\": \"supersedes\",\n      \"source_item_id\": \"M002\",\n      \"target_item_id\": \"M001\",\n      \"cited_evidence_span\": \"cleanup as an example of catching contradictions early\",\n      \"scope_terms\": [\"instruction retirement\", \"memory cleanup\"],\n      \"rationale\": \"The changelog entry describes that cleanup is an example of catching contradictions.\",\n      \"confidence\": 0.8\n    }\n  ]"
+        },
+        {
+          "case_id": "path_a_v1_topic_mention_research_abstract",
+          "class": "topic_mention_negative",
+          "malformed": false,
+          "malformed_reasons": [],
+          "proposal_count": 1,
+          "proposals": [
+            {
+              "type": "supersedes",
+              "source_item_id": "M002",
+              "target_item_id": "M001",
+              "cited_evidence_span": "agent memory needs an authority layer to catch superseded and contradicted instructions.",
+              "scope_terms": [
+                "authority",
+                "failure class"
+              ],
+              "rationale": "clarifies the analysis of authority transfer",
+              "confidence": 0.72
+            }
+          ],
+          "confirmed_findings": [],
+          "needs_human_judgment": [
+            {
+              "proposal": {
+                "type": "supersedes",
+                "source_item_id": "M002",
+                "target_item_id": "M001",
+                "cited_evidence_span": "agent memory needs an authority layer to catch superseded and contradicted instructions.",
+                "scope_terms": [
+                  "authority",
+                  "failure class"
+                ],
+                "rationale": "clarifies the analysis of authority transfer",
+                "confidence": 0.72
+              },
+              "reasons": [
+                "missing or empty evidence citation"
+              ]
+            }
+          ],
+          "score": {
+            "expected_positive": false,
+            "caught": null,
+            "missed": null,
+            "negative_passed": true,
+            "forbidden_types": [
+              "contradicts",
+              "narrows_scope",
+              "supersedes",
+              "transfers_authority"
+            ],
+            "forbidden_confirmed_count": 0,
+            "confirmed_triplets": []
+          },
+          "ablation_remove_confirmer": {
+            "would_false_fire_without_confirmation": true,
+            "forbidden_proposal_count": 1,
+            "proposal_triplets": [
+              [
+                "supersedes",
+                "M002",
+                "M001"
+              ]
+            ]
+          },
+          "ablation_remove_citation_requirement": {
+            "expected_positive": false,
+            "caught": null,
+            "missed": null,
+            "negative_passed": false,
+            "forbidden_types": [
+              "contradicts",
+              "narrows_scope",
+              "supersedes",
+              "transfers_authority"
+            ],
+            "forbidden_confirmed_count": 1,
+            "confirmed_triplets": [
+              [
+                "supersedes",
+                "M002",
+                "M001"
+              ]
+            ]
+          },
+          "lexical_baseline_current_detector": {
+            "finding_types": [
+              "stale_instruction",
+              "missing_authority_layer"
+            ],
+            "stale_instruction_count": 1,
+            "missing_authority_layer": true
+          },
+          "raw_output": "{\n  \"proposals\": [\n    {\n      \"type\": \"supersedes\",\n      \"source_item_id\": \"M002\",\n      \"target_item_id\": \"M001\",\n      \"cited_evidence_span\": \"agent memory needs an authority layer to catch superseded and contradicted instructions.\",\n      \"scope_terms\": [\"authority\", \"failure class\"],\n      \"rationale\": \"clarifies the analysis of authority transfer\",\n      \"confidence\": 0.72\n    }\n  ]\n}"
+        },
+        {
+          "case_id": "path_a_v1_restatement_export_approval",
+          "class": "restatement_negative",
+          "malformed": false,
+          "malformed_reasons": [],
+          "proposal_count": 1,
+          "proposals": [
+            {
+              "type": "supersedes",
+              "source_item_id": "M002",
+              "target_item_id": "M001",
+              "cited_evidence_span": "customer data exports still require the privacy lead's written approval before they run.",
+              "scope_terms": [
+                "privacy lead's written approval"
+              ],
+              "rationale": "The policy for customer data exports remains unchanged, but with restated wording.",
+              "confidence": 0.72
+            }
+          ],
+          "confirmed_findings": [
+            {
+              "type": "semantic_authority_change",
+              "relation_type": "supersedes",
+              "source_item_id": "M002",
+              "target_item_id": "M001",
+              "cited_evidence_span": "customer data exports still require the privacy lead's written approval before they run.",
+              "evidence": "Current rule, restated for the new quarter: customer data exports still require the privacy lead's written approval before they run. Nothing about this policy has changed.",
+              "target": "All customer data exports require the privacy lead's written approval before they run.",
+              "scope_terms": [
+                "privacy lead's written approval"
+              ],
+              "confidence": 0.72,
+              "relation_span": null
+            }
+          ],
+          "needs_human_judgment": [],
+          "score": {
+            "expected_positive": false,
+            "caught": null,
+            "missed": null,
+            "negative_passed": false,
+            "forbidden_types": [
+              "contradicts",
+              "narrows_scope",
+              "supersedes",
+              "transfers_authority"
+            ],
+            "forbidden_confirmed_count": 1,
+            "confirmed_triplets": [
+              [
+                "supersedes",
+                "M002",
+                "M001"
+              ]
+            ]
+          },
+          "ablation_remove_confirmer": {
+            "would_false_fire_without_confirmation": true,
+            "forbidden_proposal_count": 1,
+            "proposal_triplets": [
+              [
+                "supersedes",
+                "M002",
+                "M001"
+              ]
+            ]
+          },
+          "ablation_remove_citation_requirement": {
+            "expected_positive": false,
+            "caught": null,
+            "missed": null,
+            "negative_passed": false,
+            "forbidden_types": [
+              "contradicts",
+              "narrows_scope",
+              "supersedes",
+              "transfers_authority"
+            ],
+            "forbidden_confirmed_count": 1,
+            "confirmed_triplets": [
+              [
+                "supersedes",
+                "M002",
+                "M001"
+              ]
+            ]
+          },
+          "lexical_baseline_current_detector": {
+            "finding_types": [],
+            "stale_instruction_count": 0,
+            "missing_authority_layer": false
+          },
+          "raw_output": "{\n  \"proposals\": [\n    {\n      \"type\": \"supersedes\",\n      \"source_item_id\": \"M002\",\n      \"target_item_id\": \"M001\",\n      \"cited_evidence_span\": \"customer data exports still require the privacy lead's written approval before they run.\",\n      \"scope_terms\": [\"privacy lead's written approval\"],\n      \"rationale\": \"The policy for customer data exports remains unchanged, but with restated wording.\",\n      \"confidence\": 0.72\n    }\n  ]\n}"
+        },
+        {
+          "case_id": "path_a_v1_restatement_admin_2fa",
+          "class": "restatement_negative",
+          "malformed": false,
+          "malformed_reasons": [],
+          "proposal_count": 1,
+          "proposals": [
+            {
+              "type": "supersedes",
+              "source_item_id": "M002",
+              "target_item_id": "M001",
+              "cited_evidence_span": "two-factor authentication remains mandatory for every admin account on the platform, exactly as before.",
+              "scope_terms": [
+                "admin account",
+                "security baseline"
+              ],
+              "rationale": "The target item reiterates the same policy as the source item with no changes.",
+              "confidence": 0.92
+            }
+          ],
+          "confirmed_findings": [
+            {
+              "type": "semantic_authority_change",
+              "relation_type": "supersedes",
+              "source_item_id": "M002",
+              "target_item_id": "M001",
+              "cited_evidence_span": "two-factor authentication remains mandatory for every admin account on the platform, exactly as before.",
+              "evidence": "Reminder from the security review: two-factor authentication remains mandatory for every admin account on the platform, exactly as before.",
+              "target": "Two-factor authentication is mandatory for every admin account on the platform.",
+              "scope_terms": [
+                "admin account",
+                "security baseline"
+              ],
+              "confidence": 0.92,
+              "relation_span": null
+            }
+          ],
+          "needs_human_judgment": [],
+          "score": {
+            "expected_positive": false,
+            "caught": null,
+            "missed": null,
+            "negative_passed": false,
+            "forbidden_types": [
+              "contradicts",
+              "narrows_scope",
+              "supersedes",
+              "transfers_authority"
+            ],
+            "forbidden_confirmed_count": 1,
+            "confirmed_triplets": [
+              [
+                "supersedes",
+                "M002",
+                "M001"
+              ]
+            ]
+          },
+          "ablation_remove_confirmer": {
+            "would_false_fire_without_confirmation": true,
+            "forbidden_proposal_count": 1,
+            "proposal_triplets": [
+              [
+                "supersedes",
+                "M002",
+                "M001"
+              ]
+            ]
+          },
+          "ablation_remove_citation_requirement": {
+            "expected_positive": false,
+            "caught": null,
+            "missed": null,
+            "negative_passed": false,
+            "forbidden_types": [
+              "contradicts",
+              "narrows_scope",
+              "supersedes",
+              "transfers_authority"
+            ],
+            "forbidden_confirmed_count": 1,
+            "confirmed_triplets": [
+              [
+                "supersedes",
+                "M002",
+                "M001"
+              ]
+            ]
+          },
+          "lexical_baseline_current_detector": {
+            "finding_types": [],
+            "stale_instruction_count": 0,
+            "missing_authority_layer": false
+          },
+          "raw_output": "{\n  \"proposals\": [\n    {\n      \"type\": \"supersedes\",\n      \"source_item_id\": \"M002\",\n      \"target_item_id\": \"M001\",\n      \"cited_evidence_span\": \"two-factor authentication remains mandatory for every admin account on the platform, exactly as before.\",\n      \"scope_terms\": [\"admin account\", \"security baseline\"],\n      \"rationale\": \"The target item reiterates the same policy as the source item with no changes.\",\n      \"confidence\": 0.92\n    }\n  ]\n}"
+        },
+        {
+          "case_id": "path_a_v1_coexistence_expenses_vs_talks",
+          "class": "coexistence_negative",
+          "malformed": false,
+          "malformed_reasons": [],
+          "proposal_count": 1,
+          "proposals": [
+            {
+              "type": "supersedes",
+              "source_item_id": "M002",
+              "target_item_id": "M001",
+              "cited_evidence_span": "need a manager's thumbs-up before submission to the events team.",
+              "scope_terms": [
+                "events",
+                "submission"
+              ],
+              "rationale": "Conference talk proposals need a manager's thumbs-up",
+              "confidence": 0.72
+            }
+          ],
+          "confirmed_findings": [],
+          "needs_human_judgment": [
+            {
+              "proposal": {
+                "type": "supersedes",
+                "source_item_id": "M002",
+                "target_item_id": "M001",
+                "cited_evidence_span": "need a manager's thumbs-up before submission to the events team.",
+                "scope_terms": [
+                  "events",
+                  "submission"
+                ],
+                "rationale": "Conference talk proposals need a manager's thumbs-up",
+                "confidence": 0.72
+              },
+              "reasons": [
+                "no deterministic scope overlap between source and target"
+              ]
+            }
+          ],
+          "score": {
+            "expected_positive": false,
+            "caught": null,
+            "missed": null,
+            "negative_passed": true,
+            "forbidden_types": [
+              "contradicts",
+              "narrows_scope",
+              "supersedes",
+              "transfers_authority"
+            ],
+            "forbidden_confirmed_count": 0,
+            "confirmed_triplets": []
+          },
+          "ablation_remove_confirmer": {
+            "would_false_fire_without_confirmation": true,
+            "forbidden_proposal_count": 1,
+            "proposal_triplets": [
+              [
+                "supersedes",
+                "M002",
+                "M001"
+              ]
+            ]
+          },
+          "ablation_remove_citation_requirement": {
+            "expected_positive": false,
+            "caught": null,
+            "missed": null,
+            "negative_passed": true,
+            "forbidden_types": [
+              "contradicts",
+              "narrows_scope",
+              "supersedes",
+              "transfers_authority"
+            ],
+            "forbidden_confirmed_count": 0,
+            "confirmed_triplets": []
+          },
+          "lexical_baseline_current_detector": {
+            "finding_types": [],
+            "stale_instruction_count": 0,
+            "missing_authority_layer": false
+          },
+          "raw_output": "{\n  \"proposals\": [\n    {\n      \"type\": \"supersedes\",\n      \"source_item_id\": \"M002\",\n      \"target_item_id\": \"M001\",\n      \"cited_evidence_span\": \"need a manager's thumbs-up before submission to the events team.\",\n      \"scope_terms\": [\"events\", \"submission\"],\n      \"rationale\": \"Conference talk proposals need a manager's thumbs-up\",\n      \"confidence\": 0.72\n    }\n  ]\n}"
+        },
+        {
+          "case_id": "path_a_v2_mention_use_changelog_archive_exporter",
+          "class": "mention_dressed_as_use_negative",
+          "malformed": false,
+          "malformed_reasons": [],
+          "proposal_count": 1,
+          "proposals": [
+            {
+              "type": "supersedes",
+              "source_item_id": "M002",
+              "target_item_id": "M001",
+              "cited_evidence_span": "Release notes: v2.1 superseded v2.0 for the search exporter after its index was rebuilt.",
+              "scope_terms": [
+                "archive export",
+                "privacy review"
+              ],
+              "rationale": "v2.1 superseded v2.0",
+              "confidence": 0.9
+            }
+          ],
+          "confirmed_findings": [
+            {
+              "type": "semantic_authority_change",
+              "relation_type": "supersedes",
+              "source_item_id": "M002",
+              "target_item_id": "M001",
+              "cited_evidence_span": "Release notes: v2.1 superseded v2.0 for the search exporter after its index was rebuilt.",
+              "evidence": "Release notes: v2.1 superseded v2.0 for the search exporter after its index was rebuilt. Separately, archive exports and customer billing records are mentioned in the same changelog for reporting context; this does not change the privacy-review rule above.",
+              "target": "Archive exports that contain customer billing records require privacy review before release.",
+              "scope_terms": [
+                "archive export",
+                "privacy review"
+              ],
+              "confidence": 0.9,
+              "relation_span": null
+            }
+          ],
+          "needs_human_judgment": [],
+          "score": {
+            "expected_positive": false,
+            "caught": null,
+            "missed": null,
+            "negative_passed": false,
+            "forbidden_types": [
+              "contradicts",
+              "narrows_scope",
+              "supersedes",
+              "transfers_authority"
+            ],
+            "forbidden_confirmed_count": 1,
+            "confirmed_triplets": [
+              [
+                "supersedes",
+                "M002",
+                "M001"
+              ]
+            ]
+          },
+          "ablation_remove_confirmer": {
+            "would_false_fire_without_confirmation": true,
+            "forbidden_proposal_count": 1,
+            "proposal_triplets": [
+              [
+                "supersedes",
+                "M002",
+                "M001"
+              ]
+            ]
+          },
+          "ablation_remove_citation_requirement": {
+            "expected_positive": false,
+            "caught": null,
+            "missed": null,
+            "negative_passed": false,
+            "forbidden_types": [
+              "contradicts",
+              "narrows_scope",
+              "supersedes",
+              "transfers_authority"
+            ],
+            "forbidden_confirmed_count": 1,
+            "confirmed_triplets": [
+              [
+                "supersedes",
+                "M002",
+                "M001"
+              ]
+            ]
+          },
+          "lexical_baseline_current_detector": {
+            "finding_types": [
+              "stale_instruction"
+            ],
+            "stale_instruction_count": 1,
+            "missing_authority_layer": false
+          },
+          "raw_output": "{\n  \"proposals\": [\n    {\n      \"type\": \"supersedes\",\n      \"source_item_id\": \"M002\",\n      \"target_item_id\": \"M001\",\n      \"cited_evidence_span\": \"Release notes: v2.1 superseded v2.0 for the search exporter after its index was rebuilt.\",\n      \"scope_terms\": [\"archive export\", \"privacy review\"],\n      \"rationale\": \"v2.1 superseded v2.0\",\n      \"confidence\": 0.9\n    }\n  ]\n}"
+        },
+        {
+          "case_id": "path_a_v2_mention_use_meeting_minutes_vendor_access",
+          "class": "mention_dressed_as_use_negative",
+          "malformed": false,
+          "malformed_reasons": [],
+          "proposal_count": 1,
+          "proposals": [
+            {
+              "type": "supersedes",
+              "source_item_id": "M002",
+              "target_item_id": "M001",
+              "cited_evidence_span": "data-science dashboard rule was replaced last quarter.",
+              "scope_terms": [
+                "integration debugging",
+                "engineering access rule"
+              ],
+              "rationale": "the data-science dashboard rule replacement provides background context for vendor sandbox access",
+              "confidence": 0.72
+            }
+          ],
+          "confirmed_findings": [],
+          "needs_human_judgment": [
+            {
+              "proposal": {
+                "type": "supersedes",
+                "source_item_id": "M002",
+                "target_item_id": "M001",
+                "cited_evidence_span": "data-science dashboard rule was replaced last quarter.",
+                "scope_terms": [
+                  "integration debugging",
+                  "engineering access rule"
+                ],
+                "rationale": "the data-science dashboard rule replacement provides background context for vendor sandbox access",
+                "confidence": 0.72
+              },
+              "reasons": [
+                "no deterministic scope overlap between source and target"
+              ]
+            }
+          ],
+          "score": {
+            "expected_positive": false,
+            "caught": null,
+            "missed": null,
+            "negative_passed": true,
+            "forbidden_types": [
+              "contradicts",
+              "narrows_scope",
+              "supersedes",
+              "transfers_authority"
+            ],
+            "forbidden_confirmed_count": 0,
+            "confirmed_triplets": []
+          },
+          "ablation_remove_confirmer": {
+            "would_false_fire_without_confirmation": true,
+            "forbidden_proposal_count": 1,
+            "proposal_triplets": [
+              [
+                "supersedes",
+                "M002",
+                "M001"
+              ]
+            ]
+          },
+          "ablation_remove_citation_requirement": {
+            "expected_positive": false,
+            "caught": null,
+            "missed": null,
+            "negative_passed": true,
+            "forbidden_types": [
+              "contradicts",
+              "narrows_scope",
+              "supersedes",
+              "transfers_authority"
+            ],
+            "forbidden_confirmed_count": 0,
+            "confirmed_triplets": []
+          },
+          "lexical_baseline_current_detector": {
+            "finding_types": [],
+            "stale_instruction_count": 0,
+            "missing_authority_layer": false
+          },
+          "raw_output": "{\n  \"proposals\": [\n    {\n      \"type\": \"supersedes\",\n      \"source_item_id\": \"M002\",\n      \"target_item_id\": \"M001\",\n      \"cited_evidence_span\": \"data-science dashboard rule was replaced last quarter.\",\n      \"scope_terms\": [\"integration debugging\", \"engineering access rule\"],\n      \"rationale\": \"the data-science dashboard rule replacement provides background context for vendor sandbox access\",\n      \"confidence\": 0.72\n    }\n  ]\n}"
+        },
+        {
+          "case_id": "path_a_v2_mention_use_quoted_draft_incident_page",
+          "class": "mention_dressed_as_use_negative",
+          "malformed": false,
+          "malformed_reasons": [],
+          "proposal_count": 1,
+          "proposals": [
+            {
+              "type": "supersedes",
+              "source_item_id": "M002",
+              "target_item_id": "M001",
+              "cited_evidence_span": "this policy supersedes all prior guidance",
+              "scope_terms": [
+                "incident page ownership",
+                "public incident pages"
+              ],
+              "rationale": "The note mentions that the policy supersedes all prior guidance.",
+              "confidence": 0.7
+            }
+          ],
+          "confirmed_findings": [],
+          "needs_human_judgment": [
+            {
+              "proposal": {
+                "type": "supersedes",
+                "source_item_id": "M002",
+                "target_item_id": "M001",
+                "cited_evidence_span": "this policy supersedes all prior guidance",
+                "scope_terms": [
+                  "incident page ownership",
+                  "public incident pages"
+                ],
+                "rationale": "The note mentions that the policy supersedes all prior guidance.",
+                "confidence": 0.7
+              },
+              "reasons": [
+                "no deterministic scope overlap between source and target"
+              ]
+            }
+          ],
+          "score": {
+            "expected_positive": false,
+            "caught": null,
+            "missed": null,
+            "negative_passed": true,
+            "forbidden_types": [
+              "contradicts",
+              "narrows_scope",
+              "supersedes",
+              "transfers_authority"
+            ],
+            "forbidden_confirmed_count": 0,
+            "confirmed_triplets": []
+          },
+          "ablation_remove_confirmer": {
+            "would_false_fire_without_confirmation": true,
+            "forbidden_proposal_count": 1,
+            "proposal_triplets": [
+              [
+                "supersedes",
+                "M002",
+                "M001"
+              ]
+            ]
+          },
+          "ablation_remove_citation_requirement": {
+            "expected_positive": false,
+            "caught": null,
+            "missed": null,
+            "negative_passed": true,
+            "forbidden_types": [
+              "contradicts",
+              "narrows_scope",
+              "supersedes",
+              "transfers_authority"
+            ],
+            "forbidden_confirmed_count": 0,
+            "confirmed_triplets": []
+          },
+          "lexical_baseline_current_detector": {
+            "finding_types": [],
+            "stale_instruction_count": 0,
+            "missing_authority_layer": false
+          },
+          "raw_output": "{\n  \"proposals\": [\n    {\n      \"type\": \"supersedes\",\n      \"source_item_id\": \"M002\",\n      \"target_item_id\": \"M001\",\n      \"cited_evidence_span\": \"this policy supersedes all prior guidance\",\n      \"scope_terms\": [\"incident page ownership\", \"public incident pages\"],\n      \"rationale\": \"The note mentions that the policy supersedes all prior guidance.\",\n      \"confidence\": 0.7\n    }\n  ]\n}"
+        },
+        {
+          "case_id": "path_a_v2_proximity_trap_expense_approval",
+          "class": "proximity_trap_negative",
+          "malformed": false,
+          "malformed_reasons": [],
+          "proposal_count": 1,
+          "proposals": [
+            {
+              "type": "supersedes",
+              "source_item_id": "M002",
+              "target_item_id": "M001",
+              "cited_evidence_span": "the manager approval requirement applies only to expense reports over 100 dollars, exactly as already written;",
+              "scope_terms": [
+                "expense reports",
+                "manager approval"
+              ],
+              "rationale": "the target item is superseded by the source item, clarifying the scope and specific condition of the manager approval requirement.",
+              "confidence": 0.72
+            }
+          ],
+          "confirmed_findings": [
+            {
+              "type": "semantic_authority_change",
+              "relation_type": "supersedes",
+              "source_item_id": "M002",
+              "target_item_id": "M001",
+              "cited_evidence_span": "the manager approval requirement applies only to expense reports over 100 dollars, exactly as already written;",
+              "evidence": "Clarification for the handbook: the manager approval requirement applies only to expense reports over 100 dollars, exactly as already written; vendor invoices follow a separate purchasing process and are unchanged.",
+              "target": "Expense reports over 100 dollars require manager approval before reimbursement.",
+              "scope_terms": [
+                "expense reports",
+                "manager approval"
+              ],
+              "confidence": 0.72,
+              "relation_span": null
+            }
+          ],
+          "needs_human_judgment": [],
+          "score": {
+            "expected_positive": false,
+            "caught": null,
+            "missed": null,
+            "negative_passed": false,
+            "forbidden_types": [
+              "contradicts",
+              "narrows_scope",
+              "supersedes",
+              "transfers_authority"
+            ],
+            "forbidden_confirmed_count": 1,
+            "confirmed_triplets": [
+              [
+                "supersedes",
+                "M002",
+                "M001"
+              ]
+            ]
+          },
+          "ablation_remove_confirmer": {
+            "would_false_fire_without_confirmation": true,
+            "forbidden_proposal_count": 1,
+            "proposal_triplets": [
+              [
+                "supersedes",
+                "M002",
+                "M001"
+              ]
+            ]
+          },
+          "ablation_remove_citation_requirement": {
+            "expected_positive": false,
+            "caught": null,
+            "missed": null,
+            "negative_passed": false,
+            "forbidden_types": [
+              "contradicts",
+              "narrows_scope",
+              "supersedes",
+              "transfers_authority"
+            ],
+            "forbidden_confirmed_count": 1,
+            "confirmed_triplets": [
+              [
+                "supersedes",
+                "M002",
+                "M001"
+              ]
+            ]
+          },
+          "lexical_baseline_current_detector": {
+            "finding_types": [],
+            "stale_instruction_count": 0,
+            "missing_authority_layer": false
+          },
+          "raw_output": "{\n  \"proposals\": [\n    {\n      \"type\": \"supersedes\",\n      \"source_item_id\": \"M002\",\n      \"target_item_id\": \"M001\",\n      \"cited_evidence_span\": \"the manager approval requirement applies only to expense reports over 100 dollars, exactly as already written;\",\n      \"scope_terms\": [\"expense reports\", \"manager approval\"],\n      \"rationale\": \"the target item is superseded by the source item, clarifying the scope and specific condition of the manager approval requirement.\",\n      \"confidence\": 0.72\n    }\n  ]\n}"
+        },
+        {
+          "case_id": "path_a_v2_proximity_trap_weekly_updates",
+          "class": "proximity_trap_negative",
+          "malformed": false,
+          "malformed_reasons": [],
+          "proposal_count": 1,
+          "proposals": [
+            {
+              "type": "supersedes",
+              "source_item_id": "M002",
+              "target_item_id": "M001",
+              "cited_evidence_span": "the monthly report timeline is separate and stays on the finance calendar as before.",
+              "scope_terms": [
+                "weekly status updates",
+                "monthly reports"
+              ],
+              "rationale": "The target item discusses a broader scope, including the separate monthly report timeline.",
+              "confidence": 0.99
+            }
+          ],
+          "confirmed_findings": [
+            {
+              "type": "semantic_authority_change",
+              "relation_type": "supersedes",
+              "source_item_id": "M002",
+              "target_item_id": "M001",
+              "cited_evidence_span": "the monthly report timeline is separate and stays on the finance calendar as before.",
+              "evidence": "Reminder: the Friday deadline applies only to weekly status updates; the monthly report timeline is separate and stays on the finance calendar as before.",
+              "target": "Weekly status updates must be posted to the team channel by Friday.",
+              "scope_terms": [
+                "weekly status updates",
+                "monthly reports"
+              ],
+              "confidence": 0.99,
+              "relation_span": null
+            }
+          ],
+          "needs_human_judgment": [],
+          "score": {
+            "expected_positive": false,
+            "caught": null,
+            "missed": null,
+            "negative_passed": false,
+            "forbidden_types": [
+              "contradicts",
+              "narrows_scope",
+              "supersedes",
+              "transfers_authority"
+            ],
+            "forbidden_confirmed_count": 1,
+            "confirmed_triplets": [
+              [
+                "supersedes",
+                "M002",
+                "M001"
+              ]
+            ]
+          },
+          "ablation_remove_confirmer": {
+            "would_false_fire_without_confirmation": true,
+            "forbidden_proposal_count": 1,
+            "proposal_triplets": [
+              [
+                "supersedes",
+                "M002",
+                "M001"
+              ]
+            ]
+          },
+          "ablation_remove_citation_requirement": {
+            "expected_positive": false,
+            "caught": null,
+            "missed": null,
+            "negative_passed": false,
+            "forbidden_types": [
+              "contradicts",
+              "narrows_scope",
+              "supersedes",
+              "transfers_authority"
+            ],
+            "forbidden_confirmed_count": 1,
+            "confirmed_triplets": [
+              [
+                "supersedes",
+                "M002",
+                "M001"
+              ]
+            ]
+          },
+          "lexical_baseline_current_detector": {
+            "finding_types": [],
+            "stale_instruction_count": 0,
+            "missing_authority_layer": false
+          },
+          "raw_output": "{\n  \"proposals\": [\n    {\n      \"type\": \"supersedes\",\n      \"source_item_id\": \"M002\",\n      \"target_item_id\": \"M001\",\n      \"cited_evidence_span\": \"the monthly report timeline is separate and stays on the finance calendar as before.\",\n      \"scope_terms\": [\"weekly status updates\", \"monthly reports\"],\n      \"rationale\": \"The target item discusses a broader scope, including the separate monthly report timeline.\",\n      \"confidence\": 0.99\n    }\n  ]\n}"
+        }
+      ]
+    }
+  ],
+  "boundary": "No public claim from this artifact until Ka'el and Fable re-verify."
+}
