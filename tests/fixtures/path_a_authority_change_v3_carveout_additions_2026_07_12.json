@@ -1,0 +1,71 @@
+{
+  "packet": "path_a_authority_change_v3_carveout_additions_2026_07_12",
+  "status": "authored_after_public_addendum_freeze_b1d44f9_before_any_c0_run_or_carveout_implementation",
+  "base_fixture": "tests/fixtures/path_a_authority_change_v3_2026_07_12.json",
+  "prereg": "PATH_A_V3_PREREGISTRATION_ADDENDUM_CARVEOUT_2026-07-12.md",
+  "purpose": "Two additions-only carve-out cases. Compose with the 28-case base fixture; the base remains byte-unchanged.",
+  "item_id_rule": "IDs are assigned by memory_extractor in bullet order as M001, M002, etc.",
+  "classes": [
+    "partial_supersession_negative",
+    "universal_scope_positive_control"
+  ],
+  "cases": [
+    {
+      "id": "path_a_v3_carveout_export_approval_eu",
+      "class": "partial_supersession_negative",
+      "text": "# Export Approval\n\n- Customer data exports require director approval for every customer.\n- Regional update: the export approval rule is replaced for EU customers; EU customer data exports now use automated compliance review.\n",
+      "expected_relations": [],
+      "expected_no_relations": [
+        {
+          "source_item_id": "M002",
+          "target_item_id": "M001",
+          "forbidden_types": [
+            "supersedes"
+          ],
+          "reason": "The new rule replaces approval only for EU customers. Emitting an unqualified supersession would silently retire a rule that remains live for every customer outside that bounded subset — Jackson Ly partial-supersede shape."
+        }
+      ],
+      "c0_frozen_proposal": {
+        "type": "supersedes",
+        "source_item_id": "M002",
+        "target_item_id": "M001",
+        "cited_evidence_span": "the export approval rule is replaced for EU customers; EU customer data exports now use automated compliance review",
+        "scope_terms": [
+          "customer data exports",
+          "approval"
+        ],
+        "confidence": 0.76
+      }
+    },
+    {
+      "id": "path_a_v3_universal_approval_all_regions",
+      "class": "universal_scope_positive_control",
+      "text": "# Customer Approval\n\n- The old approval rule requires manual review before any customer account can be activated in any region.\n- Global update: the new approval rule applies to all customers in every region and replaces the old approval rule; automated policy review now governs every customer account activation.\n",
+      "expected_relations": [
+        {
+          "type": "supersedes",
+          "source_item_id": "M002",
+          "target_item_id": "M001",
+          "cited_evidence_span": "the new approval rule applies to all customers in every region and replaces the old approval rule; automated policy review now governs every customer account activation",
+          "scope_terms": [
+            "customer account activation",
+            "approval rule"
+          ],
+          "confidence": 0.76
+        }
+      ],
+      "expected_no_relations": [],
+      "c0_frozen_proposal": {
+        "type": "supersedes",
+        "source_item_id": "M002",
+        "target_item_id": "M001",
+        "cited_evidence_span": "the new approval rule applies to all customers in every region and replaces the old approval rule; automated policy review now governs every customer account activation",
+        "scope_terms": [
+          "customer account activation",
+          "approval rule"
+        ],
+        "confidence": 0.76
+      }
+    }
+  ]
+}
