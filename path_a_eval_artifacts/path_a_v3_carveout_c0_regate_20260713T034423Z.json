@@ -1,0 +1,172 @@
+{
+  "run_id": "20260713T034423Z",
+  "generated_at_utc": "2026-07-13T03:44:23.062009+00:00",
+  "fixture": "tests/fixtures/path_a_authority_change_v3_carveout_additions_2026_07_12.json",
+  "preregistration_addendum": "PATH_A_V3_PREREGISTRATION_ADDENDUM_CARVEOUT_2026-07-12.md",
+  "prereg_freeze_commit": "b1d44f9",
+  "fixture_commit": "48507de",
+  "gate_under_test": "unchanged v2 confirmer incl. relation-span clause",
+  "boundary": "C0 only: zero model calls and no carve-out implementation. The two frozen c0_frozen_proposal objects were run directly against the unchanged v2 confirmer. Results are reported separately so the bounded negative and universal positive cannot be averaged together.",
+  "summary": {
+    "cases": 2,
+    "confirmed_by_v2_gate": 2,
+    "predictions_held": 2,
+    "bounded_negative_admitted": true,
+    "universal_positive_admitted": true
+  },
+  "cases": [
+    {
+      "case_id": "path_a_v3_carveout_export_approval_eu",
+      "class": "partial_supersession_negative",
+      "prediction_id": "C0-1",
+      "label": "bounded negative admitted by unchanged v2 gate",
+      "predicted_confirmed_by_v2_gate": true,
+      "confirmed_by_v2_gate": true,
+      "prediction_held": true,
+      "expected_relations_count": 0,
+      "expected_no_relations_count": 1,
+      "extracted_items": [
+        {
+          "id": "M001",
+          "text": "Customer data exports require director approval for every customer.",
+          "section": "Export Approval",
+          "source_line": 3,
+          "signals": [
+            "policy",
+            "approval",
+            "external_action"
+          ]
+        },
+        {
+          "id": "M002",
+          "text": "Regional update: the export approval rule is replaced for EU customers; EU customer data exports now use automated compliance review.",
+          "section": "Export Approval",
+          "source_line": 4,
+          "signals": [
+            "approval",
+            "external_action"
+          ]
+        }
+      ],
+      "confirmer_result": {
+        "confirmed": true,
+        "needs_human_judgment": false,
+        "reasons": [],
+        "finding": {
+          "type": "semantic_authority_change",
+          "relation_type": "supersedes",
+          "source_item_id": "M002",
+          "target_item_id": "M001",
+          "cited_evidence_span": "the export approval rule is replaced for EU customers; EU customer data exports now use automated compliance review",
+          "evidence": "Regional update: the export approval rule is replaced for EU customers; EU customer data exports now use automated compliance review.",
+          "target": "Customer data exports require director approval for every customer.",
+          "scope_terms": [
+            "customer data exports",
+            "approval"
+          ],
+          "confidence": 0.76,
+          "relation_span": {
+            "passed": true,
+            "operators": [
+              "replaced",
+              "now"
+            ],
+            "matching_sentence": "the export approval rule is replaced for EU customers; EU customer data exports now use automated compliance review",
+            "scope_terms_matched": [
+              "customer data exports",
+              "approval"
+            ],
+            "reason": null
+          }
+        },
+        "proposal": {
+          "type": "supersedes",
+          "source_item_id": "M002",
+          "target_item_id": "M001",
+          "cited_evidence_span": "the export approval rule is replaced for EU customers; EU customer data exports now use automated compliance review",
+          "scope_terms": [
+            "customer data exports",
+            "approval"
+          ],
+          "confidence": 0.76
+        }
+      }
+    },
+    {
+      "case_id": "path_a_v3_universal_approval_all_regions",
+      "class": "universal_scope_positive_control",
+      "prediction_id": "C0-2",
+      "label": "universal positive admitted by unchanged v2 gate",
+      "predicted_confirmed_by_v2_gate": true,
+      "confirmed_by_v2_gate": true,
+      "prediction_held": true,
+      "expected_relations_count": 1,
+      "expected_no_relations_count": 0,
+      "extracted_items": [
+        {
+          "id": "M001",
+          "text": "The old approval rule requires manual review before any customer account can be activated in any region.",
+          "section": "Customer Approval",
+          "source_line": 3,
+          "signals": [
+            "policy",
+            "approval"
+          ]
+        },
+        {
+          "id": "M002",
+          "text": "Global update: the new approval rule applies to all customers in every region and replaces the old approval rule; automated policy review now governs every customer account activation.",
+          "section": "Customer Approval",
+          "source_line": 4,
+          "signals": [
+            "policy",
+            "approval"
+          ]
+        }
+      ],
+      "confirmer_result": {
+        "confirmed": true,
+        "needs_human_judgment": false,
+        "reasons": [],
+        "finding": {
+          "type": "semantic_authority_change",
+          "relation_type": "supersedes",
+          "source_item_id": "M002",
+          "target_item_id": "M001",
+          "cited_evidence_span": "the new approval rule applies to all customers in every region and replaces the old approval rule; automated policy review now governs every customer account activation",
+          "evidence": "Global update: the new approval rule applies to all customers in every region and replaces the old approval rule; automated policy review now governs every customer account activation.",
+          "target": "The old approval rule requires manual review before any customer account can be activated in any region.",
+          "scope_terms": [
+            "customer account activation",
+            "approval rule"
+          ],
+          "confidence": 0.76,
+          "relation_span": {
+            "passed": true,
+            "operators": [
+              "replaces",
+              "now"
+            ],
+            "matching_sentence": "the new approval rule applies to all customers in every region and replaces the old approval rule; automated policy review now governs every customer account activation",
+            "scope_terms_matched": [
+              "customer account activation",
+              "approval rule"
+            ],
+            "reason": null
+          }
+        },
+        "proposal": {
+          "type": "supersedes",
+          "source_item_id": "M002",
+          "target_item_id": "M001",
+          "cited_evidence_span": "the new approval rule applies to all customers in every region and replaces the old approval rule; automated policy review now governs every customer account activation",
+          "scope_terms": [
+            "customer account activation",
+            "approval rule"
+          ],
+          "confidence": 0.76
+        }
+      }
+    }
+  ]
+}
