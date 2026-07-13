@@ -1,0 +1,538 @@
+{
+  "packet": "path_a_v3_store_authority_2026_07_13",
+  "status": "authored_after_public_store_authority_freeze_cadc430_before_any_store_implementation_or_run",
+  "prereg": "PATH_A_V3_PREREGISTRATION_ADDENDUM_STORE_AUTHORITY_2026-07-13.md",
+  "prereg_freeze_commit": "cadc430",
+  "purpose": "Eight frozen store-side cases for two-sided retirement authority and tier-promotion integrity.",
+  "cases": [
+    {
+      "id": "path_a_v3_ra1_cross_owner_without_consent",
+      "class": "retirement_authority_negative",
+      "records": [
+        {
+          "record_id": "record_old_export_rule",
+          "owner_id": "agent_a",
+          "scope": "compliance.export_approval"
+        },
+        {
+          "record_id": "record_new_export_rule",
+          "owner_id": "agent_b",
+          "scope": "compliance.export_approval"
+        }
+      ],
+      "actors": [
+        {
+          "actor_id": "agent_b",
+          "roles": [
+            "policy_writer"
+          ],
+          "can_create_scopes": [
+            "compliance.export_approval"
+          ],
+          "can_adjudicate": false
+        },
+        {
+          "actor_id": "reviewer_r",
+          "roles": [
+            "relation_adjudicator"
+          ],
+          "can_create_scopes": [],
+          "can_adjudicate": true
+        }
+      ],
+      "target_owner_consents": [],
+      "standing_rules": [],
+      "tier2_claims": [],
+      "request": {
+        "action": "mint_relation_fact",
+        "actor_id": "reviewer_r",
+        "relation_fact_candidate": {
+          "relation_id": "relation_ra1",
+          "source_record_id": "record_new_export_rule",
+          "target_record_id": "record_old_export_rule",
+          "relation_type": "supersedes",
+          "asserted_by": "agent_b",
+          "authenticated_by": "reviewer_r",
+          "authenticated_at": "2026-07-13T12:00:00Z",
+          "authority_basis": null,
+          "source_claim_id": null
+        }
+      },
+      "expected": {
+        "allowed": false,
+        "resulting_tier": null,
+        "alarm_code": "target_retirement_unauthorized"
+      }
+    },
+    {
+      "id": "path_a_v3_ra2_source_writer_self_authorizes",
+      "class": "retirement_authority_negative",
+      "records": [
+        {
+          "record_id": "record_old_retention_rule",
+          "owner_id": "agent_a",
+          "scope": "compliance.data_retention"
+        },
+        {
+          "record_id": "record_new_retention_rule",
+          "owner_id": "agent_b",
+          "scope": "compliance.data_retention"
+        }
+      ],
+      "actors": [
+        {
+          "actor_id": "agent_b",
+          "roles": [
+            "policy_writer"
+          ],
+          "can_create_scopes": [
+            "compliance.data_retention"
+          ],
+          "can_adjudicate": false
+        },
+        {
+          "actor_id": "reviewer_r",
+          "roles": [
+            "relation_adjudicator"
+          ],
+          "can_create_scopes": [],
+          "can_adjudicate": true
+        }
+      ],
+      "target_owner_consents": [
+        {
+          "consent_id": "consent_ra2_self_issued",
+          "owner_id": "agent_b",
+          "grantee_id": "agent_b",
+          "source_record_id": "record_new_retention_rule",
+          "target_record_id": "record_old_retention_rule",
+          "relation_type": "supersedes",
+          "granted_at": "2026-07-13T12:01:00Z"
+        }
+      ],
+      "standing_rules": [],
+      "tier2_claims": [],
+      "request": {
+        "action": "mint_relation_fact",
+        "actor_id": "reviewer_r",
+        "relation_fact_candidate": {
+          "relation_id": "relation_ra2",
+          "source_record_id": "record_new_retention_rule",
+          "target_record_id": "record_old_retention_rule",
+          "relation_type": "supersedes",
+          "asserted_by": "agent_b",
+          "authenticated_by": "reviewer_r",
+          "authenticated_at": "2026-07-13T12:02:00Z",
+          "authority_basis": {
+            "kind": "target_owner_consent",
+            "ref": "consent_ra2_self_issued"
+          },
+          "source_claim_id": null
+        }
+      },
+      "expected": {
+        "allowed": false,
+        "resulting_tier": null,
+        "alarm_code": "target_retirement_unauthorized"
+      }
+    },
+    {
+      "id": "path_a_v3_ra3_explicit_target_owner_consent",
+      "class": "retirement_authority_positive_owner_consent",
+      "records": [
+        {
+          "record_id": "record_old_access_rule",
+          "owner_id": "agent_a",
+          "scope": "security.production_access"
+        },
+        {
+          "record_id": "record_new_access_rule",
+          "owner_id": "agent_b",
+          "scope": "security.production_access"
+        }
+      ],
+      "actors": [
+        {
+          "actor_id": "agent_b",
+          "roles": [
+            "policy_writer"
+          ],
+          "can_create_scopes": [
+            "security.production_access"
+          ],
+          "can_adjudicate": false
+        },
+        {
+          "actor_id": "reviewer_r",
+          "roles": [
+            "relation_adjudicator"
+          ],
+          "can_create_scopes": [],
+          "can_adjudicate": true
+        }
+      ],
+      "target_owner_consents": [
+        {
+          "consent_id": "consent_ra3_owner_a",
+          "owner_id": "agent_a",
+          "grantee_id": "agent_b",
+          "source_record_id": "record_new_access_rule",
+          "target_record_id": "record_old_access_rule",
+          "relation_type": "supersedes",
+          "granted_at": "2026-07-13T12:03:00Z"
+        }
+      ],
+      "standing_rules": [],
+      "tier2_claims": [],
+      "request": {
+        "action": "mint_relation_fact",
+        "actor_id": "reviewer_r",
+        "relation_fact_candidate": {
+          "relation_id": "relation_ra3",
+          "source_record_id": "record_new_access_rule",
+          "target_record_id": "record_old_access_rule",
+          "relation_type": "supersedes",
+          "asserted_by": "agent_b",
+          "authenticated_by": "reviewer_r",
+          "authenticated_at": "2026-07-13T12:04:00Z",
+          "authority_basis": {
+            "kind": "target_owner_consent",
+            "ref": "consent_ra3_owner_a"
+          },
+          "source_claim_id": null
+        }
+      },
+      "expected": {
+        "allowed": true,
+        "resulting_tier": "tier_1",
+        "alarm_code": null
+      }
+    },
+    {
+      "id": "path_a_v3_ra4_standing_rule_authority",
+      "class": "retirement_authority_positive_standing_rule",
+      "records": [
+        {
+          "record_id": "record_old_incident_rule",
+          "owner_id": "agent_a",
+          "scope": "operations.incident_response"
+        },
+        {
+          "record_id": "record_new_incident_rule",
+          "owner_id": "agent_b",
+          "scope": "operations.incident_response"
+        }
+      ],
+      "actors": [
+        {
+          "actor_id": "agent_b",
+          "roles": [
+            "incident_policy_admin"
+          ],
+          "can_create_scopes": [
+            "operations.incident_response"
+          ],
+          "can_adjudicate": false
+        },
+        {
+          "actor_id": "reviewer_r",
+          "roles": [
+            "relation_adjudicator"
+          ],
+          "can_create_scopes": [],
+          "can_adjudicate": true
+        }
+      ],
+      "target_owner_consents": [],
+      "standing_rules": [
+        {
+          "rule_id": "standing_rule_incident_admin",
+          "grantee_role": "incident_policy_admin",
+          "relation_type": "supersedes",
+          "target_scope": "operations.incident_response"
+        }
+      ],
+      "tier2_claims": [],
+      "request": {
+        "action": "mint_relation_fact",
+        "actor_id": "reviewer_r",
+        "relation_fact_candidate": {
+          "relation_id": "relation_ra4",
+          "source_record_id": "record_new_incident_rule",
+          "target_record_id": "record_old_incident_rule",
+          "relation_type": "supersedes",
+          "asserted_by": "agent_b",
+          "authenticated_by": "reviewer_r",
+          "authenticated_at": "2026-07-13T12:05:00Z",
+          "authority_basis": {
+            "kind": "standing_rule",
+            "ref": "standing_rule_incident_admin"
+          },
+          "source_claim_id": null
+        }
+      },
+      "expected": {
+        "allowed": true,
+        "resulting_tier": "tier_1",
+        "alarm_code": null
+      }
+    },
+    {
+      "id": "path_a_v3_pi1_tupleless_direct_promotion",
+      "class": "promotion_integrity_negative",
+      "records": [
+        {
+          "record_id": "record_old_vendor_rule",
+          "owner_id": "agent_a",
+          "scope": "operations.vendor_contact"
+        },
+        {
+          "record_id": "record_vendor_note",
+          "owner_id": "agent_b",
+          "scope": "operations.vendor_contact"
+        }
+      ],
+      "actors": [
+        {
+          "actor_id": "reviewer_r",
+          "roles": [
+            "relation_adjudicator"
+          ],
+          "can_create_scopes": [],
+          "can_adjudicate": true
+        }
+      ],
+      "target_owner_consents": [],
+      "standing_rules": [],
+      "tier2_claims": [
+        {
+          "claim_id": "claim_pi1",
+          "source_record_id": "record_vendor_note",
+          "target_record_id": "record_old_vendor_rule",
+          "relation_type": "supersedes",
+          "asserted_by": "agent_b",
+          "from_span": "the vendor contact rule is superseded",
+          "trust_tier": "tier_2"
+        }
+      ],
+      "request": {
+        "action": "promote_claim",
+        "actor_id": "reviewer_r",
+        "claim_id": "claim_pi1",
+        "relation_fact_candidate": null,
+        "requested_tier": "tier_1"
+      },
+      "expected": {
+        "allowed": false,
+        "resulting_tier": "tier_2",
+        "alarm_code": "promotion_without_relation_fact"
+      }
+    },
+    {
+      "id": "path_a_v3_pi2_governing_use_bypass",
+      "class": "promotion_integrity_negative",
+      "records": [
+        {
+          "record_id": "record_old_purchase_rule",
+          "owner_id": "agent_a",
+          "scope": "finance.purchase_approval"
+        },
+        {
+          "record_id": "record_purchase_note",
+          "owner_id": "agent_b",
+          "scope": "finance.purchase_approval"
+        }
+      ],
+      "actors": [
+        {
+          "actor_id": "consumer_c",
+          "roles": [
+            "action_planner"
+          ],
+          "can_create_scopes": [],
+          "can_adjudicate": false
+        }
+      ],
+      "target_owner_consents": [],
+      "standing_rules": [],
+      "tier2_claims": [
+        {
+          "claim_id": "claim_pi2",
+          "source_record_id": "record_purchase_note",
+          "target_record_id": "record_old_purchase_rule",
+          "relation_type": "supersedes",
+          "asserted_by": "agent_b",
+          "from_span": "the purchase approval rule is retired",
+          "trust_tier": "tier_2"
+        }
+      ],
+      "request": {
+        "action": "governing_use",
+        "actor_id": "consumer_c",
+        "claim_id": "claim_pi2",
+        "relation_id": null,
+        "requested_tier": "tier_1"
+      },
+      "expected": {
+        "allowed": false,
+        "resulting_tier": "tier_2",
+        "alarm_code": "tier2_governing_use_blocked"
+      }
+    },
+    {
+      "id": "path_a_v3_pi3_authenticated_authorized_promotion",
+      "class": "promotion_integrity_positive",
+      "records": [
+        {
+          "record_id": "record_old_release_rule",
+          "owner_id": "agent_a",
+          "scope": "engineering.release_approval"
+        },
+        {
+          "record_id": "record_release_note",
+          "owner_id": "agent_b",
+          "scope": "engineering.release_approval"
+        }
+      ],
+      "actors": [
+        {
+          "actor_id": "agent_b",
+          "roles": [
+            "policy_writer"
+          ],
+          "can_create_scopes": [
+            "engineering.release_approval"
+          ],
+          "can_adjudicate": false
+        },
+        {
+          "actor_id": "reviewer_r",
+          "roles": [
+            "relation_adjudicator"
+          ],
+          "can_create_scopes": [],
+          "can_adjudicate": true
+        }
+      ],
+      "target_owner_consents": [
+        {
+          "consent_id": "consent_pi3_owner_a",
+          "owner_id": "agent_a",
+          "grantee_id": "agent_b",
+          "source_record_id": "record_release_note",
+          "target_record_id": "record_old_release_rule",
+          "relation_type": "supersedes",
+          "granted_at": "2026-07-13T12:06:00Z"
+        }
+      ],
+      "standing_rules": [],
+      "tier2_claims": [
+        {
+          "claim_id": "claim_pi3",
+          "source_record_id": "record_release_note",
+          "target_record_id": "record_old_release_rule",
+          "relation_type": "supersedes",
+          "asserted_by": "agent_b",
+          "from_span": "the old release approval rule is superseded",
+          "trust_tier": "tier_2"
+        }
+      ],
+      "request": {
+        "action": "adjudicate_and_promote",
+        "actor_id": "reviewer_r",
+        "claim_id": "claim_pi3",
+        "requested_tier": "tier_1",
+        "relation_fact_candidate": {
+          "relation_id": "relation_pi3",
+          "source_record_id": "record_release_note",
+          "target_record_id": "record_old_release_rule",
+          "relation_type": "supersedes",
+          "asserted_by": "agent_b",
+          "authenticated_by": "reviewer_r",
+          "authenticated_at": "2026-07-13T12:07:00Z",
+          "authority_basis": {
+            "kind": "target_owner_consent",
+            "ref": "consent_pi3_owner_a"
+          },
+          "source_claim_id": "claim_pi3"
+        }
+      },
+      "expected": {
+        "allowed": true,
+        "resulting_tier": "tier_1",
+        "alarm_code": null
+      }
+    },
+    {
+      "id": "path_a_v3_pi4_authenticated_but_unauthorized",
+      "class": "promotion_integrity_negative",
+      "records": [
+        {
+          "record_id": "record_old_privacy_rule",
+          "owner_id": "agent_a",
+          "scope": "privacy.data_export"
+        },
+        {
+          "record_id": "record_privacy_note",
+          "owner_id": "agent_b",
+          "scope": "privacy.data_export"
+        }
+      ],
+      "actors": [
+        {
+          "actor_id": "agent_b",
+          "roles": [
+            "policy_writer"
+          ],
+          "can_create_scopes": [
+            "privacy.data_export"
+          ],
+          "can_adjudicate": false
+        },
+        {
+          "actor_id": "reviewer_r",
+          "roles": [
+            "relation_adjudicator"
+          ],
+          "can_create_scopes": [],
+          "can_adjudicate": true
+        }
+      ],
+      "target_owner_consents": [],
+      "standing_rules": [],
+      "tier2_claims": [
+        {
+          "claim_id": "claim_pi4",
+          "source_record_id": "record_privacy_note",
+          "target_record_id": "record_old_privacy_rule",
+          "relation_type": "supersedes",
+          "asserted_by": "agent_b",
+          "from_span": "the old privacy export rule is superseded",
+          "trust_tier": "tier_2"
+        }
+      ],
+      "request": {
+        "action": "adjudicate_and_promote",
+        "actor_id": "reviewer_r",
+        "claim_id": "claim_pi4",
+        "requested_tier": "tier_1",
+        "relation_fact_candidate": {
+          "relation_id": "relation_pi4",
+          "source_record_id": "record_privacy_note",
+          "target_record_id": "record_old_privacy_rule",
+          "relation_type": "supersedes",
+          "asserted_by": "agent_b",
+          "authenticated_by": "reviewer_r",
+          "authenticated_at": "2026-07-13T12:08:00Z",
+          "authority_basis": null,
+          "source_claim_id": "claim_pi4"
+        }
+      },
+      "expected": {
+        "allowed": false,
+        "resulting_tier": "tier_2",
+        "alarm_code": "target_retirement_unauthorized"
+      }
+    }
+  ]
+}
