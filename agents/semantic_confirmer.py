@@ -33,6 +33,18 @@ RELATION_SPAN_LEXICON = (
     "only",
     "now",
 )
+UNIVERSAL_SCOPE_PATTERNS = (
+    r"\ball customers\b",
+    r"\bevery customer\b",
+    r"\bevery region\b",
+    r"\ball regions\b",
+    r"\bglobal\b",
+    r"\bglobally\b",
+)
+BOUNDED_CUSTOMER_SCOPE_PATTERN = re.compile(
+    r"\bfor\s+(?!all\b|every\b|any\b)([a-z][a-z -]{1,40}?)\s+customers\b",
+    flags=re.IGNORECASE,
+)
 
 
 def _norm(value: str) -> str:
@@ -72,6 +84,27 @@ def _operator_pattern(operator: str) -> re.Pattern[str]:
 
 def _operators_in(text: str) -> list[str]:
     return [op for op in RELATION_SPAN_LEXICON if _operator_pattern(op).search(text)]
+
+
+def _has_universal_scope(text: str) -> bool:
+    normalized = _norm(text)
+    return any(re.search(pattern, normalized) for pattern in UNIVERSAL_SCOPE_PATTERNS)
+
+
+def _has_bounded_customer_scope(text: str) -> bool:
+    return bool(BOUNDED_CUSTOMER_SCOPE_PATTERN.search(_norm(text)))
+
+
+def _scope_carveout_conflict(relation_type: str, cited_evidence_span: str, target_text: str) -> str | None:
+    if relation_type != "supersedes":
+        return None
+    if not _has_bounded_customer_scope(cited_evidence_span):
+        return None
+    if _has_universal_scope(cited_evidence_span):
+        return None
+    if _has_universal_scope(target_text):
+        return "bounded supersession span cannot retire broader target scope"
+    return None
 
 
 def relation_span_check(cited_evidence_span: str, scope_terms: list[str]) -> dict:
@@ -152,6 +185,9 @@ def confirm_authority_change(proposal: dict, items: list[dict], *, require_relat
         reasons.append("missing or empty evidence citation")
     if not _scope_overlaps(source["text"], target["text"], scope_terms):
         reasons.append("no deterministic scope overlap between source and target")
+    carveout_reason = _scope_carveout_conflict(relation_type, cited_evidence_span, target["text"])
+    if carveout_reason:
+        reasons.append(carveout_reason)
     relation_span = None
     if require_relation_span:
         relation_span = relation_span_check(cited_evidence_span, scope_terms)

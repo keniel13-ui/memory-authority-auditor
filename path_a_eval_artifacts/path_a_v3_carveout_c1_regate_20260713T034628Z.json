@@ -1,0 +1,100 @@
+{
+  "run_id": "20260713T034628Z",
+  "generated_at_utc": "2026-07-13T03:46:28.559149+00:00",
+  "fixture": "tests/fixtures/path_a_authority_change_v3_carveout_additions_2026_07_12.json",
+  "preregistration_addendum": "PATH_A_V3_PREREGISTRATION_ADDENDUM_CARVEOUT_2026-07-12.md",
+  "prereg_freeze_commit": "b1d44f9",
+  "fixture_commit": "48507de",
+  "c0_baseline_commit": "78d66a3",
+  "gate_under_test": "patched confirmer with bounded customer carve-out clause",
+  "boundary": "C1 only: the same two frozen c0_frozen_proposal objects are run after the carve-out defense. No fixture or prediction was changed after observing C0.",
+  "summary": {
+    "cases": 2,
+    "confirmed_after_patch": 1,
+    "expectations_held": 2,
+    "bounded_negative_blocked": true,
+    "universal_positive_admitted": true
+  },
+  "cases": [
+    {
+      "case_id": "path_a_v3_carveout_export_approval_eu",
+      "class": "partial_supersession_negative",
+      "prediction_id": "C1-1",
+      "label": "bounded negative blocked by carve-out clause",
+      "expected_confirmed_after_patch": false,
+      "confirmed_after_patch": false,
+      "expectation_held": true,
+      "confirmer_result": {
+        "confirmed": false,
+        "needs_human_judgment": true,
+        "reasons": [
+          "bounded supersession span cannot retire broader target scope"
+        ],
+        "finding": null,
+        "proposal": {
+          "type": "supersedes",
+          "source_item_id": "M002",
+          "target_item_id": "M001",
+          "cited_evidence_span": "the export approval rule is replaced for EU customers; EU customer data exports now use automated compliance review",
+          "scope_terms": [
+            "customer data exports",
+            "approval"
+          ],
+          "confidence": 0.76
+        }
+      }
+    },
+    {
+      "case_id": "path_a_v3_universal_approval_all_regions",
+      "class": "universal_scope_positive_control",
+      "prediction_id": "C1-2",
+      "label": "universal positive survives carve-out clause",
+      "expected_confirmed_after_patch": true,
+      "confirmed_after_patch": true,
+      "expectation_held": true,
+      "confirmer_result": {
+        "confirmed": true,
+        "needs_human_judgment": false,
+        "reasons": [],
+        "finding": {
+          "type": "semantic_authority_change",
+          "relation_type": "supersedes",
+          "source_item_id": "M002",
+          "target_item_id": "M001",
+          "cited_evidence_span": "the new approval rule applies to all customers in every region and replaces the old approval rule; automated policy review now governs every customer account activation",
+          "evidence": "Global update: the new approval rule applies to all customers in every region and replaces the old approval rule; automated policy review now governs every customer account activation.",
+          "target": "The old approval rule requires manual review before any customer account can be activated in any region.",
+          "scope_terms": [
+            "customer account activation",
+            "approval rule"
+          ],
+          "confidence": 0.76,
+          "relation_span": {
+            "passed": true,
+            "operators": [
+              "replaces",
+              "now"
+            ],
+            "matching_sentence": "the new approval rule applies to all customers in every region and replaces the old approval rule; automated policy review now governs every customer account activation",
+            "scope_terms_matched": [
+              "customer account activation",
+              "approval rule"
+            ],
+            "reason": null
+          }
+        },
+        "proposal": {
+          "type": "supersedes",
+          "source_item_id": "M002",
+          "target_item_id": "M001",
+          "cited_evidence_span": "the new approval rule applies to all customers in every region and replaces the old approval rule; automated policy review now governs every customer account activation",
+          "scope_terms": [
+            "customer account activation",
+            "approval rule"
+          ],
+          "confidence": 0.76
+        }
+      }
+    }
+  ]
+}

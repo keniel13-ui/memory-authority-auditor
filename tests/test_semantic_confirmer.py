@@ -8,6 +8,7 @@ from agents.semantic_confirmer import confirm_authority_change, confirm_authorit
 
 
 FIXTURE = Path(__file__).parent / "fixtures" / "path_a_authority_change_v0_2026_07_01.json"
+CARVEOUT_FIXTURE = Path(__file__).parent / "fixtures" / "path_a_authority_change_v3_carveout_additions_2026_07_12.json"
 
 
 def _cases() -> list[dict]:
@@ -16,6 +17,10 @@ def _cases() -> list[dict]:
 
 def _items(case: dict) -> list[dict]:
     return [item.to_dict() for item in extract_memories(case["text"])]
+
+
+def _carveout_cases() -> list[dict]:
+    return json.loads(CARVEOUT_FIXTURE.read_text())["cases"]
 
 
 def test_frozen_path_a_positive_relations_confirm_against_local_evidence():
@@ -170,3 +175,20 @@ def test_relation_span_operator_matching_uses_word_boundaries():
 
     assert not check["passed"]
     assert check["operators"] == []
+
+
+def test_bounded_customer_carveout_does_not_confirm_global_supersession():
+    case = next(case for case in _carveout_cases() if case["id"] == "path_a_v3_carveout_export_approval_eu")
+
+    result = confirm_authority_change(case["c0_frozen_proposal"], _items(case), require_relation_span=True)
+
+    assert not result["confirmed"]
+    assert "bounded supersession span cannot retire broader target scope" in result["reasons"]
+
+
+def test_universal_scope_positive_control_survives_carveout_clause():
+    case = next(case for case in _carveout_cases() if case["id"] == "path_a_v3_universal_approval_all_regions")
+
+    result = confirm_authority_change(case["c0_frozen_proposal"], _items(case), require_relation_span=True)
+
+    assert result["confirmed"], result["reasons"]
