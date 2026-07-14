@@ -1,0 +1,44 @@
+{
+  "packet": "path_a_v3_mint_time_revocation_2026_07_14",
+  "status": "authored_after_public_freeze_e3b4e48_before_patch_or_run",
+  "prereg": "PATH_A_V3_PREREGISTRATION_ADDENDUM_MINT_TIME_REVOCATION_2026-07-14.md",
+  "prereg_freeze_commit": "e3b4e48",
+  "cases": [
+    {
+      "id": "path_a_v3_tr1_valid_at_propose_revoked_before_mint",
+      "class": "mint_time_revocation_negative_stale_snapshot",
+      "records": [
+        {"record_id": "old_tr1", "owner_id": "agent_a", "scope": "ops.tr1"},
+        {"record_id": "new_tr1", "owner_id": "agent_b", "scope": "ops.tr1"}
+      ],
+      "actors": [
+        {"actor_id": "agent_b", "can_request_retirement": true},
+        {"actor_id": "reviewer_r", "can_adjudicate": true}
+      ],
+      "infrastructure_capability_receipts": [
+        {"receipt_id": "infra_tr1", "channel_id": "owner_console", "manifest_writable_by": ["infra_admin"], "channel_write_principals": ["agent_a"], "signing_key_id": "owner_key_tr1", "signing_key_access_principals": ["agent_a"], "resolves": true}
+      ],
+      "authority_roots": [
+        {"root_event_id": "root_tr1_grant", "channel_id": "owner_console", "channel_writable_by": ["agent_a"], "actor_id": "agent_a", "action": "grant_retirement", "occurred_at": "2026-07-14T13:00:00Z", "resolves": true, "capability_receipt_id": "infra_tr1"},
+        {"root_event_id": "root_tr1_revoke", "channel_id": "owner_console", "channel_writable_by": ["agent_a"], "actor_id": "agent_a", "action": "revoke_retirement", "occurred_at": "2026-07-14T13:30:00Z", "resolves": true, "capability_receipt_id": "infra_tr1"}
+      ],
+      "standing_grants": [
+        {"grant_id": "grant_tr1", "root_event_id": "root_tr1_grant", "grantor_id": "agent_a", "grantee_id": "agent_b", "target_record_id": "old_tr1", "relation_type": "supersedes", "issued_at": "2026-07-14T13:00:00Z", "expires_at": "2026-07-14T15:00:00Z"}
+      ],
+      "revocations": [
+        {"revocation_id": "revoke_tr1", "grant_id": "grant_tr1", "root_event_id": "root_tr1_revoke", "revoked_at": "2026-07-14T13:30:00Z"}
+      ],
+      "request": {
+        "action": "mint_relation_fact",
+        "requester_id": "agent_b",
+        "executor_id": "reviewer_r",
+        "relation_component_id": "relation_component",
+        "proposed_at": "2026-07-14T13:15:00Z",
+        "minted_at": "2026-07-14T14:00:00Z",
+        "proposal_authority_snapshot": {"grant_id": "grant_tr1", "observed_valid": true, "observed_at": "2026-07-14T13:15:00Z"},
+        "relation_fact_candidate": {"relation_id": "rel_tr1", "source_record_id": "new_tr1", "target_record_id": "old_tr1", "relation_type": "supersedes", "authority_basis": {"kind": "standing_grant", "ref": "grant_tr1"}}
+      },
+      "expected": {"allowed": false, "resulting_tier": null, "alarm_code": "retirement_grant_revoked", "root_receipt_id": "root_tr1_revoke"}
+    }
+  ]
+}
