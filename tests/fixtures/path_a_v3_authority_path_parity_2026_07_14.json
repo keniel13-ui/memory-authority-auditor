@@ -1,0 +1,83 @@
+{
+  "packet": "path_a_v3_authority_path_parity_2026_07_14",
+  "status": "authored_after_independent_audit_and_public_parity_freeze_before_patch",
+  "prereg": "PATH_A_V3_PREREGISTRATION_ADDENDUM_AUTHORITY_PATH_PARITY_2026-07-14.md",
+  "prereg_freeze_commit": "0535388",
+  "independent_audit_commit": "e1ce236",
+  "cases": [
+    {
+      "id": "path_a_v3_ap1_unrooted_target_owner_consent",
+      "class": "authority_path_parity_negative_unrooted_consent",
+      "records": [
+        {"record_id": "old_ap1", "owner_id": "agent_a", "scope": "ops.ap1"},
+        {"record_id": "new_ap1", "owner_id": "agent_b", "scope": "ops.ap1"}
+      ],
+      "actors": [
+        {"actor_id": "agent_b", "can_request_retirement": true},
+        {"actor_id": "reviewer_r", "can_adjudicate": true}
+      ],
+      "target_owner_consents": [
+        {"consent_id": "consent_ap1", "owner_id": "agent_a", "grantee_id": "agent_b", "source_record_id": "new_ap1", "target_record_id": "old_ap1", "relation_type": "supersedes", "root_event_id": null}
+      ],
+      "authority_roots": [],
+      "request": {
+        "action": "mint_relation_fact",
+        "requester_id": "agent_b",
+        "executor_id": "reviewer_r",
+        "minted_at": "2026-07-14T13:00:00Z",
+        "relation_fact_candidate": {"relation_id": "rel_ap1", "source_record_id": "new_ap1", "target_record_id": "old_ap1", "relation_type": "supersedes", "asserted_by": "agent_b", "authenticated_by": "reviewer_r", "authority_basis": {"kind": "target_owner_consent", "ref": "consent_ap1"}}
+      },
+      "expected": {"allowed": false, "resulting_tier": null, "alarm_code": "authority_root_not_external"}
+    },
+    {
+      "id": "path_a_v3_ap2_blanket_legacy_standing_rule",
+      "class": "authority_path_parity_negative_blanket_rule",
+      "records": [
+        {"record_id": "old_ap2", "owner_id": "agent_a", "scope": "ops.ap2"},
+        {"record_id": "new_ap2", "owner_id": "agent_b", "scope": "ops.ap2"}
+      ],
+      "actors": [
+        {"actor_id": "agent_b", "roles": ["ops_admin"], "can_request_retirement": true},
+        {"actor_id": "reviewer_r", "can_adjudicate": true}
+      ],
+      "standing_rules": [
+        {"rule_id": "rule_ap2_blanket", "grantee_role": "ops_admin", "relation_type": "supersedes", "target_scope": "ops.ap2"}
+      ],
+      "authority_roots": [],
+      "request": {
+        "action": "mint_relation_fact",
+        "requester_id": "agent_b",
+        "executor_id": "reviewer_r",
+        "minted_at": "2026-07-14T13:00:00Z",
+        "relation_fact_candidate": {"relation_id": "rel_ap2", "source_record_id": "new_ap2", "target_record_id": "old_ap2", "relation_type": "supersedes", "asserted_by": "agent_b", "authenticated_by": "reviewer_r", "authority_basis": {"kind": "standing_rule", "ref": "rule_ap2_blanket"}}
+      },
+      "expected": {"allowed": false, "resulting_tier": null, "alarm_code": "standing_rule_too_broad"}
+    },
+    {
+      "id": "path_a_v3_ap3_consent_confused_deputy",
+      "class": "authority_path_parity_negative_consent_deputy",
+      "records": [
+        {"record_id": "old_ap3", "owner_id": "agent_a", "scope": "ops.ap3"},
+        {"record_id": "new_ap3", "owner_id": "agent_b", "scope": "ops.ap3"}
+      ],
+      "actors": [
+        {"actor_id": "agent_b", "can_request_retirement": true},
+        {"actor_id": "reviewer_r", "can_adjudicate": true}
+      ],
+      "authority_roots": [
+        {"root_event_id": "root_ap3", "channel_id": "owner_console", "channel_writable_by": ["agent_a"], "actor_id": "agent_a", "action": "grant_retirement", "occurred_at": "2026-07-14T12:00:00Z", "resolves": true}
+      ],
+      "target_owner_consents": [
+        {"consent_id": "consent_ap3_reviewer_only", "owner_id": "agent_a", "grantee_id": "reviewer_r", "source_record_id": "new_ap3", "target_record_id": "old_ap3", "relation_type": "supersedes", "root_event_id": "root_ap3"}
+      ],
+      "request": {
+        "action": "mint_relation_fact",
+        "requester_id": "agent_b",
+        "executor_id": "reviewer_r",
+        "minted_at": "2026-07-14T13:00:00Z",
+        "relation_fact_candidate": {"relation_id": "rel_ap3", "source_record_id": "new_ap3", "target_record_id": "old_ap3", "relation_type": "supersedes", "asserted_by": "agent_b", "authenticated_by": "reviewer_r", "authority_basis": {"kind": "target_owner_consent", "ref": "consent_ap3_reviewer_only"}}
+      },
+      "expected": {"allowed": false, "resulting_tier": null, "alarm_code": "confused_deputy_retirement"}
+    }
+  ]
+}
