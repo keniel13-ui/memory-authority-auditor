@@ -1,0 +1,176 @@
+{
+  "packet": "path_a_v3_provenance_disjointness_2026_07_13",
+  "status": "authored_after_public_freeze_fb30c2c_before_any_provenance_defense_or_run",
+  "prereg": "PATH_A_V3_PREREGISTRATION_ADDENDUM_PROVENANCE_DISJOINTNESS_2026-07-13.md",
+  "prereg_freeze_commit": "fb30c2c",
+  "purpose": "Three additions-only cases separating declared path disjointness from actual independence.",
+  "cases": [
+    {
+      "id": "path_a_v3_pd1_resolvable_disjoint_paths",
+      "class": "provenance_disjointness_positive",
+      "records": [
+        {"record_id": "record_old_policy_pd1", "owner_id": "agent_a", "scope": "policy.pd1"},
+        {"record_id": "record_new_policy_pd1", "owner_id": "agent_b", "scope": "policy.pd1"}
+      ],
+      "actors": [
+        {"actor_id": "agent_b", "can_write_scope": "policy.pd1", "can_adjudicate": false},
+        {"actor_id": "reviewer_r", "can_write_scope": null, "can_adjudicate": true}
+      ],
+      "target_owner_consents": [
+        {"consent_id": "consent_pd1", "owner_id": "agent_a", "grantee_id": "reviewer_r", "target_record_id": "record_old_policy_pd1", "relation_type": "supersedes"}
+      ],
+      "provenance_nodes": [
+        {"node_id": "writer_primary_policy_db", "resolves": true},
+        {"node_id": "writer_signed_export", "resolves": true},
+        {"node_id": "arbiter_independent_archive", "resolves": true},
+        {"node_id": "arbiter_direct_snapshot", "resolves": true}
+      ],
+      "provenance_paths": [
+        {
+          "path_id": "writer_path_pd1",
+          "declared_by": "agent_b",
+          "node_ids": ["writer_primary_policy_db", "writer_signed_export"]
+        },
+        {
+          "path_id": "arbiter_path_pd1",
+          "declared_by": "reviewer_r",
+          "node_ids": ["arbiter_independent_archive", "arbiter_direct_snapshot"]
+        }
+      ],
+      "request": {
+        "action": "adjudicate_and_promote",
+        "actor_id": "reviewer_r",
+        "relation_fact_candidate": {
+          "relation_id": "relation_pd1",
+          "source_record_id": "record_new_policy_pd1",
+          "target_record_id": "record_old_policy_pd1",
+          "relation_type": "supersedes",
+          "asserted_by": "agent_b",
+          "authenticated_by": "reviewer_r",
+          "authority_basis": {"kind": "target_owner_consent", "ref": "consent_pd1"},
+          "writer_provenance_path_id": "writer_path_pd1",
+          "adjudicator_provenance_path_id": "arbiter_path_pd1"
+        }
+      },
+      "expected": {
+        "allowed": true,
+        "alarm_code": null,
+        "declared_shared_nodes": []
+      }
+    },
+    {
+      "id": "path_a_v3_pd2_declared_common_cause",
+      "class": "provenance_disjointness_negative",
+      "records": [
+        {"record_id": "record_old_policy_pd2", "owner_id": "agent_a", "scope": "policy.pd2"},
+        {"record_id": "record_new_policy_pd2", "owner_id": "agent_b", "scope": "policy.pd2"}
+      ],
+      "actors": [
+        {"actor_id": "agent_b", "can_write_scope": "policy.pd2", "can_adjudicate": false},
+        {"actor_id": "reviewer_r", "can_write_scope": null, "can_adjudicate": true}
+      ],
+      "target_owner_consents": [
+        {"consent_id": "consent_pd2", "owner_id": "agent_a", "grantee_id": "reviewer_r", "target_record_id": "record_old_policy_pd2", "relation_type": "supersedes"}
+      ],
+      "provenance_nodes": [
+        {"node_id": "shared_vendor_feed", "resolves": true},
+        {"node_id": "writer_vendor_cache", "resolves": true},
+        {"node_id": "arbiter_vendor_mirror", "resolves": true}
+      ],
+      "provenance_paths": [
+        {
+          "path_id": "writer_path_pd2",
+          "declared_by": "agent_b",
+          "node_ids": ["shared_vendor_feed", "writer_vendor_cache"]
+        },
+        {
+          "path_id": "arbiter_path_pd2",
+          "declared_by": "reviewer_r",
+          "node_ids": ["shared_vendor_feed", "arbiter_vendor_mirror"]
+        }
+      ],
+      "request": {
+        "action": "adjudicate_and_promote",
+        "actor_id": "reviewer_r",
+        "relation_fact_candidate": {
+          "relation_id": "relation_pd2",
+          "source_record_id": "record_new_policy_pd2",
+          "target_record_id": "record_old_policy_pd2",
+          "relation_type": "supersedes",
+          "asserted_by": "agent_b",
+          "authenticated_by": "reviewer_r",
+          "authority_basis": {"kind": "target_owner_consent", "ref": "consent_pd2"},
+          "writer_provenance_path_id": "writer_path_pd2",
+          "adjudicator_provenance_path_id": "arbiter_path_pd2"
+        }
+      },
+      "expected": {
+        "allowed": false,
+        "alarm_code": "provenance_common_node",
+        "declared_shared_nodes": ["shared_vendor_feed"]
+      }
+    },
+    {
+      "id": "path_a_v3_pd3_hidden_white_label_common_cause",
+      "class": "provenance_disjointness_adversarial_ceiling",
+      "records": [
+        {"record_id": "record_old_policy_pd3", "owner_id": "agent_a", "scope": "policy.pd3"},
+        {"record_id": "record_new_policy_pd3", "owner_id": "agent_b", "scope": "policy.pd3"}
+      ],
+      "actors": [
+        {"actor_id": "agent_b", "can_write_scope": "policy.pd3", "can_adjudicate": false},
+        {"actor_id": "reviewer_r", "can_write_scope": null, "can_adjudicate": true}
+      ],
+      "target_owner_consents": [
+        {"consent_id": "consent_pd3", "owner_id": "agent_a", "grantee_id": "reviewer_r", "target_record_id": "record_old_policy_pd3", "relation_type": "supersedes"}
+      ],
+      "provenance_nodes": [
+        {"node_id": "writer_named_feed", "resolves": true},
+        {"node_id": "writer_local_cache", "resolves": true},
+        {"node_id": "arbiter_white_label_feed", "resolves": true},
+        {"node_id": "arbiter_local_cache", "resolves": true}
+      ],
+      "provenance_paths": [
+        {
+          "path_id": "writer_path_pd3",
+          "declared_by": "agent_b",
+          "node_ids": ["writer_named_feed", "writer_local_cache"]
+        },
+        {
+          "path_id": "arbiter_path_pd3",
+          "declared_by": "reviewer_r",
+          "node_ids": ["arbiter_white_label_feed", "arbiter_local_cache"]
+        }
+      ],
+      "request": {
+        "action": "adjudicate_and_promote",
+        "actor_id": "reviewer_r",
+        "relation_fact_candidate": {
+          "relation_id": "relation_pd3",
+          "source_record_id": "record_new_policy_pd3",
+          "target_record_id": "record_old_policy_pd3",
+          "relation_type": "supersedes",
+          "asserted_by": "agent_b",
+          "authenticated_by": "reviewer_r",
+          "authority_basis": {"kind": "target_owner_consent", "ref": "consent_pd3"},
+          "writer_provenance_path_id": "writer_path_pd3",
+          "adjudicator_provenance_path_id": "arbiter_path_pd3"
+        }
+      },
+      "ground_truth_outside_candidate": {
+        "actual_shared_dependency": "undisclosed_upstream_element_set",
+        "writer_declared_node": "writer_named_feed",
+        "arbiter_declared_node": "arbiter_white_label_feed",
+        "disclosure_status": "hidden_from_gate"
+      },
+      "expected": {
+        "allowed_by_declared_path_gate": true,
+        "alarm_code": null,
+        "declared_shared_nodes": [],
+        "actual_independence": false,
+        "counts_toward_pass_bar": false,
+        "required_receipt": "declared disjointness did not reveal hidden common cause"
+      }
+    }
+  ]
+}
