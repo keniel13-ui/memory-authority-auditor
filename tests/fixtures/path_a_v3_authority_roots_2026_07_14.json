@@ -1,0 +1,174 @@
+{
+  "packet": "path_a_v3_authority_roots_2026_07_14",
+  "status": "authored_after_public_freeze_40ff5eb_before_any_authority_root_defense_or_run",
+  "prereg": "PATH_A_V3_PREREGISTRATION_ADDENDUM_AUTHORITY_ROOTS_2026-07-14.md",
+  "prereg_freeze_commit": "40ff5eb",
+  "purpose": "Six final authority-side cases for grant lifecycle, confused deputy, and external authority roots.",
+  "cases": [
+    {
+      "id": "path_a_v3_gl1_narrow_live_standing_grant",
+      "class": "grant_lifecycle_positive",
+      "records": [
+        {"record_id": "old_gl1", "owner_id": "agent_a", "scope": "ops.gl1"},
+        {"record_id": "new_gl1", "owner_id": "agent_b", "scope": "ops.gl1"}
+      ],
+      "actors": [
+        {"actor_id": "agent_b", "can_request_retirement": true},
+        {"actor_id": "reviewer_r", "can_adjudicate": true}
+      ],
+      "authority_roots": [
+        {"root_event_id": "root_gl1", "channel_id": "owner_console", "channel_writable_by": ["agent_a"], "actor_id": "agent_a", "action": "grant_retirement", "occurred_at": "2026-07-14T10:00:00Z", "resolves": true}
+      ],
+      "standing_grants": [
+        {"grant_id": "grant_gl1", "root_event_id": "root_gl1", "grantor_id": "agent_a", "grantee_id": "agent_b", "target_record_id": "old_gl1", "relation_type": "supersedes", "issued_at": "2026-07-14T10:00:00Z", "expires_at": "2026-07-14T12:00:00Z"}
+      ],
+      "revocations": [],
+      "request": {
+        "action": "mint_relation_fact",
+        "requester_id": "agent_b",
+        "executor_id": "reviewer_r",
+        "minted_at": "2026-07-14T11:00:00Z",
+        "relation_fact_candidate": {"relation_id": "rel_gl1", "source_record_id": "new_gl1", "target_record_id": "old_gl1", "relation_type": "supersedes", "authority_basis": {"kind": "standing_grant", "ref": "grant_gl1"}}
+      },
+      "expected": {"allowed": true, "alarm_code": null, "root_receipt_id": "root_gl1"}
+    },
+    {
+      "id": "path_a_v3_gl2_expired_standing_grant",
+      "class": "grant_lifecycle_negative_expired",
+      "records": [
+        {"record_id": "old_gl2", "owner_id": "agent_a", "scope": "ops.gl2"},
+        {"record_id": "new_gl2", "owner_id": "agent_b", "scope": "ops.gl2"}
+      ],
+      "actors": [
+        {"actor_id": "agent_b", "can_request_retirement": true},
+        {"actor_id": "reviewer_r", "can_adjudicate": true}
+      ],
+      "authority_roots": [
+        {"root_event_id": "root_gl2", "channel_id": "owner_console", "channel_writable_by": ["agent_a"], "actor_id": "agent_a", "action": "grant_retirement", "occurred_at": "2026-07-14T08:00:00Z", "resolves": true}
+      ],
+      "standing_grants": [
+        {"grant_id": "grant_gl2", "root_event_id": "root_gl2", "grantor_id": "agent_a", "grantee_id": "agent_b", "target_record_id": "old_gl2", "relation_type": "supersedes", "issued_at": "2026-07-14T08:00:00Z", "expires_at": "2026-07-14T10:00:00Z"}
+      ],
+      "revocations": [],
+      "request": {
+        "action": "mint_relation_fact",
+        "requester_id": "agent_b",
+        "executor_id": "reviewer_r",
+        "minted_at": "2026-07-14T11:00:00Z",
+        "relation_fact_candidate": {"relation_id": "rel_gl2", "source_record_id": "new_gl2", "target_record_id": "old_gl2", "relation_type": "supersedes", "authority_basis": {"kind": "standing_grant", "ref": "grant_gl2"}}
+      },
+      "expected": {"allowed": false, "alarm_code": "retirement_grant_expired", "root_receipt_id": "root_gl2"}
+    },
+    {
+      "id": "path_a_v3_gl3_revoked_standing_grant",
+      "class": "grant_lifecycle_negative_revoked",
+      "records": [
+        {"record_id": "old_gl3", "owner_id": "agent_a", "scope": "ops.gl3"},
+        {"record_id": "new_gl3", "owner_id": "agent_b", "scope": "ops.gl3"}
+      ],
+      "actors": [
+        {"actor_id": "agent_b", "can_request_retirement": true},
+        {"actor_id": "reviewer_r", "can_adjudicate": true}
+      ],
+      "authority_roots": [
+        {"root_event_id": "root_gl3_grant", "channel_id": "owner_console", "channel_writable_by": ["agent_a"], "actor_id": "agent_a", "action": "grant_retirement", "occurred_at": "2026-07-14T08:00:00Z", "resolves": true},
+        {"root_event_id": "root_gl3_revoke", "channel_id": "owner_console", "channel_writable_by": ["agent_a"], "actor_id": "agent_a", "action": "revoke_retirement", "occurred_at": "2026-07-14T10:30:00Z", "resolves": true}
+      ],
+      "standing_grants": [
+        {"grant_id": "grant_gl3", "root_event_id": "root_gl3_grant", "grantor_id": "agent_a", "grantee_id": "agent_b", "target_record_id": "old_gl3", "relation_type": "supersedes", "issued_at": "2026-07-14T08:00:00Z", "expires_at": "2026-07-14T12:00:00Z"}
+      ],
+      "revocations": [
+        {"revocation_id": "revoke_gl3", "grant_id": "grant_gl3", "root_event_id": "root_gl3_revoke", "revoked_at": "2026-07-14T10:30:00Z"}
+      ],
+      "request": {
+        "action": "mint_relation_fact",
+        "requester_id": "agent_b",
+        "executor_id": "reviewer_r",
+        "minted_at": "2026-07-14T11:00:00Z",
+        "relation_fact_candidate": {"relation_id": "rel_gl3", "source_record_id": "new_gl3", "target_record_id": "old_gl3", "relation_type": "supersedes", "authority_basis": {"kind": "standing_grant", "ref": "grant_gl3"}}
+      },
+      "expected": {"allowed": false, "alarm_code": "retirement_grant_revoked", "root_receipt_id": "root_gl3_revoke"}
+    },
+    {
+      "id": "path_a_v3_cd1_confused_deputy_retirement",
+      "class": "confused_deputy_negative",
+      "records": [
+        {"record_id": "old_cd1", "owner_id": "agent_a", "scope": "ops.cd1"},
+        {"record_id": "new_cd1", "owner_id": "agent_b", "scope": "ops.cd1"}
+      ],
+      "actors": [
+        {"actor_id": "agent_b", "can_request_retirement": true},
+        {"actor_id": "reviewer_r", "can_adjudicate": true}
+      ],
+      "authority_roots": [
+        {"root_event_id": "root_cd1", "channel_id": "owner_console", "channel_writable_by": ["agent_a"], "actor_id": "agent_a", "action": "grant_retirement", "occurred_at": "2026-07-14T09:00:00Z", "resolves": true}
+      ],
+      "standing_grants": [
+        {"grant_id": "grant_cd1_reviewer_only", "root_event_id": "root_cd1", "grantor_id": "agent_a", "grantee_id": "reviewer_r", "target_record_id": "old_cd1", "relation_type": "supersedes", "issued_at": "2026-07-14T09:00:00Z", "expires_at": "2026-07-14T12:00:00Z"}
+      ],
+      "revocations": [],
+      "request": {
+        "action": "mint_relation_fact",
+        "requester_id": "agent_b",
+        "executor_id": "reviewer_r",
+        "minted_at": "2026-07-14T11:00:00Z",
+        "relation_fact_candidate": {"relation_id": "rel_cd1", "source_record_id": "new_cd1", "target_record_id": "old_cd1", "relation_type": "supersedes", "authority_basis": {"kind": "standing_grant", "ref": "grant_cd1_reviewer_only"}}
+      },
+      "expected": {"allowed": false, "alarm_code": "confused_deputy_retirement", "root_receipt_id": "root_cd1"}
+    },
+    {
+      "id": "path_a_v3_ar1_self_minted_authority_root",
+      "class": "authority_root_negative_self_minted",
+      "records": [
+        {"record_id": "old_ar1", "owner_id": "agent_a", "scope": "ops.ar1"},
+        {"record_id": "new_ar1", "owner_id": "agent_b", "scope": "ops.ar1"}
+      ],
+      "actors": [
+        {"actor_id": "agent_b", "can_request_retirement": true},
+        {"actor_id": "reviewer_r", "can_adjudicate": true}
+      ],
+      "authority_roots": [
+        {"root_event_id": "root_ar1", "channel_id": "relation_store", "channel_writable_by": ["agent_b", "relation_component"], "actor_id": "agent_a", "action": "grant_retirement", "occurred_at": "2026-07-14T10:00:00Z", "resolves": true}
+      ],
+      "standing_grants": [
+        {"grant_id": "grant_ar1", "root_event_id": "root_ar1", "grantor_id": "agent_a", "grantee_id": "agent_b", "target_record_id": "old_ar1", "relation_type": "supersedes", "issued_at": "2026-07-14T10:00:00Z", "expires_at": "2026-07-14T12:00:00Z"}
+      ],
+      "revocations": [],
+      "request": {
+        "action": "mint_relation_fact",
+        "requester_id": "agent_b",
+        "executor_id": "reviewer_r",
+        "minted_at": "2026-07-14T11:00:00Z",
+        "relation_fact_candidate": {"relation_id": "rel_ar1", "source_record_id": "new_ar1", "target_record_id": "old_ar1", "relation_type": "supersedes", "authority_basis": {"kind": "standing_grant", "ref": "grant_ar1"}}
+      },
+      "expected": {"allowed": false, "alarm_code": "authority_root_not_external", "root_receipt_id": "root_ar1"}
+    },
+    {
+      "id": "path_a_v3_ar2_externally_rooted_owner_action",
+      "class": "authority_root_positive_external",
+      "records": [
+        {"record_id": "old_ar2", "owner_id": "agent_a", "scope": "ops.ar2"},
+        {"record_id": "new_ar2", "owner_id": "agent_b", "scope": "ops.ar2"}
+      ],
+      "actors": [
+        {"actor_id": "agent_b", "can_request_retirement": true},
+        {"actor_id": "reviewer_r", "can_adjudicate": true}
+      ],
+      "authority_roots": [
+        {"root_event_id": "root_ar2", "channel_id": "owner_console", "channel_writable_by": ["agent_a"], "actor_id": "agent_a", "action": "grant_retirement", "occurred_at": "2026-07-14T10:00:00Z", "resolves": true}
+      ],
+      "standing_grants": [
+        {"grant_id": "grant_ar2", "root_event_id": "root_ar2", "grantor_id": "agent_a", "grantee_id": "agent_b", "target_record_id": "old_ar2", "relation_type": "supersedes", "issued_at": "2026-07-14T10:00:00Z", "expires_at": "2026-07-14T12:00:00Z"}
+      ],
+      "revocations": [],
+      "request": {
+        "action": "mint_relation_fact",
+        "requester_id": "agent_b",
+        "executor_id": "reviewer_r",
+        "minted_at": "2026-07-14T11:00:00Z",
+        "relation_fact_candidate": {"relation_id": "rel_ar2", "source_record_id": "new_ar2", "target_record_id": "old_ar2", "relation_type": "supersedes", "authority_basis": {"kind": "standing_grant", "ref": "grant_ar2"}}
+      },
+      "expected": {"allowed": true, "alarm_code": null, "root_receipt_id": "root_ar2"}
+    }
+  ]
+}
