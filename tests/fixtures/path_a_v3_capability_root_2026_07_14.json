@@ -1,0 +1,86 @@
+{
+  "packet": "path_a_v3_capability_root_2026_07_14",
+  "status": "authored_after_public_capability_root_freeze_before_patch_or_run",
+  "prereg": "PATH_A_V3_PREREGISTRATION_ADDENDUM_CAPABILITY_ROOT_2026-07-14.md",
+  "prereg_freeze_commit": "47053cf",
+  "cases": [
+    {
+      "id": "path_a_v3_cb1_external_label_reachable_capability",
+      "class": "capability_root_negative_reachable_channel",
+      "records": [
+        {"record_id": "old_cb1", "owner_id": "agent_a", "scope": "ops.cb1"},
+        {"record_id": "new_cb1", "owner_id": "agent_b", "scope": "ops.cb1"}
+      ],
+      "actors": [
+        {"actor_id": "agent_b", "can_request_retirement": true},
+        {"actor_id": "reviewer_r", "can_adjudicate": true}
+      ],
+      "infrastructure_capability_receipts": [
+        {
+          "receipt_id": "infra_cb1",
+          "channel_id": "owner_console",
+          "manifest_writable_by": ["infra_admin"],
+          "channel_write_principals": ["agent_a", "relation_component"],
+          "signing_key_id": "owner_key_cb1",
+          "signing_key_access_principals": ["agent_a", "relation_component"],
+          "resolves": true
+        }
+      ],
+      "authority_roots": [
+        {"root_event_id": "root_cb1", "channel_id": "owner_console", "channel_writable_by": ["agent_a"], "actor_id": "agent_a", "action": "grant_retirement", "occurred_at": "2026-07-14T13:00:00Z", "resolves": true, "capability_receipt_id": "infra_cb1"}
+      ],
+      "standing_grants": [
+        {"grant_id": "grant_cb1", "root_event_id": "root_cb1", "grantor_id": "agent_a", "grantee_id": "agent_b", "target_record_id": "old_cb1", "relation_type": "supersedes", "issued_at": "2026-07-14T13:00:00Z", "expires_at": "2026-07-14T15:00:00Z"}
+      ],
+      "revocations": [],
+      "request": {
+        "action": "mint_relation_fact",
+        "requester_id": "agent_b",
+        "executor_id": "reviewer_r",
+        "relation_component_id": "relation_component",
+        "minted_at": "2026-07-14T14:00:00Z",
+        "relation_fact_candidate": {"relation_id": "rel_cb1", "source_record_id": "new_cb1", "target_record_id": "old_cb1", "relation_type": "supersedes", "authority_basis": {"kind": "standing_grant", "ref": "grant_cb1"}}
+      },
+      "expected": {"allowed": false, "resulting_tier": null, "alarm_code": "authority_channel_reachable_by_relation_writer", "capability_receipt_id": "infra_cb1"}
+    },
+    {
+      "id": "path_a_v3_cb2_capability_separated_root",
+      "class": "capability_root_positive_separated_channel",
+      "records": [
+        {"record_id": "old_cb2", "owner_id": "agent_a", "scope": "ops.cb2"},
+        {"record_id": "new_cb2", "owner_id": "agent_b", "scope": "ops.cb2"}
+      ],
+      "actors": [
+        {"actor_id": "agent_b", "can_request_retirement": true},
+        {"actor_id": "reviewer_r", "can_adjudicate": true}
+      ],
+      "infrastructure_capability_receipts": [
+        {
+          "receipt_id": "infra_cb2",
+          "channel_id": "owner_console",
+          "manifest_writable_by": ["infra_admin"],
+          "channel_write_principals": ["agent_a"],
+          "signing_key_id": "owner_key_cb2",
+          "signing_key_access_principals": ["agent_a"],
+          "resolves": true
+        }
+      ],
+      "authority_roots": [
+        {"root_event_id": "root_cb2", "channel_id": "owner_console", "channel_writable_by": ["agent_a"], "actor_id": "agent_a", "action": "grant_retirement", "occurred_at": "2026-07-14T13:00:00Z", "resolves": true, "capability_receipt_id": "infra_cb2"}
+      ],
+      "standing_grants": [
+        {"grant_id": "grant_cb2", "root_event_id": "root_cb2", "grantor_id": "agent_a", "grantee_id": "agent_b", "target_record_id": "old_cb2", "relation_type": "supersedes", "issued_at": "2026-07-14T13:00:00Z", "expires_at": "2026-07-14T15:00:00Z"}
+      ],
+      "revocations": [],
+      "request": {
+        "action": "mint_relation_fact",
+        "requester_id": "agent_b",
+        "executor_id": "reviewer_r",
+        "relation_component_id": "relation_component",
+        "minted_at": "2026-07-14T14:00:00Z",
+        "relation_fact_candidate": {"relation_id": "rel_cb2", "source_record_id": "new_cb2", "target_record_id": "old_cb2", "relation_type": "supersedes", "authority_basis": {"kind": "standing_grant", "ref": "grant_cb2"}}
+      },
+      "expected": {"allowed": true, "resulting_tier": "tier_1", "alarm_code": null, "capability_receipt_id": "infra_cb2"}
+    }
+  ]
+}
