@@ -54,43 +54,78 @@ def _can_adjudicate(actor: dict | None) -> bool:
     return bool((actor or {}).get("can_adjudicate"))
 
 
-def _valid_consent(case: dict, fact: dict, grantee_ids: set[str]) -> tuple[bool, dict | None]:
+def _capability_receipt(case: dict, receipt_id: str | None) -> dict | None:
+    if not receipt_id:
+        return None
+    return _index(case.get("infrastructure_capability_receipts", []), "receipt_id").get(receipt_id)
+
+
+def _valid_consent(
+    case: dict,
+    request: dict,
+    fact: dict,
+    requester_id: str | None,
+) -> tuple[bool, dict | None, str | None, dict | None]:
     basis = fact.get("authority_basis") or {}
     if basis.get("kind") != "target_owner_consent":
-        return False, None
+        return False, None, None, None
     consent = _index(case.get("target_owner_consents", []), "consent_id").get(basis.get("ref"))
     target = _record(case, fact.get("target_record_id"))
     if not consent or not target:
-        return False, consent
+        return False, consent, None, None
     if consent.get("owner_id") != target.get("owner_id"):
-        return False, consent
+        return False, consent, None, None
+    if "root_event_id" in consent:
+        root_ok, root, root_alarm = _root_is_external(case, request, consent.get("root_event_id"))
+        if not root_ok:
+            return False, consent, root_alarm or "authority_root_not_external", root
+    else:
+        root = None
+    grantee_ids = {value for value in (requester_id,) if value}
+    if "requester_id" not in request and request.get("action") == "adjudicate_and_promote":
+        grantee_ids.update(
+            value
+            for value in (_executor_id(request, fact), fact.get("asserted_by"), fact.get("authenticated_by"))
+            if value
+        )
     if consent.get("grantee_id") not in grantee_ids:
-        return False, consent
+        return False, consent, "confused_deputy_retirement", root
     if consent.get("target_record_id") != fact.get("target_record_id"):
-        return False, consent
+        return False, consent, None, root
     if consent.get("source_record_id") and consent.get("source_record_id") != fact.get("source_record_id"):
-        return False, consent
+        return False, consent, None, root
     if consent.get("relation_type") != fact.get("relation_type"):
-        return False, consent
-    return True, consent
+        return False, consent, None, root
+    return True, consent, None, root
 
 
-def _root_is_external(case: dict, root_event_id: str | None) -> tuple[bool, dict | None]:
+def _root_is_external(case: dict, request: dict, root_event_id: str | None) -> tuple[bool, dict | None, str | None]:
     if not root_event_id:
-        return True, None
+        return False, None, "authority_root_not_external"
     root = _index(case.get("authority_roots", []), "root_event_id").get(root_event_id)
     if not root:
-        return False, None
+        return False, None, "authority_root_not_external"
     if not root.get("resolves"):
-        return False, root
+        return False, root, "authority_root_not_external"
     if root.get("channel_id") not in EXTERNAL_AUTHORITY_CHANNELS:
-        return False, root
+        return False, root, "authority_root_not_external"
     if root.get("actor_id") not in root.get("channel_writable_by", []):
-        return False, root
-    return True, root
+        return False, root, "authority_root_not_external"
+    receipt = _capability_receipt(case, root.get("capability_receipt_id"))
+    if receipt is not None:
+        if not receipt.get("resolves"):
+            return False, root, "authority_root_not_external"
+        relation_component_id = request.get("relation_component_id")
+        if relation_component_id in set(receipt.get("manifest_writable_by", [])):
+            return False, root, "authority_channel_reachable_by_relation_writer"
+        if relation_component_id in set(receipt.get("channel_write_principals", [])):
+            return False, root, "authority_channel_reachable_by_relation_writer"
+        if relation_component_id in set(receipt.get("signing_key_access_principals", [])):
+            return False, root, "authority_channel_reachable_by_relation_writer"
+    return True, root, None
 
 
-def _valid_standing_rule(case: dict, fact: dict, requester: dict | None) -> tuple[bool, dict | None, str | None]:
+def _valid_standing_rule(case: dict, request: dict, fact: dict, requester: dict | None) -> tuple[bool, dict | None, str | None]:
     basis = fact.get("authority_basis") or {}
     if basis.get("kind") != "standing_rule":
         return False, None, None
@@ -104,6 +139,12 @@ def _valid_standing_rule(case: dict, fact: dict, requester: dict | None) -> tupl
         return False, rule, None
     if rule.get("grantee_role") not in _roles(requester):
         return False, rule, None
+    if "requester_id" in request:
+        has_exact_target = rule.get("target_record_id") == fact.get("target_record_id")
+        has_exact_grantor = rule.get("grantor_id") == target.get("owner_id")
+        has_external_root = bool(rule.get("root_event_id"))
+        if not (has_exact_target and has_exact_grantor and has_external_root):
+            return False, rule, "standing_rule_too_broad"
     return True, rule, None
 
 
@@ -120,9 +161,9 @@ def _valid_standing_grant(
     target = _record(case, fact.get("target_record_id"))
     if not grant or not target:
         return False, grant, None, None
-    root_ok, root = _root_is_external(case, grant.get("root_event_id"))
+    root_ok, root, root_alarm = _root_is_external(case, request, grant.get("root_event_id"))
     if not root_ok:
-        return False, grant, "authority_root_not_external", root
+        return False, grant, root_alarm or "authority_root_not_external", root
     if grant.get("grantor_id") != target.get("owner_id"):
         return False, grant, None, root
     if grant.get("grantee_id") != requester_id:
@@ -150,16 +191,32 @@ def _target_authority(case: dict, request: dict, fact: dict) -> dict:
     executor_id = _executor_id(request, fact)
     requester = _actor(case, requester_id)
     executor = _actor(case, executor_id)
-    grantee_ids = {value for value in (requester_id, executor_id, fact.get("asserted_by"), fact.get("authenticated_by")) if value}
 
     if fact.get("relation_type") not in RETIRING_RELATION_TYPES:
         return {"allowed": True, "authority_path": "non_retiring_relation"}
 
-    consent_ok, consent = _valid_consent(case, fact, grantee_ids)
+    consent_ok, consent, consent_alarm, consent_root = _valid_consent(case, request, fact, requester_id)
     if consent_ok:
-        return {"allowed": True, "authority_path": "target_owner_consent", "authority_receipt_id": consent["consent_id"]}
+        receipt = {"allowed": True, "authority_path": "target_owner_consent", "authority_receipt_id": consent["consent_id"]}
+        if consent_root:
+            receipt["root_receipt_id"] = consent_root.get("root_event_id")
+            if consent_root.get("capability_receipt_id"):
+                receipt["capability_receipt_id"] = consent_root.get("capability_receipt_id")
+        return receipt
+    if consent_alarm:
+        receipt = {
+            "allowed": False,
+            "alarm_code": consent_alarm,
+            "authority_path": "target_owner_consent",
+            "authority_receipt_id": consent.get("consent_id") if consent else None,
+        }
+        if consent_root:
+            receipt["root_receipt_id"] = consent_root.get("root_event_id")
+            if consent_root.get("capability_receipt_id"):
+                receipt["capability_receipt_id"] = consent_root.get("capability_receipt_id")
+        return receipt
 
-    rule_ok, rule, rule_alarm = _valid_standing_rule(case, fact, requester)
+    rule_ok, rule, rule_alarm = _valid_standing_rule(case, request, fact, requester)
     if rule_ok:
         return {"allowed": True, "authority_path": "standing_rule", "authority_receipt_id": rule["rule_id"]}
     if rule_alarm:
@@ -172,6 +229,7 @@ def _target_authority(case: dict, request: dict, fact: dict) -> dict:
             "authority_path": "standing_grant",
             "authority_receipt_id": grant["grant_id"],
             "root_receipt_id": root.get("root_event_id") if root else grant.get("root_event_id"),
+            "capability_receipt_id": root.get("capability_receipt_id") if root else None,
         }
     if grant_alarm:
         return {
@@ -180,6 +238,7 @@ def _target_authority(case: dict, request: dict, fact: dict) -> dict:
             "authority_path": "standing_grant",
             "authority_receipt_id": grant.get("grant_id") if grant else None,
             "root_receipt_id": root.get("root_event_id") if root else grant.get("root_event_id") if grant else None,
+            "capability_receipt_id": root.get("capability_receipt_id") if root else None,
         }
 
     if executor_id and executor_id != requester_id and _can_adjudicate(executor):

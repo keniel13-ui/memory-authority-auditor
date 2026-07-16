@@ -12,6 +12,9 @@ FIXTURES = [
     ROOT / "tests" / "fixtures" / "path_a_v3_store_authority_2026_07_13.json",
     ROOT / "tests" / "fixtures" / "path_a_v3_provenance_disjointness_2026_07_13.json",
     ROOT / "tests" / "fixtures" / "path_a_v3_authority_roots_2026_07_14.json",
+    ROOT / "tests" / "fixtures" / "path_a_v3_authority_path_parity_2026_07_14.json",
+    ROOT / "tests" / "fixtures" / "path_a_v3_capability_root_2026_07_14.json",
+    ROOT / "tests" / "fixtures" / "path_a_v3_mint_time_revocation_2026_07_14.json",
 ]
 ARTIFACT_DIR = ROOT / "path_a_eval_artifacts"
 
@@ -38,6 +41,8 @@ def _case_result(case: dict) -> dict:
         matched = matched and result["resulting_tier"] == expected["resulting_tier"]
     if expected.get("root_receipt_id") is not None:
         matched = matched and result["receipts"].get("root_receipt_id") == expected["root_receipt_id"]
+    if expected.get("capability_receipt_id") is not None:
+        matched = matched and result["receipts"].get("capability_receipt_id") == expected["capability_receipt_id"]
     if expected.get("declared_shared_nodes") is not None:
         matched = matched and result["receipts"].get("declared_shared_nodes") == expected["declared_shared_nodes"]
     if expected.get("required_receipt") is not None:

@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import copy
 import json
 from pathlib import Path
 
@@ -10,6 +11,9 @@ FIXTURE_DIR = Path(__file__).parent / "fixtures"
 STORE_AUTHORITY_FIXTURE = FIXTURE_DIR / "path_a_v3_store_authority_2026_07_13.json"
 PROVENANCE_FIXTURE = FIXTURE_DIR / "path_a_v3_provenance_disjointness_2026_07_13.json"
 AUTHORITY_ROOTS_FIXTURE = FIXTURE_DIR / "path_a_v3_authority_roots_2026_07_14.json"
+AUTHORITY_PATH_PARITY_FIXTURE = FIXTURE_DIR / "path_a_v3_authority_path_parity_2026_07_14.json"
+CAPABILITY_ROOT_FIXTURE = FIXTURE_DIR / "path_a_v3_capability_root_2026_07_14.json"
+MINT_TIME_REVOCATION_FIXTURE = FIXTURE_DIR / "path_a_v3_mint_time_revocation_2026_07_14.json"
 
 
 def _cases(path: Path) -> list[dict]:
@@ -50,3 +54,46 @@ def test_authority_root_and_grant_lifecycle_frozen_cases_hold_separately():
         assert result["alarm_code"] == expected["alarm_code"], (case["id"], result)
         assert result["receipts"].get("root_receipt_id") == expected["root_receipt_id"], (case["id"], result)
 
+
+def test_authority_path_parity_frozen_cases_hold_separately():
+    for case in _cases(AUTHORITY_PATH_PARITY_FIXTURE):
+        result = evaluate_store_request(case)
+        expected = case["expected"]
+
+        assert result["allowed"] is expected["allowed"], (case["id"], result)
+        assert result["resulting_tier"] == expected["resulting_tier"], (case["id"], result)
+        assert result["alarm_code"] == expected["alarm_code"], (case["id"], result)
+
+
+def test_capability_root_frozen_cases_hold_separately():
+    for case in _cases(CAPABILITY_ROOT_FIXTURE):
+        result = evaluate_store_request(case)
+        expected = case["expected"]
+
+        assert result["allowed"] is expected["allowed"], (case["id"], result)
+        assert result["resulting_tier"] == expected["resulting_tier"], (case["id"], result)
+        assert result["alarm_code"] == expected["alarm_code"], (case["id"], result)
+        assert result["receipts"].get("capability_receipt_id") == expected["capability_receipt_id"], (case["id"], result)
+
+
+def test_mint_time_revocation_frozen_cases_hold_separately():
+    for case in _cases(MINT_TIME_REVOCATION_FIXTURE):
+        result = evaluate_store_request(case)
+        expected = case["expected"]
+
+        assert result["allowed"] is expected["allowed"], (case["id"], result)
+        assert result["resulting_tier"] == expected["resulting_tier"], (case["id"], result)
+        assert result["alarm_code"] == expected["alarm_code"], (case["id"], result)
+        assert result["receipts"].get("root_receipt_id") == expected["root_receipt_id"], (case["id"], result)
+
+
+def test_requester_id_omission_does_not_reopen_confused_deputy_path():
+    case = next(row for row in _cases(AUTHORITY_PATH_PARITY_FIXTURE) if row["id"] == "path_a_v3_ap3_consent_confused_deputy")
+    omitted = copy.deepcopy(case)
+    omitted["id"] = "path_a_v3_ap3_omitted_requester_id_probe"
+    omitted["request"].pop("requester_id")
+
+    result = evaluate_store_request(omitted)
+
+    assert result["allowed"] is False, result
+    assert result["alarm_code"] == "confused_deputy_retirement", result
