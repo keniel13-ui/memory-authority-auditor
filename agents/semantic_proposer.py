@@ -6,6 +6,8 @@ import urllib.error
 import urllib.request
 from typing import Callable
 
+import sentry_sdk
+
 from agents.semantic_confirmer import ALLOWED_RELATION_TYPES
 
 
@@ -83,6 +85,16 @@ def _json_from_text(text: str) -> dict:
     try:
         parsed = json.loads(_strip_code_fence(text))
     except json.JSONDecodeError as error:
+        sentry_sdk.add_breadcrumb(
+            category="capture_layer",
+            message="proposer output failed JSON parse",
+            level="error",
+            data={
+                "raw_length": len(text),
+                "raw_preview": text[:200],
+                "starts_with_fence": text.strip().startswith("```"),
+            },
+        )
         raise SemanticProposerError("proposer returned non-json output") from error
     if isinstance(parsed, list):
         parsed = {"proposals": parsed}
@@ -96,6 +108,12 @@ def _normalize_proposal(raw: dict) -> dict:
         raise SemanticProposerError("proposal must be an object")
     missing = PROPOSER_SCHEMA_FIELDS - set(raw)
     if missing:
+        sentry_sdk.add_breadcrumb(
+            category="capture_layer",
+            message=f"proposal missing required fields: {sorted(missing)}",
+            level="warning",
+            data={"proposal_keys": sorted(raw.keys())},
+        )
         raise SemanticProposerError(f"proposal missing required field(s): {sorted(missing)}")
     relation_type = str(raw["type"]).strip()
     if relation_type not in ALLOWED_RELATION_TYPES:
@@ -186,33 +204,38 @@ def call_anthropic(prompt: str) -> str:
 def call_local_llama(prompt: str) -> str:
     # HTTP API instead of `ollama run` subprocess: the CLI path corrupted
     # captured output with ANSI/spinner bytes (2026-07-01 eval attempt #1).
-    request = urllib.request.Request(
-        OLLAMA_API_URL,
-        data=json.dumps(
-            {
-                "model": OLLAMA_MODEL,
-                "prompt": prompt,
-                "stream": False,
-            }
-        ).encode("utf-8"),
-        headers={"content-type": "application/json"},
-        method="POST",
-    )
-    try:
-        with urllib.request.urlopen(request, timeout=120) as response:
-            payload = json.loads(response.read().decode("utf-8"))
-    except urllib.error.URLError as error:
-        raise SemanticProposerError(
-            f"local llama proposer call failed: network error: {str(error.reason)[:240]}"
-        ) from error
-    except TimeoutError as error:
-        raise SemanticProposerError("local llama proposer call failed: timeout") from error
-    except json.JSONDecodeError as error:
-        raise SemanticProposerError("local llama proposer call failed: invalid json response") from error
-    text = str(payload.get("response", "")).strip()
-    if not text:
-        raise SemanticProposerError("local llama proposer returned no text")
-    return text
+    with sentry_sdk.start_span(op="ai.chat_completions.create", name="ollama.generate") as span:
+        span.set_data("ai.model_id", OLLAMA_MODEL)
+        span.set_data("ai.provider", "ollama")
+        span.set_data("ai.input_messages", [{"role": "user", "content": prompt[:200] + "..."}])
+        request = urllib.request.Request(
+            OLLAMA_API_URL,
+            data=json.dumps(
+                {
+                    "model": OLLAMA_MODEL,
+                    "prompt": prompt,
+                    "stream": False,
+                }
+            ).encode("utf-8"),
+            headers={"content-type": "application/json"},
+            method="POST",
+        )
+        try:
+            with urllib.request.urlopen(request, timeout=120) as response:
+                payload = json.loads(response.read().decode("utf-8"))
+        except urllib.error.URLError as error:
+            raise SemanticProposerError(
+                f"local llama proposer call failed: network error: {str(error.reason)[:240]}"
+            ) from error
+        except TimeoutError as error:
+            raise SemanticProposerError("local llama proposer call failed: timeout") from error
+        except json.JSONDecodeError as error:
+            raise SemanticProposerError("local llama proposer call failed: invalid json response") from error
+        text = str(payload.get("response", "")).strip()
+        if not text:
+            raise SemanticProposerError("local llama proposer returned no text")
+        span.set_data("ai.response_chars", len(text))
+        return text
 
 
 def propose_authority_changes(

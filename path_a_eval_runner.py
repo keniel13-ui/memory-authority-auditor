@@ -2,9 +2,12 @@ from __future__ import annotations
 
 import argparse
 import json
+import os
 from datetime import datetime, timezone
 from pathlib import Path
 from typing import Callable
+
+import sentry_sdk
 
 from agents.memory_extractor import extract_memories
 from agents.semantic_confirmer import ALLOWED_RELATION_TYPES, CONFIDENCE_THRESHOLD, confirm_authority_changes
@@ -233,51 +236,72 @@ def run_engine(engine: str, cases: list[dict]) -> dict:
     remove_citation_false_fires = 0
 
     for case in cases:
-        items = _items(case)
-        prompt = build_authority_change_prompt(items)
-        raw_output = ""
-        malformed_reasons: list[str] = []
-        try:
-            raw_output = provider(prompt)
-            proposals, malformed_reasons = _parse_case_output(raw_output)
-        except Exception as error:  # per-case malformed/degraded bucket, never abort the run
-            proposals = []
-            malformed_reasons = [f"{type(error).__name__}: {error}"]
+        with sentry_sdk.start_span(op="eval.case", name=f"case:{case['id']}") as case_span:
+            case_span.set_data("case_id", case["id"])
+            case_span.set_data("case_class", case["class"])
+            case_span.set_data("engine", engine)
+            items = _items(case)
+            prompt = build_authority_change_prompt(items)
+            raw_output = ""
+            malformed_reasons: list[str] = []
+            try:
+                raw_output = provider(prompt)
+                proposals, malformed_reasons = _parse_case_output(raw_output)
+            except Exception as error:  # per-case malformed/degraded bucket, never abort the run
+                proposals = []
+                malformed_reasons = [f"{type(error).__name__}: {error}"]
+                sentry_sdk.capture_exception(error)
 
-        if malformed_reasons:
-            malformed_count += 1
+            if malformed_reasons:
+                malformed_count += 1
+                case_span.set_data("malformed", True)
+                case_span.set_data("malformed_reasons", malformed_reasons)
+                sentry_sdk.add_breadcrumb(
+                    category="eval",
+                    message=f"proposer output malformed: {case['id']}",
+                    level="warning",
+                    data={
+                        "case_id": case["id"],
+                        "engine": engine,
+                        "reasons": malformed_reasons,
+                    },
+                )
 
-        confirmed = confirm_authority_changes(proposals, items)
-        score = _score_confirmed(case, confirmed)
-        no_confirmer = _score_remove_confirmer(case, proposals)
-        no_citation = _score_confirmed(case, _confirm_without_citation(proposals, items))
-        lexical = _lexical_result(case)
+            confirmed = confirm_authority_changes(proposals, items)
+            score = _score_confirmed(case, confirmed)
+            no_confirmer = _score_remove_confirmer(case, proposals)
+            no_citation = _score_confirmed(case, _confirm_without_citation(proposals, items))
+            lexical = _lexical_result(case)
 
-        if score["expected_positive"]:
-            positives += 1
-            positives_caught += int(score["caught"])
-            positives_caught_direction += int(score["direction_caught"])
-        else:
-            negatives += 1
-            negatives_passed += int(score["negative_passed"])
-            remove_confirmer_false_fires += int(no_confirmer["would_false_fire_without_confirmation"])
-            remove_citation_false_fires += int(not no_citation["negative_passed"])
+            if score["expected_positive"]:
+                positives += 1
+                positives_caught += int(score["caught"])
+                positives_caught_direction += int(score["direction_caught"])
+            else:
+                negatives += 1
+                negatives_passed += int(score["negative_passed"])
+                remove_confirmer_false_fires += int(no_confirmer["would_false_fire_without_confirmation"])
+                remove_citation_false_fires += int(not no_citation["negative_passed"])
 
-        case_results.append({
-            "case_id": case["id"],
-            "class": case["class"],
-            "malformed": bool(malformed_reasons),
-            "malformed_reasons": malformed_reasons,
-            "proposal_count": len(proposals),
-            "proposals": proposals,
-            "confirmed_findings": confirmed["findings"],
-            "needs_human_judgment": confirmed["needs_human_judgment"],
-            "score": score,
-            "ablation_remove_confirmer": no_confirmer,
-            "ablation_remove_citation_requirement": no_citation,
-            "lexical_baseline_current_detector": lexical,
-            "raw_output": raw_output,
-        })
+            case_span.set_data("score", score)
+            case_span.set_data("proposal_count", len(proposals))
+            case_span.set_data("confirmed_count", len(confirmed["findings"]))
+
+            case_results.append({
+                "case_id": case["id"],
+                "class": case["class"],
+                "malformed": bool(malformed_reasons),
+                "malformed_reasons": malformed_reasons,
+                "proposal_count": len(proposals),
+                "proposals": proposals,
+                "confirmed_findings": confirmed["findings"],
+                "needs_human_judgment": confirmed["needs_human_judgment"],
+                "score": score,
+                "ablation_remove_confirmer": no_confirmer,
+                "ablation_remove_citation_requirement": no_citation,
+                "lexical_baseline_current_detector": lexical,
+                "raw_output": raw_output,
+            })
 
     return {
         "engine": engine,
@@ -347,6 +371,20 @@ def _write_markdown(result: dict, path: Path) -> None:
     path.write_text("\n".join(lines), encoding="utf-8")
 
 
+def _init_sentry() -> None:
+    dsn = os.environ.get("SENTRY_DSN")
+    if not dsn:
+        return
+    sentry_sdk.init(
+        dsn=dsn,
+        traces_sample_rate=1.0,
+        send_default_pii=True,
+        enable_logs=True,
+        release=os.environ.get("SENTRY_RELEASE", "memory-authority-auditor@0.1.0"),
+        environment=os.environ.get("SENTRY_ENVIRONMENT", "development"),
+    )
+
+
 def main() -> int:
     parser = argparse.ArgumentParser()
     parser.add_argument("--engines", default="anthropic,local_llama3.2")
@@ -354,20 +392,44 @@ def main() -> int:
     parser.add_argument("--fixture", default=str(FIXTURE))
     args = parser.parse_args()
 
+    _init_sentry()
+
     run_id = _utc_slug()
     output_dir = Path(args.output_dir)
     output_dir.mkdir(parents=True, exist_ok=True)
     fixture_path = Path(args.fixture)
     cases = _cases(fixture_path)
     engines = [engine.strip() for engine in args.engines.split(",") if engine.strip()]
-    result = {
-        "run_id": run_id,
-        "generated_at_utc": datetime.now(timezone.utc).isoformat(),
-        "fixture": str(fixture_path),
-        "scoring_rules": SCORING_RULES,
-        "engines": [run_engine(engine, cases) for engine in engines],
-        "boundary": "No public claim from this artifact until Ka'el and Fable re-verify.",
-    }
+
+    with sentry_sdk.start_transaction(op="eval.run", name="path_a_eval") as txn:
+        txn.set_data("run_id", run_id)
+        txn.set_data("fixture", str(fixture_path))
+        txn.set_data("engines", engines)
+        txn.set_data("case_count", len(cases))
+
+        engine_results = []
+        for engine in engines:
+            with sentry_sdk.start_span(op="eval.engine", name=f"engine:{engine}") as eng_span:
+                eng_span.set_data("engine", engine)
+                eng_result = run_engine(engine, cases)
+                eng_span.set_data("summary", eng_result["summary"])
+                malformed = eng_result["summary"]["malformed_cases"]
+                if malformed > 0:
+                    sentry_sdk.capture_message(
+                        f"engine {engine} completed with {malformed}/{len(cases)} malformed cases",
+                        level="warning",
+                    )
+                engine_results.append(eng_result)
+
+        result = {
+            "run_id": run_id,
+            "generated_at_utc": datetime.now(timezone.utc).isoformat(),
+            "fixture": str(fixture_path),
+            "scoring_rules": SCORING_RULES,
+            "engines": engine_results,
+            "boundary": "No public claim from this artifact until Ka'el and Fable re-verify.",
+        }
+
     json_path = output_dir / f"path_a_eval_{run_id}.json"
     md_path = output_dir / f"path_a_eval_{run_id}.md"
     json_path.write_text(json.dumps(result, indent=2), encoding="utf-8")

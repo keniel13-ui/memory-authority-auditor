@@ -1,5 +1,7 @@
 from __future__ import annotations
 
+import sentry_sdk
+
 from agents.memory_extractor import extract_memories
 from agents.authority_classifier import classify_items
 from agents.conflict_detector import detect_conflicts
@@ -8,6 +10,7 @@ from agents.report_writer import write_report
 from agents.authority_mapper import authority_map
 
 
+@sentry_sdk.trace
 def run_audit(text: str) -> dict:
     items = extract_memories(text)
     item_dicts = [item.to_dict() for item in items]
