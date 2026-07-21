@@ -112,6 +112,8 @@ def test_malformed_positive_and_negative_are_preserved_but_unscored(monkeypatch,
         "| `malformed_negative` | negative | 0 | 0 | True | unscored_malformed |"
         in markdown
     )
+    assert runner.PUBLICATION_AUDIT_BOUNDARY in markdown
+    assert "Fable" not in markdown
 
 
 def test_well_formed_case_still_scores_beside_malformed_exclusion(monkeypatch):

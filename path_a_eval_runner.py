@@ -24,6 +24,11 @@ from audit_pipeline import run_audit
 FIXTURE = Path("tests/fixtures/path_a_authority_change_v0_2026_07_01.json")
 ARTIFACT_DIR = Path("reports/path_a_eval")
 MALFORMED_EXCLUSION_REASON = "malformed_proposer_output"
+PUBLICATION_AUDIT_BOUNDARY = (
+    "No public claim from this artifact until mechanism/claim coherence, "
+    "bounded adversarial review, and a final claim/receipt audit are complete. "
+    "The artifact does not prove or name who completed those checks."
+)
 
 
 SCORING_RULES = {
@@ -396,8 +401,7 @@ def _write_markdown(result: dict, path: Path) -> None:
     lines.extend([
         "## Boundary",
         "",
-        "This is a recorded eval artifact, not a public claim. Ka'el checks mechanism/claim coherence, "
-        "Grok attacks the concrete candidate, and Fable is reserved for one final audit before publication.",
+        f"This is a recorded eval artifact, not a public claim. {PUBLICATION_AUDIT_BOUNDARY}",
         "",
     ])
     path.write_text("\n".join(lines), encoding="utf-8")
@@ -459,10 +463,7 @@ def main() -> int:
             "fixture": str(fixture_path),
             "scoring_rules": SCORING_RULES,
             "engines": engine_results,
-            "boundary": (
-                "No public claim from this artifact until Ka'el checks mechanism/claim coherence, "
-                "Grok attacks the candidate, and Fable performs the final audit."
-            ),
+            "boundary": PUBLICATION_AUDIT_BOUNDARY,
         }
 
     json_path = output_dir / f"path_a_eval_{run_id}.json"
