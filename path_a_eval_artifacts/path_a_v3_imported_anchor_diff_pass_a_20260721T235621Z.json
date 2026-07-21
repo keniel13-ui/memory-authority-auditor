@@ -1,0 +1,392 @@
+{
+  "artifact": "path_a_v3_imported_anchor_diff_pass_a",
+  "case_results": [
+    {
+      "actual": {
+        "alarm_code": null,
+        "case_id": "path_a_v3_ia1_foreign_receipt_catches_so1_silence",
+        "derived_surfaces": [
+          {
+            "imported_anchor_provenance": {
+              "anchor_id": "anchor_platform_so1",
+              "derivation_policy": "same_scope_live_record_requires_authority_change_candidate",
+              "event_id": "foreign_ev_so1_write"
+            },
+            "kind": "authority_change_candidate",
+            "relation_type": "supersedes",
+            "source_record_id": "new_so1",
+            "surface_id": "imported::anchor_platform_so1::foreign_ev_so1_write",
+            "target_record_id": "old_so1"
+          }
+        ],
+        "fixture_only": [],
+        "imported_only": [],
+        "missing_from_considered": [
+          {
+            "kind": "authority_change_candidate",
+            "relation_type": "supersedes",
+            "source_record_id": "new_so1",
+            "target_record_id": "old_so1"
+          }
+        ],
+        "pre_ledger_birth_event_ids": [],
+        "reasons": [
+          "imported events were evaluated under the frozen derivation policy"
+        ],
+        "receipts": {
+          "anchor_id": "anchor_platform_so1",
+          "derivation_policy": "same_scope_live_record_requires_authority_change_candidate",
+          "derived_surface_count": 1,
+          "fixture_only_count": 0,
+          "imported_only_count": 0,
+          "missing_from_considered_count": 1,
+          "producer_id": "foreign_platform_so1",
+          "semantic_aligned_count": 1,
+          "unresolved_event_count": 0
+        },
+        "semantic_aligned": [
+          {
+            "kind": "authority_change_candidate",
+            "relation_type": "supersedes",
+            "source_record_id": "new_so1",
+            "target_record_id": "old_so1"
+          }
+        ],
+        "shipped_gate_receipts": {
+          "silent_omission": {
+            "alarm_code": "undeclared_surface",
+            "allowed_clean_compliance": false,
+            "case_id": "path_a_v3_ia1_foreign_receipt_catches_so1_silence",
+            "reasons": [
+              "independent footprint contains required declarations not emitted by proposer"
+            ],
+            "receipts": {
+              "footprint_receipt_id": "anchor_platform_so1"
+            },
+            "undeclared_surface_ids": [
+              "imported::anchor_platform_so1::foreign_ev_so1_write"
+            ]
+          }
+        },
+        "unresolved_events": []
+      },
+      "case_id": "path_a_v3_ia1_foreign_receipt_catches_so1_silence",
+      "checks": {
+        "alarm_code": true,
+        "derived_surface_count": true,
+        "fixture_only_count": true,
+        "imported_only_count": true,
+        "semantic_aligned_count": true,
+        "silent_omission_alarm_code": true,
+        "unresolved_event_count": true
+      },
+      "class": "imported_anchor_positive_silent_omission_catch",
+      "expected": {
+        "alarm_code": null,
+        "derived_surface_count": 1,
+        "fixture_only_count": 0,
+        "imported_only_count": 0,
+        "semantic_aligned_count": 1,
+        "silent_omission_alarm_code": "undeclared_surface",
+        "unresolved_event_count": 0
+      },
+      "matched_expected": true,
+      "source_case_id": "path_a_v3_so1_full_silence_with_independent_footprint"
+    },
+    {
+      "actual": {
+        "alarm_code": null,
+        "case_id": "path_a_v3_ia2_birth_date_recovery",
+        "derived_surfaces": [
+          {
+            "imported_anchor_provenance": {
+              "anchor_id": "anchor_counterparty_cs6",
+              "derivation_policy": "same_scope_live_record_requires_authority_change_candidate",
+              "event_id": "foreign_ev_cs6_prebirth"
+            },
+            "kind": "authority_change_candidate",
+            "relation_type": "supersedes",
+            "source_record_id": "new_cs6",
+            "surface_id": "imported::anchor_counterparty_cs6::foreign_ev_cs6_prebirth",
+            "target_record_id": "old_cs6"
+          }
+        ],
+        "fixture_only": [],
+        "imported_only": [
+          {
+            "kind": "authority_change_candidate",
+            "relation_type": "supersedes",
+            "source_record_id": "new_cs6",
+            "target_record_id": "old_cs6"
+          }
+        ],
+        "missing_from_considered": [
+          {
+            "kind": "authority_change_candidate",
+            "relation_type": "supersedes",
+            "source_record_id": "new_cs6",
+            "target_record_id": "old_cs6"
+          }
+        ],
+        "pre_ledger_birth_event_ids": [
+          "foreign_ev_cs6_prebirth"
+        ],
+        "reasons": [
+          "imported events were evaluated under the frozen derivation policy"
+        ],
+        "receipts": {
+          "anchor_id": "anchor_counterparty_cs6",
+          "derivation_policy": "same_scope_live_record_requires_authority_change_candidate",
+          "derived_surface_count": 1,
+          "fixture_only_count": 0,
+          "imported_only_count": 1,
+          "missing_from_considered_count": 1,
+          "producer_id": "foreign_counterparty_cs6",
+          "semantic_aligned_count": 0,
+          "unresolved_event_count": 0
+        },
+        "semantic_aligned": [],
+        "shipped_gate_receipts": {},
+        "unresolved_events": []
+      },
+      "case_id": "path_a_v3_ia2_birth_date_recovery",
+      "checks": {
+        "alarm_code": true,
+        "derived_surface_count": true,
+        "fixture_only_count": true,
+        "imported_only_count": true,
+        "missing_from_considered_count": true,
+        "pre_ledger_birth_event_ids": true,
+        "semantic_aligned_count": true,
+        "unresolved_event_count": true
+      },
+      "class": "imported_anchor_positive_birth_date_recovery",
+      "expected": {
+        "alarm_code": null,
+        "derived_surface_count": 1,
+        "fixture_only_count": 0,
+        "imported_only_count": 1,
+        "missing_from_considered_count": 1,
+        "pre_ledger_birth_event_ids": [
+          "foreign_ev_cs6_prebirth"
+        ],
+        "semantic_aligned_count": 0,
+        "unresolved_event_count": 0
+      },
+      "matched_expected": true,
+      "source_case_id": "path_a_v3_cs6_no_expected_set_decorative"
+    },
+    {
+      "actual": {
+        "alarm_code": null,
+        "case_id": "path_a_v3_ia3_semantic_match_surface_id_break",
+        "derived_surfaces": [
+          {
+            "imported_anchor_provenance": {
+              "anchor_id": "anchor_processor_cs1",
+              "derivation_policy": "same_scope_live_record_requires_authority_change_candidate",
+              "event_id": "foreign_ev_cs1_write"
+            },
+            "kind": "authority_change_candidate",
+            "relation_type": "supersedes",
+            "source_record_id": "new_cs1",
+            "surface_id": "imported::anchor_processor_cs1::foreign_ev_cs1_write",
+            "target_record_id": "old_cs1"
+          }
+        ],
+        "fixture_only": [],
+        "imported_only": [],
+        "missing_from_considered": [],
+        "pre_ledger_birth_event_ids": [],
+        "reasons": [
+          "imported events were evaluated under the frozen derivation policy"
+        ],
+        "receipts": {
+          "anchor_id": "anchor_processor_cs1",
+          "considered_set_identity_break": true,
+          "derivation_policy": "same_scope_live_record_requires_authority_change_candidate",
+          "derived_surface_count": 1,
+          "fixture_only_count": 0,
+          "imported_only_count": 0,
+          "missing_from_considered_count": 0,
+          "producer_id": "foreign_processor_cs1",
+          "semantic_aligned_count": 1,
+          "unresolved_event_count": 0
+        },
+        "semantic_aligned": [
+          {
+            "kind": "authority_change_candidate",
+            "relation_type": "supersedes",
+            "source_record_id": "new_cs1",
+            "target_record_id": "old_cs1"
+          }
+        ],
+        "shipped_gate_receipts": {
+          "considered_set": {
+            "alarm_code": "hole_in_considered_set",
+            "allowed_clean_compliance": false,
+            "case_id": "path_a_v3_ia3_semantic_match_surface_id_break",
+            "missing_surface_ids": [
+              "imported::anchor_processor_cs1::foreign_ev_cs1_write"
+            ],
+            "reasons": [
+              "expected surfaces are absent from the declared considered_set"
+            ],
+            "receipts": {
+              "considered_surface_count": 1,
+              "expected_surface_count": 1
+            }
+          }
+        },
+        "unresolved_events": []
+      },
+      "case_id": "path_a_v3_ia3_semantic_match_surface_id_break",
+      "checks": {
+        "alarm_code": true,
+        "considered_set_alarm_code": true,
+        "considered_set_identity_break": true,
+        "derived_surface_count": true,
+        "fixture_only_count": true,
+        "imported_only_count": true,
+        "missing_from_considered_count": true,
+        "semantic_aligned_count": true,
+        "unresolved_event_count": true
+      },
+      "class": "imported_anchor_negative_cross_source_identity",
+      "expected": {
+        "alarm_code": null,
+        "considered_set_alarm_code": "hole_in_considered_set",
+        "considered_set_identity_break": true,
+        "derived_surface_count": 1,
+        "fixture_only_count": 0,
+        "imported_only_count": 0,
+        "missing_from_considered_count": 0,
+        "semantic_aligned_count": 1,
+        "unresolved_event_count": 0
+      },
+      "matched_expected": true,
+      "source_case_id": "path_a_v3_cs1_honest_full_considered_set"
+    },
+    {
+      "actual": {
+        "alarm_code": "imported_anchor_unresolved",
+        "case_id": "path_a_v3_ia4_webhook_missing_scope",
+        "derived_surfaces": [],
+        "fixture_only": [],
+        "imported_only": [],
+        "missing_from_considered": [],
+        "pre_ledger_birth_event_ids": [],
+        "reasons": [
+          "one or more foreign events could not be mapped to an authority surface without guessing"
+        ],
+        "receipts": {
+          "anchor_id": "anchor_processor_ia4",
+          "derivation_policy": "same_scope_live_record_requires_authority_change_candidate",
+          "derived_surface_count": 0,
+          "fixture_only_count": 0,
+          "imported_only_count": 0,
+          "missing_from_considered_count": 0,
+          "producer_id": "foreign_processor_ia4",
+          "semantic_aligned_count": 0,
+          "unresolved_event_count": 1
+        },
+        "semantic_aligned": [],
+        "shipped_gate_receipts": {},
+        "unresolved_events": [
+          {
+            "event_id": "foreign_ev_ia4_activity",
+            "reason": "missing_scope"
+          }
+        ]
+      },
+      "case_id": "path_a_v3_ia4_webhook_missing_scope",
+      "checks": {
+        "alarm_code": true,
+        "derived_surface_count": true,
+        "fixture_only_count": true,
+        "imported_only_count": true,
+        "semantic_aligned_count": true,
+        "unresolved_event_count": true,
+        "unresolved_reasons": true
+      },
+      "class": "imported_anchor_negative_semantic_mapping",
+      "expected": {
+        "alarm_code": "imported_anchor_unresolved",
+        "derived_surface_count": 0,
+        "fixture_only_count": 0,
+        "imported_only_count": 0,
+        "semantic_aligned_count": 0,
+        "unresolved_event_count": 1,
+        "unresolved_reasons": [
+          "missing_scope"
+        ]
+      },
+      "matched_expected": true,
+      "source_case_id": null
+    },
+    {
+      "actual": {
+        "alarm_code": "imported_anchor_integrity_failure",
+        "case_id": "path_a_v3_ia5_expected_receipt_missing",
+        "derived_surfaces": [],
+        "fixture_only": [],
+        "imported_only": [],
+        "missing_from_considered": [],
+        "pre_ledger_birth_event_ids": [],
+        "reasons": [
+          "a required foreign receipt is missing; an empty stream cannot be read as a clean world"
+        ],
+        "receipts": {
+          "anchor_id": "anchor_platform_ia5",
+          "derivation_policy": "same_scope_live_record_requires_authority_change_candidate",
+          "derived_surface_count": 0,
+          "fixture_only_count": 0,
+          "imported_only_count": 0,
+          "missing_from_considered_count": 0,
+          "producer_id": "foreign_platform_ia5",
+          "semantic_aligned_count": 0,
+          "unresolved_event_count": 0
+        },
+        "semantic_aligned": [],
+        "shipped_gate_receipts": {},
+        "unresolved_events": []
+      },
+      "case_id": "path_a_v3_ia5_expected_receipt_missing",
+      "checks": {
+        "alarm_code": true,
+        "derived_surface_count": true,
+        "fixture_only_count": true,
+        "imported_only_count": true,
+        "semantic_aligned_count": true,
+        "unresolved_event_count": true
+      },
+      "class": "imported_anchor_negative_receipt_integrity",
+      "expected": {
+        "alarm_code": "imported_anchor_integrity_failure",
+        "derived_surface_count": 0,
+        "fixture_only_count": 0,
+        "imported_only_count": 0,
+        "semantic_aligned_count": 0,
+        "unresolved_event_count": 0
+      },
+      "matched_expected": true,
+      "source_case_id": null
+    }
+  ],
+  "frozen_packet": {
+    "case_count": 5,
+    "derivation_policy": "same_scope_live_record_requires_authority_change_candidate",
+    "fixture_path": "tests/fixtures/path_a_v3_imported_anchor_diff_2026_07_21.json",
+    "freeze_commit": "b476cf3",
+    "packet": "path_a_v3_imported_anchor_diff_2026_07_21",
+    "prereg": "PATH_A_V3_PREREGISTRATION_IMPORTED_ANCHOR_DIFF_2026-07-21.md"
+  },
+  "generated_at": "2026-07-21T23:56:21.577351Z",
+  "implementation": "agents.imported_anchor_diff.evaluate_imported_anchor_case",
+  "summary": {
+    "all_cases_matched": true,
+    "matched": 5,
+    "total_cases": 5
+  },
+  "zero_model": true
+}
