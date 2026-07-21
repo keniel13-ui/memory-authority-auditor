@@ -23,6 +23,7 @@ from audit_pipeline import run_audit
 
 FIXTURE = Path("tests/fixtures/path_a_authority_change_v0_2026_07_01.json")
 ARTIFACT_DIR = Path("reports/path_a_eval")
+MALFORMED_EXCLUSION_REASON = "malformed_proposer_output"
 
 
 SCORING_RULES = {
@@ -39,9 +40,9 @@ SCORING_RULES = {
         "A topic-mention negative passes only if no confirmed forbidden finding is produced."
     ),
     "malformed": (
-        "Malformed proposer output is counted per case and does not abort the run. "
-        "Positive case with only malformed output is a miss. Negative case with malformed/no-parse "
-        "output passes only if no forbidden confirmed finding results; malformed counts remain recorded."
+        "Malformed proposer output is counted and preserved per case and does not abort the run. "
+        "Malformed cases are excluded from positive, negative, and ablation aggregates because "
+        "unparseable output is not evidence of either a model catch or a clean negative pass."
     ),
     "positive_caught_direction": (
         "Secondary metric, frozen 2026-07-09 in PATH_A_V1_PREREGISTRATION before any v1 run: "
@@ -269,21 +270,44 @@ def run_engine(engine: str, cases: list[dict]) -> dict:
 
             confirmed = confirm_authority_changes(proposals, items)
             score = _score_confirmed(case, confirmed)
-            no_confirmer = _score_remove_confirmer(case, proposals)
-            no_citation = _score_confirmed(case, _confirm_without_citation(proposals, items))
+            included_in_aggregates = not malformed_reasons
+            score["included_in_aggregates"] = included_in_aggregates
+            score["aggregate_exclusion_reason"] = (
+                None if included_in_aggregates else MALFORMED_EXCLUSION_REASON
+            )
+            if not included_in_aggregates:
+                score["caught"] = None
+                score["direction_caught"] = None
+                score["missed"] = None
+                score["negative_passed"] = None
+
+            if included_in_aggregates:
+                no_confirmer = _score_remove_confirmer(case, proposals)
+                no_citation = _score_confirmed(case, _confirm_without_citation(proposals, items))
+            else:
+                no_confirmer = {
+                    "unscored": True,
+                    "reason": MALFORMED_EXCLUSION_REASON,
+                }
+                no_citation = {
+                    "unscored": True,
+                    "reason": MALFORMED_EXCLUSION_REASON,
+                }
             lexical = _lexical_result(case)
 
-            if score["expected_positive"]:
-                positives += 1
-                positives_caught += int(score["caught"])
-                positives_caught_direction += int(score["direction_caught"])
-            else:
-                negatives += 1
-                negatives_passed += int(score["negative_passed"])
-                remove_confirmer_false_fires += int(no_confirmer["would_false_fire_without_confirmation"])
-                remove_citation_false_fires += int(not no_citation["negative_passed"])
+            if included_in_aggregates:
+                if score["expected_positive"]:
+                    positives += 1
+                    positives_caught += int(score["caught"])
+                    positives_caught_direction += int(score["direction_caught"])
+                else:
+                    negatives += 1
+                    negatives_passed += int(score["negative_passed"])
+                    remove_confirmer_false_fires += int(no_confirmer["would_false_fire_without_confirmation"])
+                    remove_citation_false_fires += int(not no_citation["negative_passed"])
 
             case_span.set_data("score", score)
+            case_span.set_data("included_in_aggregates", included_in_aggregates)
             case_span.set_data("proposal_count", len(proposals))
             case_span.set_data("confirmed_count", len(confirmed["findings"]))
 
@@ -292,6 +316,7 @@ def run_engine(engine: str, cases: list[dict]) -> dict:
                 "class": case["class"],
                 "malformed": bool(malformed_reasons),
                 "malformed_reasons": malformed_reasons,
+                "included_in_aggregates": included_in_aggregates,
                 "proposal_count": len(proposals),
                 "proposals": proposals,
                 "confirmed_findings": confirmed["findings"],
@@ -307,6 +332,8 @@ def run_engine(engine: str, cases: list[dict]) -> dict:
         "engine": engine,
         "summary": {
             "cases": len(cases),
+            "scored_cases": positives + negatives,
+            "unscored_malformed_cases": malformed_count,
             "positives": positives,
             "positives_caught": positives_caught,
             "positives_caught_direction": positives_caught_direction,
@@ -345,6 +372,8 @@ def _write_markdown(result: dict, path: Path) -> None:
             f"- negatives passed: `{summary['negatives_passed']}/{summary['negatives']}`",
             f"- negative false fires: `{summary['negative_false_fires']}`",
             f"- malformed cases: `{summary['malformed_cases']}`",
+            f"- scored cases: `{summary['scored_cases']}/{summary['cases']}`",
+            f"- malformed cases excluded from aggregates: `{summary['unscored_malformed_cases']}`",
             f"- remove-confirmer negative false fires: `{summary['remove_confirmer_negative_false_fires']}`",
             f"- remove-citation negative false fires: `{summary['remove_citation_negative_false_fires']}`",
             "",
@@ -353,7 +382,9 @@ def _write_markdown(result: dict, path: Path) -> None:
         ])
         for case in engine["cases"]:
             score = case["score"]
-            if score["expected_positive"]:
+            if not case["included_in_aggregates"]:
+                score_text = "unscored_malformed"
+            elif score["expected_positive"]:
                 score_text = "caught" if score["caught"] else "miss"
             else:
                 score_text = "negative_pass" if score["negative_passed"] else "negative_false_fire"
@@ -365,7 +396,8 @@ def _write_markdown(result: dict, path: Path) -> None:
     lines.extend([
         "## Boundary",
         "",
-        "This is a recorded eval artifact, not a public claim. Ka'el and Fable must re-verify from artifacts before interpretation.",
+        "This is a recorded eval artifact, not a public claim. Ka'el checks mechanism/claim coherence, "
+        "Grok attacks the concrete candidate, and Fable is reserved for one final audit before publication.",
         "",
     ])
     path.write_text("\n".join(lines), encoding="utf-8")
@@ -427,7 +459,10 @@ def main() -> int:
             "fixture": str(fixture_path),
             "scoring_rules": SCORING_RULES,
             "engines": engine_results,
-            "boundary": "No public claim from this artifact until Ka'el and Fable re-verify.",
+            "boundary": (
+                "No public claim from this artifact until Ka'el checks mechanism/claim coherence, "
+                "Grok attacks the candidate, and Fable performs the final audit."
+            ),
         }
 
     json_path = output_dir / f"path_a_eval_{run_id}.json"
