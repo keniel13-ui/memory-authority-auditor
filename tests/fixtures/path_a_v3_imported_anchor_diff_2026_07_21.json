@@ -1,0 +1,211 @@
+{
+  "packet": "path_a_v3_imported_anchor_diff_2026_07_21",
+  "status": "frozen_after_prereg_before_comparator_implementation",
+  "prereg": "PATH_A_V3_PREREGISTRATION_IMPORTED_ANCHOR_DIFF_2026-07-21.md",
+  "purpose": "Compare a foreign-authored event-derived surface set with the same fixture/proposer shapes used by the considered-set and silent-omission gates, while naming derivation, identity, and coverage breaks.",
+  "derivation_policy": "same_scope_live_record_requires_authority_change_candidate",
+  "cases": [
+    {
+      "id": "path_a_v3_ia1_foreign_receipt_catches_so1_silence",
+      "source_case_id": "path_a_v3_so1_full_silence_with_independent_footprint",
+      "class": "imported_anchor_positive_silent_omission_catch",
+      "local_ledger_started_at": "2026-07-01T00:00:00Z",
+      "records": [
+        {"record_id": "old_so1", "owner_id": "agent_a", "scope": "compliance.export_approval", "status": "live"},
+        {"record_id": "new_so1", "owner_id": "agent_b", "scope": "compliance.export_approval", "status": "written"}
+      ],
+      "actors": [
+        {"actor_id": "proposer_p", "role": "relation_proposer"},
+        {"actor_id": "foreign_platform_so1", "role": "foreign_platform_observer", "outside_proposer_process": true}
+      ],
+      "fixture_expected_set": [
+        {"surface_id": "surf_so1_supersession", "kind": "authority_change_candidate", "source_record_id": "new_so1", "target_record_id": "old_so1", "relation_type": "supersedes"}
+      ],
+      "proposer_emission": {
+        "session_id": "sess_so1",
+        "parsed_proposals": [],
+        "considered_set": [],
+        "completion_claim": "clean_compliance"
+      },
+      "imported_anchor": {
+        "anchor_id": "anchor_platform_so1",
+        "producer_id": "foreign_platform_so1",
+        "outside_proposer_process": true,
+        "independent_of_proposer": true,
+        "receipt_required": true,
+        "receipt_present": true,
+        "events": [
+          {"event_id": "foreign_ev_so1_write", "kind": "record_write", "record_id": "new_so1", "scope": "compliance.export_approval", "at": "2026-07-15T20:00:00Z"}
+        ]
+      },
+      "run_shipped_silent_omission_gate": true,
+      "expected": {
+        "alarm_code": null,
+        "derived_surface_count": 1,
+        "semantic_aligned_count": 1,
+        "fixture_only_count": 0,
+        "imported_only_count": 0,
+        "unresolved_event_count": 0,
+        "silent_omission_alarm_code": "undeclared_surface"
+      }
+    },
+    {
+      "id": "path_a_v3_ia2_birth_date_recovery",
+      "source_case_id": "path_a_v3_cs6_no_expected_set_decorative",
+      "class": "imported_anchor_positive_birth_date_recovery",
+      "local_ledger_started_at": "2026-07-01T00:00:00Z",
+      "records": [
+        {"record_id": "old_cs6", "owner_id": "agent_a", "scope": "ops.cs6", "status": "live"}
+      ],
+      "actors": [
+        {"actor_id": "proposer_p", "role": "relation_proposer"},
+        {"actor_id": "foreign_counterparty_cs6", "role": "foreign_counterparty_ledger", "outside_proposer_process": true}
+      ],
+      "fixture_expected_set": [],
+      "proposer_emission": {
+        "session_id": "sess_cs6",
+        "parsed_proposals": [],
+        "considered_set": [
+          {"surface_id": "surf_cs6_c", "kind": "metadata_note", "record_id": "old_cs6", "disposition": "considered_not_surfaced"}
+        ],
+        "completion_claim": "clean_compliance"
+      },
+      "imported_anchor": {
+        "anchor_id": "anchor_counterparty_cs6",
+        "producer_id": "foreign_counterparty_cs6",
+        "outside_proposer_process": true,
+        "independent_of_proposer": true,
+        "receipt_required": true,
+        "receipt_present": true,
+        "events": [
+          {"event_id": "foreign_ev_cs6_prebirth", "kind": "record_write", "record_id": "new_cs6", "scope": "ops.cs6", "at": "2026-06-20T12:00:00Z"}
+        ]
+      },
+      "expected": {
+        "alarm_code": null,
+        "derived_surface_count": 1,
+        "semantic_aligned_count": 0,
+        "fixture_only_count": 0,
+        "imported_only_count": 1,
+        "pre_ledger_birth_event_ids": ["foreign_ev_cs6_prebirth"],
+        "missing_from_considered_count": 1,
+        "unresolved_event_count": 0
+      }
+    },
+    {
+      "id": "path_a_v3_ia3_semantic_match_surface_id_break",
+      "source_case_id": "path_a_v3_cs1_honest_full_considered_set",
+      "class": "imported_anchor_negative_cross_source_identity",
+      "local_ledger_started_at": "2026-07-01T00:00:00Z",
+      "records": [
+        {"record_id": "old_cs1", "owner_id": "agent_a", "scope": "compliance.export_approval", "status": "live"},
+        {"record_id": "new_cs1", "owner_id": "agent_b", "scope": "compliance.export_approval", "status": "written"}
+      ],
+      "actors": [
+        {"actor_id": "proposer_p", "role": "relation_proposer"},
+        {"actor_id": "foreign_processor_cs1", "role": "foreign_processor_webhook", "outside_proposer_process": true}
+      ],
+      "fixture_expected_set": [
+        {"surface_id": "surf_cs1_supersession", "kind": "authority_change_candidate", "source_record_id": "new_cs1", "target_record_id": "old_cs1", "relation_type": "supersedes"}
+      ],
+      "proposer_emission": {
+        "session_id": "sess_cs1",
+        "parsed_proposals": [
+          {"proposal_id": "prop_cs1", "kind": "authority_change_candidate", "source_record_id": "new_cs1", "target_record_id": "old_cs1", "relation_type": "supersedes"}
+        ],
+        "considered_set": [
+          {"surface_id": "surf_cs1_supersession", "kind": "authority_change_candidate", "source_record_id": "new_cs1", "target_record_id": "old_cs1", "relation_type": "supersedes", "disposition": "surfaced"}
+        ],
+        "completion_claim": "proposals_emitted"
+      },
+      "imported_anchor": {
+        "anchor_id": "anchor_processor_cs1",
+        "producer_id": "foreign_processor_cs1",
+        "outside_proposer_process": true,
+        "independent_of_proposer": true,
+        "receipt_required": true,
+        "receipt_present": true,
+        "events": [
+          {"event_id": "foreign_ev_cs1_write", "kind": "record_write", "record_id": "new_cs1", "scope": "compliance.export_approval", "at": "2026-07-16T18:00:00Z"}
+        ]
+      },
+      "run_shipped_considered_set_gate": true,
+      "expected": {
+        "alarm_code": null,
+        "derived_surface_count": 1,
+        "semantic_aligned_count": 1,
+        "fixture_only_count": 0,
+        "imported_only_count": 0,
+        "missing_from_considered_count": 0,
+        "unresolved_event_count": 0,
+        "considered_set_alarm_code": "hole_in_considered_set",
+        "considered_set_identity_break": true
+      }
+    },
+    {
+      "id": "path_a_v3_ia4_webhook_missing_scope",
+      "class": "imported_anchor_negative_semantic_mapping",
+      "local_ledger_started_at": "2026-07-01T00:00:00Z",
+      "records": [
+        {"record_id": "old_ia4", "owner_id": "agent_a", "scope": "finance.invoice_payment", "status": "live"}
+      ],
+      "actors": [
+        {"actor_id": "proposer_p", "role": "relation_proposer"},
+        {"actor_id": "foreign_processor_ia4", "role": "foreign_processor_webhook", "outside_proposer_process": true}
+      ],
+      "fixture_expected_set": [],
+      "proposer_emission": {"session_id": "sess_ia4", "parsed_proposals": [], "considered_set": [], "completion_claim": "clean_compliance"},
+      "imported_anchor": {
+        "anchor_id": "anchor_processor_ia4",
+        "producer_id": "foreign_processor_ia4",
+        "outside_proposer_process": true,
+        "independent_of_proposer": true,
+        "receipt_required": true,
+        "receipt_present": true,
+        "events": [
+          {"event_id": "foreign_ev_ia4_activity", "kind": "record_write", "record_id": "new_ia4", "action": "updated", "at": "2026-07-20T16:00:00Z"}
+        ]
+      },
+      "expected": {
+        "alarm_code": "imported_anchor_unresolved",
+        "derived_surface_count": 0,
+        "semantic_aligned_count": 0,
+        "fixture_only_count": 0,
+        "imported_only_count": 0,
+        "unresolved_event_count": 1,
+        "unresolved_reasons": ["missing_scope"]
+      }
+    },
+    {
+      "id": "path_a_v3_ia5_expected_receipt_missing",
+      "class": "imported_anchor_negative_receipt_integrity",
+      "local_ledger_started_at": "2026-07-01T00:00:00Z",
+      "records": [
+        {"record_id": "old_ia5", "owner_id": "agent_a", "scope": "ops.vendor_approval", "status": "live"}
+      ],
+      "actors": [
+        {"actor_id": "proposer_p", "role": "relation_proposer"},
+        {"actor_id": "foreign_platform_ia5", "role": "foreign_platform_observer", "outside_proposer_process": true}
+      ],
+      "fixture_expected_set": [],
+      "proposer_emission": {"session_id": "sess_ia5", "parsed_proposals": [], "considered_set": [], "completion_claim": "clean_compliance"},
+      "imported_anchor": {
+        "anchor_id": "anchor_platform_ia5",
+        "producer_id": "foreign_platform_ia5",
+        "outside_proposer_process": true,
+        "independent_of_proposer": true,
+        "receipt_required": true,
+        "receipt_present": false,
+        "events": []
+      },
+      "expected": {
+        "alarm_code": "imported_anchor_integrity_failure",
+        "derived_surface_count": 0,
+        "semantic_aligned_count": 0,
+        "fixture_only_count": 0,
+        "imported_only_count": 0,
+        "unresolved_event_count": 0
+      }
+    }
+  ]
+}
