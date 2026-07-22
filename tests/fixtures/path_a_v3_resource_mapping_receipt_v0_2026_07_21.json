@@ -315,6 +315,18 @@
       "resource_aliases": [],
       "census_digest": "sha256:32c34b4ec81bb98a382fdbccc71bb5b67e5278af93cbe40ffd3d890092300aa8"
     },
+    "cycle_census": {
+      "receipt_id": "census-rm-cycle",
+      "observer_id": "observer_census",
+      "observed_at": "2026-07-20T11:30:00Z",
+      "authority_namespace": "github/compliance.export_approval",
+      "resources": [
+        {"resource_id": "github:123", "scope": "compliance.export_approval", "status": "written"},
+        {"resource_id": "github:456", "scope": "compliance.export_approval", "status": "live"}
+      ],
+      "resource_aliases": [],
+      "census_digest": "sha256:de6479b0095c32aca2ddabef027ca18e30ba9c3e79fedcff9361aff586857e42"
+    },
     "missing_target_census": {
       "receipt_id": "census-rm-missing-target",
       "observer_id": "observer_census",
@@ -482,7 +494,7 @@
       "class": "resource_mapping_negative_noncanonical_target",
       "request_ref": "base_request",
       "request_overrides": {"required_canonical_namespace": "github"},
-      "census_ref": "base_census",
+      "census_ref": "cycle_census",
       "mapping_receipt_refs": ["cycle_mapping_receipt_a", "cycle_mapping_receipt_b"],
       "authority_grant_refs": ["cycle_grant"],
       "revocation_receipt_refs": [],
