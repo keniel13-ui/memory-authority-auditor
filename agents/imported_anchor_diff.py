@@ -60,6 +60,40 @@ def _valid_foreign_provenance(case: dict, anchor: dict) -> bool:
     )
 
 
+def _deduplicate_events(events: list[dict]) -> tuple[list[dict], list[str], list[dict[str, Any]]]:
+    unique: list[dict] = []
+    seen_by_id: dict[str, dict] = {}
+    duplicate_replay_ids: list[str] = []
+    conflicts: list[dict[str, Any]] = []
+
+    for event in events:
+        event_id = event.get("event_id")
+        if not isinstance(event_id, str) or not event_id:
+            unique.append(event)
+            continue
+
+        prior = seen_by_id.get(event_id)
+        if prior is None:
+            seen_by_id[event_id] = event
+            unique.append(event)
+            continue
+
+        if prior == event:
+            if event_id not in duplicate_replay_ids:
+                duplicate_replay_ids.append(event_id)
+            continue
+
+        conflicts.append(
+            {
+                "event_id": event_id,
+                "first_event": prior,
+                "conflicting_event": event,
+            }
+        )
+
+    return unique, duplicate_replay_ids, conflicts
+
+
 def _derive_event_surface(
     *,
     event: dict,
@@ -120,6 +154,8 @@ def _empty_result(case: dict) -> dict[str, Any]:
         "imported_only": [],
         "missing_from_considered": [],
         "unresolved_events": [],
+        "duplicate_replay_event_ids": [],
+        "event_identity_conflicts": [],
         "pre_ledger_birth_event_ids": [],
         "shipped_gate_receipts": {},
         "receipts": {
@@ -130,6 +166,8 @@ def _empty_result(case: dict) -> dict[str, Any]:
             "imported_only_count": 0,
             "missing_from_considered_count": 0,
             "unresolved_event_count": 0,
+            "duplicate_replay_count": 0,
+            "event_identity_conflict_count": 0,
         },
         "reasons": [],
     }
@@ -204,7 +242,22 @@ def evaluate_imported_anchor_case(case: dict) -> dict[str, Any]:
     pre_birth: list[str] = []
     ledger_birth = _parse_time(case.get("local_ledger_started_at"))
 
-    for event in anchor.get("events", []):
+    unique_events, duplicate_replay_ids, identity_conflicts = _deduplicate_events(anchor.get("events", []))
+    result["duplicate_replay_event_ids"] = duplicate_replay_ids
+    result["event_identity_conflicts"] = identity_conflicts
+    result["receipts"]["duplicate_replay_count"] = len(duplicate_replay_ids)
+    result["receipts"]["event_identity_conflict_count"] = len(identity_conflicts)
+
+    if identity_conflicts:
+        result.update(
+            {
+                "alarm_code": "imported_anchor_event_identity_conflict",
+                "reasons": ["one event_id carries conflicting payloads; the imported stream cannot be trusted for derivation"],
+            }
+        )
+        return result
+
+    for event in unique_events:
         surface, reason = _derive_event_surface(event=event, records=records, anchor_id=anchor_id)
         if reason:
             unresolved.append({"event_id": event.get("event_id"), "reason": reason})

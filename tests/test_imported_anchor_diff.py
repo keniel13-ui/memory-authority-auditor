@@ -90,3 +90,31 @@ def test_ambiguous_census_target_stays_unresolved():
     assert result["alarm_code"] == "imported_anchor_unresolved"
     assert result["derived_surfaces"] == []
     assert result["unresolved_events"][0]["reason"] == "ambiguous_live_same_scope_target"
+
+
+def test_identical_duplicate_event_collapses_to_one_derived_surface():
+    case = deepcopy(next(row for row in _cases() if row["id"] == "path_a_v3_ia1_foreign_receipt_catches_so1_silence"))
+    event = deepcopy(case["imported_anchor"]["events"][0])
+    case["imported_anchor"]["events"].append(event)
+
+    result = evaluate_imported_anchor_case(case)
+
+    assert result["alarm_code"] is None
+    assert result["receipts"]["derived_surface_count"] == 1
+    assert result["receipts"]["duplicate_replay_count"] == 1
+    assert result["duplicate_replay_event_ids"] == ["foreign_ev_so1_write"]
+    assert len({surface["surface_id"] for surface in result["derived_surfaces"]}) == 1
+
+
+def test_same_event_id_with_different_payload_is_integrity_failure():
+    case = deepcopy(next(row for row in _cases() if row["id"] == "path_a_v3_ia1_foreign_receipt_catches_so1_silence"))
+    conflicting = deepcopy(case["imported_anchor"]["events"][0])
+    conflicting["record_id"] = "different_new_so1"
+    case["imported_anchor"]["events"].append(conflicting)
+
+    result = evaluate_imported_anchor_case(case)
+
+    assert result["alarm_code"] == "imported_anchor_event_identity_conflict"
+    assert result["derived_surfaces"] == []
+    assert result["receipts"]["event_identity_conflict_count"] == 1
+    assert result["event_identity_conflicts"][0]["event_id"] == "foreign_ev_so1_write"

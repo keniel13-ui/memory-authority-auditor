@@ -1,7 +1,7 @@
 # Imported-Anchor Diff — Where the Route Works and Where It Breaks
 
 Date: 2026-07-21
-Status: LOCAL PASS A — five frozen cases matched; not yet an independent recompute or public article
+Status: LOCAL PASS A + B1/B2 MAKER REPAIR — five frozen cases matched; Grok narrow re-check still required before push
 Freeze receipt: `b476cf3`
 
 ## Answer to nexus
@@ -70,7 +70,18 @@ IA-2 proves that one foreign receipt from before the local-ledger start can add 
 - No relation is silently inferred from an incomplete event.
 - Imported IDs remain provenance-bound rather than fixture-bound.
 - Existing gates are invoked only after a derived surface exists.
-- Current suite after implementation: 45 passed, 1 expected xfail.
+- Exact duplicate event receipts collapse to one derivation and remain visible in `duplicate_replay_event_ids`.
+- One `event_id` carrying conflicting payloads stops derivation with `imported_anchor_event_identity_conflict`.
+- Current suite after B1/B2 repair: 47 passed, 1 expected xfail.
+
+## Grok PHASE 35 repair receipt
+
+Grok's bounded attack on `b476cf3 -> 9b8af1b` found two blockers before push:
+
+1. B1: an identical replay produced two derived rows with the same `surface_id`.
+2. B2: one reused `event_id` could produce two different semantic surfaces under the same `surface_id`.
+
+The narrow repair pre-scans event identity before any derivation. Identical event payloads sharing an ID are collapsed and counted as replay. Conflicting payloads sharing an ID invalidate the imported stream for that case; no partial surface set is emitted. Two regressions lock both paths. This is the PASS A event-identity floor, not the future canonical semantic `surface_key` promised for Anchor Contract v0.
 
 ## Smallest defensible next implementation
 
