@@ -127,3 +127,62 @@ def test_duplicate_census_resource_identity_fails_before_target_selection():
 
     assert result["alarm_code"] == "census_integrity_failure"
     assert result["receipts"]["target_selection_attempted"] is False
+
+
+def test_unsupported_event_type_cannot_enter_policy_derivation():
+    packet = _packet()
+    case = deepcopy(_case("path_a_v3_ac6_late_delivery_preserves_clocks"))
+    case["event_overrides"]["type"] = "com.example.unapproved.event.v1"
+
+    result = evaluate_anchor_contract_case(case, packet)
+
+    assert result["alarm_code"] == "unsupported_event_type"
+    assert result["derived_surfaces"] == []
+
+
+def test_event_subject_must_match_payload_resource_identity():
+    packet = _packet()
+    case = deepcopy(_case("path_a_v3_ac6_late_delivery_preserves_clocks"))
+    case["event_overrides"]["subject"] = "record:costume"
+
+    result = evaluate_anchor_contract_case(case, packet)
+
+    assert result["alarm_code"] == "event_subject_mismatch"
+    assert result["derived_surfaces"] == []
+
+
+def test_policy_census_and_coverage_must_bind_same_namespace():
+    packet = _packet()
+    case = deepcopy(_case("path_a_v3_ac6_late_delivery_preserves_clocks"))
+    case["coverage_ref"] = None
+    case["coverage_receipt"] = deepcopy(packet["shared_receipts"]["base_coverage"])
+    case["coverage_receipt"]["authority_namespace"] = "tenant.other/compliance.export_approval"
+
+    result = evaluate_anchor_contract_case(case, packet)
+
+    assert result["alarm_code"] == "receipt_namespace_mismatch"
+    assert result["derived_surfaces"] == []
+
+
+def test_reversed_coverage_cursor_interval_fails_integrity():
+    packet = _packet()
+    case = deepcopy(_case("path_a_v3_ac6_late_delivery_preserves_clocks"))
+    case["coverage_overrides"] = {"cursor_start": "901", "cursor_end": "900"}
+
+    result = evaluate_anchor_contract_case(case, packet)
+
+    assert result["alarm_code"] == "coverage_integrity_failure"
+    assert result["derived_surfaces"] == []
+
+
+def test_census_observation_must_fall_inside_coverage_window():
+    packet = _packet()
+    case = deepcopy(_case("path_a_v3_ac6_late_delivery_preserves_clocks"))
+    case["census_ref"] = None
+    case["census_receipt"] = deepcopy(packet["shared_receipts"]["base_census"])
+    case["census_receipt"]["observed_at"] = "2026-08-01T00:00:00Z"
+
+    result = evaluate_anchor_contract_case(case, packet)
+
+    assert result["alarm_code"] == "census_time_integrity_failure"
+    assert result["derived_surfaces"] == []

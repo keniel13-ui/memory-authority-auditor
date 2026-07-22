@@ -40,6 +40,11 @@ Their provenance remains separate in `supporting_event_receipt_ids`. The semanti
 - Source-local aliases without mapping receipts stay `resource_identity_unresolved`.
 - A foreign label cannot override producer provenance.
 - Missing `observed_time` is a schema failure, not zero-latency observation.
+- Event type must be admitted by the bound policy.
+- Event subject must equal the payload resource identity.
+- Policy, census, and coverage receipts must bind the same authority namespace.
+- Coverage cursors must form a valid forward interval.
+- Census observation time must fall inside the coverage window.
 
 ## Frozen case outcomes
 
@@ -60,8 +65,8 @@ Their provenance remains separate in `supporting_event_receipt_ids`. The semanti
 
 ## Verification
 
-- Focused Anchor Contract tests: 8 passed.
-- Full repository: 55 passed, 1 expected xfail.
+- Focused Anchor Contract tests: 13 passed.
+- Full repository: 60 passed, 1 expected xfail.
 - No case-ID branching in the implementation.
 - Frozen preregistration and fixture were not edited by implementation.
 - Imported Anchor, considered-set, and silent-omission behavior remains green.
@@ -80,3 +85,7 @@ This is a deterministic contract proof, not a production attestation system.
 - No public result is authorized.
 
 The important advance is narrower and real: two sufficiently identified routes can now converge on one authority-surface identity without sharing fixture IDs, and every missing prerequisite stays loud instead of being rounded into confidence.
+
+## Maker coherence hardening after first PASS
+
+A local cross-receipt attack found five seams not exercised by the twelve headline cases: unapproved event types, subject/payload disagreement, namespace disagreement across receipts, reversed cursor intervals, and census observations outside coverage. All five originally derived or advanced too far. The implementation now blocks each with a focused regression. The frozen law and fixture remain unchanged; this is implementation hardening inside their existing receipt-coherence requirements.

@@ -146,7 +146,7 @@ def _fail(result: dict, alarm_code: str, reason: str, *, missing_fields: list[st
     return result
 
 
-def _validate_event(result: dict, event: dict) -> dict | None:
+def _validate_event(result: dict, event: dict, policy: dict) -> dict | None:
     missing = [field for field in EVENT_REQUIRED_FIELDS if field not in event]
     if missing:
         return _fail(
@@ -157,6 +157,12 @@ def _validate_event(result: dict, event: dict) -> dict | None:
         )
     if not isinstance(event.get("data"), dict):
         return _fail(result, "event_receipt_schema_failure", "event data must be an object")
+    if event.get("specversion") != "1.0" or event.get("datacontenttype") != "application/json":
+        return _fail(result, "event_receipt_schema_failure", "event envelope is outside the v0 profile")
+    if event.get("type") not in policy.get("input_event_types", []):
+        return _fail(result, "unsupported_event_type", "event type is not admitted by the derivation policy")
+    if event.get("subject") != event["data"].get("record_id"):
+        return _fail(result, "event_subject_mismatch", "event subject disagrees with the payload resource identity")
     if content_digest(event["data"]) != event.get("data_digest"):
         return _fail(result, "event_integrity_failure", "event data does not match its declared digest")
     producer = event.get("producer_identity") or {}
@@ -201,6 +207,18 @@ def _validate_coverage(result: dict, coverage: dict | None, event: dict) -> dict
     missing = [field for field in COVERAGE_REQUIRED_FIELDS if field not in coverage]
     if missing:
         return _fail(result, "coverage_schema_failure", "coverage receipt is incomplete", missing_fields=missing)
+    if coverage.get("coverage_claim") != "complete_for_named_source_namespace_and_cursor_window":
+        return _fail(result, "coverage_integrity_failure", "coverage claim is absent or outside the v0 bounded profile")
+    cursor_start = coverage.get("cursor_start")
+    cursor_end = coverage.get("cursor_end")
+    if (
+        not isinstance(cursor_start, str)
+        or not isinstance(cursor_end, str)
+        or not cursor_start.isdigit()
+        or not cursor_end.isdigit()
+        or int(cursor_start) > int(cursor_end)
+    ):
+        return _fail(result, "coverage_integrity_failure", "coverage cursor interval is invalid")
 
     start = _parse_time(coverage.get("coverage_start"))
     end = _parse_time(coverage.get("coverage_end"))
@@ -235,6 +253,14 @@ def _validate_census(result: dict, census: dict | None) -> dict | None:
     }
     if content_digest(payload) != census.get("census_digest"):
         return _fail(result, "census_integrity_failure", "census payload does not match its declared digest")
+    if _parse_time(census.get("observed_at")) is None:
+        return _fail(result, "census_schema_failure", "census observed_at is not a valid timestamp")
+    resources = census.get("resources")
+    if not isinstance(resources, list) or not all(isinstance(resource, dict) for resource in resources):
+        return _fail(result, "census_schema_failure", "census resources must be typed objects")
+    for resource in resources:
+        if not all(isinstance(resource.get(field), str) for field in ("resource_id", "scope", "status")):
+            return _fail(result, "census_schema_failure", "census resource is missing typed identity, scope, or status")
     resource_ids = [resource.get("resource_id") for resource in census.get("resources", [])]
     if len(resource_ids) != len(set(resource_ids)):
         return _fail(result, "census_integrity_failure", "census contains duplicate resource identities")
@@ -324,7 +350,7 @@ def evaluate_anchor_contract_case(case: dict, packet: dict) -> dict[str, Any]:
         return _fail(result, "event_receipt_schema_failure", "event receipt is missing")
 
     for context in contexts:
-        failure = _validate_event(result, context["event"])
+        failure = _validate_event(result, context["event"], policy)
         if failure:
             return failure
 
@@ -345,6 +371,27 @@ def evaluate_anchor_contract_case(case: dict, packet: dict) -> dict[str, Any]:
         failure = _validate_census(result, census)
         if failure:
             return failure
+        if not (
+            census["authority_namespace"]
+            == coverage["authority_namespace"]
+            == policy["authority_namespace"]
+        ):
+            return _fail(
+                result,
+                "receipt_namespace_mismatch",
+                "event derivation receipts do not bind the same authority namespace",
+            )
+        census_observed = _parse_time(census["observed_at"])
+        coverage_start = _parse_time(coverage["coverage_start"])
+        coverage_end = _parse_time(coverage["coverage_end"])
+        if not census_observed or not coverage_start or not coverage_end or not (
+            coverage_start <= census_observed <= coverage_end
+        ):
+            return _fail(
+                result,
+                "census_time_integrity_failure",
+                "census observation falls outside the declared coverage window",
+            )
 
         data = event["data"]
         source_resource_id = data.get("record_id")
