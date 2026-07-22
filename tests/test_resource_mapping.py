@@ -300,3 +300,62 @@ def test_revoked_historical_receipt_cannot_poison_valid_reissue():
     assert result["mapping_receipt_id"] == "mapping-rm-reissue"
     assert result["receipts"]["active_mapping_count"] == 1
     assert result["rejected_mapping_receipts"][0]["alarm_code"] == "mapping_revoked"
+
+
+def test_future_or_unauthorized_candidate_cannot_veto_valid_active_mapping():
+    packet = _packet()
+    for extra_ref, alarm_code in (
+        ("future_mapping_receipt", "mapping_not_effective"),
+        ("unauthorized_mapping_receipt", "mapping_authority_failure"),
+    ):
+        case = deepcopy(_case("path_a_v3_rm1_authorized_directional_resolution"))
+        case["mapping_receipt_refs"] = [extra_ref, "base_mapping_receipt"]
+
+        result = evaluate_resource_mapping_case(case, packet)
+
+        assert result["alarm_code"] is None
+        assert result["canonical_resource_id"] == "record:new-ac1"
+        assert result["receipts"]["active_mapping_count"] == 1
+        assert result["rejected_mapping_receipts"][0]["alarm_code"] == alarm_code
+
+
+def test_revocation_after_resolution_time_does_not_rewrite_the_receipt_view():
+    packet = _packet()
+    case = deepcopy(_case("path_a_v3_rm1_authorized_directional_resolution"))
+    revocation = deepcopy(packet["shared_objects"]["base_revocation"])
+    revocation["revoked_at"] = "2026-07-20T12:00:01Z"
+    revocation["revocation_digest"] = content_digest(
+        {key: value for key, value in revocation.items() if key != "revocation_digest"}
+    )
+    case["revocation_receipts"] = [revocation]
+
+    result = evaluate_resource_mapping_case(case, packet)
+
+    assert result["alarm_code"] is None
+    assert result["canonical_resource_id"] == "record:new-ac1"
+
+
+def test_subject_time_boundaries_are_explicit():
+    packet = _packet()
+    base_case = _case("path_a_v3_rm1_authorized_directional_resolution")
+
+    exact_effective = deepcopy(packet["shared_objects"]["base_mapping_receipt"])
+    exact_effective["issued_at"] = "2026-07-20T10:00:00Z"
+    exact_effective["effective_at"] = "2026-07-20T10:00:00Z"
+    exact_effective["receipt_digest"] = content_digest(
+        {key: value for key, value in exact_effective.items() if key != "receipt_digest"}
+    )
+    case = deepcopy(base_case)
+    case["mapping_receipt_refs"] = []
+    case["mapping_receipts"] = [exact_effective]
+    assert evaluate_resource_mapping_case(case, packet)["alarm_code"] is None
+
+    exact_expiry = deepcopy(packet["shared_objects"]["base_mapping_receipt"])
+    exact_expiry["expires_at"] = "2026-07-20T10:00:00Z"
+    exact_expiry["receipt_digest"] = content_digest(
+        {key: value for key, value in exact_expiry.items() if key != "receipt_digest"}
+    )
+    case = deepcopy(base_case)
+    case["mapping_receipt_refs"] = []
+    case["mapping_receipts"] = [exact_expiry]
+    assert evaluate_resource_mapping_case(case, packet)["alarm_code"] == "mapping_expired"

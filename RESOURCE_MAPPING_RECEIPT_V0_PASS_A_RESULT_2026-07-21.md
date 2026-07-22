@@ -99,4 +99,4 @@ A local post-PASS attack closed seven additional seams without changing the froz
 - Anchor Contract no longer accepts arbitrary truthy mapping JSON;
 - the Anchor bridge independently rechecks semantic-key coherence and current census membership before AC-2 may derive.
 
-Current verification after hardening: 17 focused Resource Mapping tests; 30 combined Resource Mapping + Anchor Contract tests; 77 passed / 1 expected xfail across the full repository.
+Current verification after hardening: 20 focused Resource Mapping tests; 33 combined Resource Mapping + Anchor Contract tests; 80 passed / 1 expected xfail across the full repository.
