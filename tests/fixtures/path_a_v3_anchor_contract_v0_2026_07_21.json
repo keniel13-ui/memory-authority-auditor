@@ -1,0 +1,355 @@
+{
+  "packet": "path_a_v3_anchor_contract_v0_2026_07_21",
+  "status": "frozen_after_prereg_before_implementation",
+  "prereg": "PATH_A_V3_PREREGISTRATION_ANCHOR_CONTRACT_V0_2026-07-21.md",
+  "prerequisite_chain": ["b476cf3", "9b8af1b", "98a8f1c"],
+  "standards_profile": {
+    "event_envelope": "CloudEvents 1.0-shaped",
+    "time_model": "OpenTelemetry event_time vs observed_time distinction",
+    "canonicalization": "RFC 8785 JSON Canonicalization Scheme",
+    "digest": "SHA-256"
+  },
+  "contract_objects": {
+    "event_receipt": ["specversion", "id", "source", "type", "subject", "event_time", "observed_time", "datacontenttype", "data", "data_digest", "producer_identity"],
+    "census_receipt": ["receipt_id", "observer_id", "observed_at", "authority_namespace", "resources", "resource_aliases", "census_digest"],
+    "coverage_receipt": ["receipt_id", "observer_id", "authority_namespace", "coverage_start", "coverage_end", "local_ledger_started_at", "cursor_start", "cursor_end", "receipt_present", "coverage_claim"],
+    "derivation_policy_receipt": ["policy_id", "policy_version", "input_event_types", "authority_namespace", "rule", "unresolved_states", "policy_digest"],
+    "derived_surface_receipt": ["surface_key", "surface_payload", "supporting_event_receipt_ids", "census_receipt_id", "coverage_receipt_id", "policy_id", "policy_version", "derivation_state", "unresolved_reasons"]
+  },
+  "derivation_policy": {
+    "policy_id": "authority.same_scope_live_record",
+    "policy_version": "0.1.0",
+    "input_event_types": ["com.keniel.memory.record.write.v1"],
+    "authority_namespace": "tenant.demo/compliance.export_approval",
+    "rule": "same_scope_live_record_requires_authority_change_candidate",
+    "unresolved_states": [
+      "missing_scope",
+      "no_live_same_scope_target",
+      "ambiguous_census_target",
+      "resource_identity_unresolved",
+      "event_identity_conflict",
+      "event_receipt_schema_failure",
+      "event_integrity_failure",
+      "census_integrity_failure",
+      "coverage_integrity_failure",
+      "producer_provenance_failure"
+    ],
+    "policy_digest": "sha256:f5692df43b95355e6318b76f1f50570175c8ec9b1b74987d8adb014b25105b2e"
+  },
+  "canonical_surface_identity": {
+    "schema": "authority_surface/v0",
+    "included_fields": [
+      "schema",
+      "authority_namespace",
+      "kind",
+      "source_resource_id",
+      "target_resource_id",
+      "relation_type"
+    ],
+    "excluded_provenance_fields": [
+      "event_id",
+      "event_source",
+      "event_time",
+      "observed_time",
+      "observer_id",
+      "receipt_id",
+      "policy_id",
+      "policy_version",
+      "reason"
+    ],
+    "key_format": "surface:v0:sha256:<hex>"
+  },
+  "fixture_reference_semantics": "event_ref, census_ref, and coverage_ref deep-copy the named shared_receipts object; an adjacent *_overrides object then replaces only the named top-level fields",
+  "shared_receipts": {
+    "base_event": {
+      "specversion": "1.0",
+      "id": "platform-ev-base",
+      "source": "https://platform.example/events",
+      "type": "com.keniel.memory.record.write.v1",
+      "subject": "record:new-ac1",
+      "event_time": "2026-07-20T10:00:00Z",
+      "observed_time": "2026-07-20T10:00:03Z",
+      "datacontenttype": "application/json",
+      "data": {"action": "record_write", "record_id": "record:new-ac1", "scope": "compliance.export_approval"},
+      "data_digest": "sha256:21022fa99c3637d0447796fd6868ce5a6946931cd88deececcb181da791c50a2",
+      "producer_identity": {"producer_id": "platform_observer", "outside_proposer_process": true}
+    },
+    "base_census": {
+      "receipt_id": "census_ac1",
+      "observer_id": "observer_census",
+      "observed_at": "2026-07-20T12:00:00Z",
+      "authority_namespace": "tenant.demo/compliance.export_approval",
+      "resources": [
+        {"resource_id": "record:old-ac1", "scope": "compliance.export_approval", "status": "live"},
+        {"resource_id": "record:new-ac1", "scope": "compliance.export_approval", "status": "written"}
+      ],
+      "resource_aliases": [],
+      "census_digest": "sha256:3381cf1a0c4c3ea9d06a4ecfa642657d879163d57aed90fa2eb44e5a61ff937d"
+    },
+    "base_coverage": {
+      "receipt_id": "coverage_ac1",
+      "observer_id": "observer_coverage",
+      "authority_namespace": "tenant.demo/compliance.export_approval",
+      "coverage_start": "2026-06-01T00:00:00Z",
+      "coverage_end": "2026-07-21T00:00:00Z",
+      "local_ledger_started_at": "2026-07-01T00:00:00Z",
+      "cursor_start": "1",
+      "cursor_end": "900",
+      "receipt_present": true,
+      "coverage_claim": "complete_for_named_source_namespace_and_cursor_window"
+    }
+  },
+  "cases": [
+    {
+      "id": "path_a_v3_ac1_two_routes_one_semantic_surface",
+      "class": "anchor_contract_positive_cross_source_convergence",
+      "routes": [
+        {
+          "route_id": "platform_route",
+          "event_receipt": {
+            "specversion": "1.0",
+            "id": "platform-ev-ac1",
+            "source": "https://platform.example/events",
+            "type": "com.keniel.memory.record.write.v1",
+            "subject": "record:new-ac1",
+            "event_time": "2026-07-20T10:00:00Z",
+            "observed_time": "2026-07-20T10:00:03Z",
+            "datacontenttype": "application/json",
+            "data": {"action": "record_write", "record_id": "record:new-ac1", "scope": "compliance.export_approval"},
+            "data_digest": "sha256:21022fa99c3637d0447796fd6868ce5a6946931cd88deececcb181da791c50a2",
+            "producer_identity": {"producer_id": "platform_observer", "outside_proposer_process": true}
+          },
+          "census_ref": "base_census",
+          "coverage_ref": "base_coverage"
+        },
+        {
+          "route_id": "counterparty_route",
+          "event_receipt": {
+            "specversion": "1.0",
+            "id": "counterparty-ev-ac1",
+            "source": "https://counterparty.example/ledger",
+            "type": "com.keniel.memory.record.write.v1",
+            "subject": "record:new-ac1",
+            "event_time": "2026-07-20T10:00:00Z",
+            "observed_time": "2026-07-20T10:00:09Z",
+            "datacontenttype": "application/json",
+            "data": {"action": "record_write", "record_id": "record:new-ac1", "scope": "compliance.export_approval"},
+            "data_digest": "sha256:21022fa99c3637d0447796fd6868ce5a6946931cd88deececcb181da791c50a2",
+            "producer_identity": {"producer_id": "counterparty_observer", "outside_proposer_process": true}
+          },
+          "census_ref": "base_census",
+          "coverage_ref": "base_coverage"
+        }
+      ],
+      "expected": {
+        "alarm_code": null,
+        "derived_surface_count": 1,
+        "route_receipt_count": 2,
+        "surface_payload": {
+          "schema": "authority_surface/v0",
+          "authority_namespace": "tenant.demo/compliance.export_approval",
+          "kind": "authority_change_candidate",
+          "source_resource_id": "record:new-ac1",
+          "target_resource_id": "record:old-ac1",
+          "relation_type": "supersedes"
+        },
+        "canonical_json": "{\"authority_namespace\":\"tenant.demo/compliance.export_approval\",\"kind\":\"authority_change_candidate\",\"relation_type\":\"supersedes\",\"schema\":\"authority_surface/v0\",\"source_resource_id\":\"record:new-ac1\",\"target_resource_id\":\"record:old-ac1\"}",
+        "surface_key": "surface:v0:sha256:5bfd2c56650319aa29a2657ecd04aa19e2eae44184cd14f27fcf0ce152f37d78",
+        "route_surface_keys_equal": true
+      }
+    },
+    {
+      "id": "path_a_v3_ac2_unreceipted_resource_alias",
+      "class": "anchor_contract_negative_resource_identity",
+      "event_receipt": {
+        "specversion": "1.0",
+        "id": "github-ev-ac2",
+        "source": "https://github.example/events",
+        "type": "com.keniel.memory.record.write.v1",
+        "subject": "github:123",
+        "event_time": "2026-07-20T10:00:00Z",
+        "observed_time": "2026-07-20T10:00:02Z",
+        "datacontenttype": "application/json",
+        "data": {"action": "record_write", "record_id": "github:123", "scope": "compliance.export_approval"},
+        "data_digest": "sha256:c78b41a5f4c075db5903ea3ad1231b1839d09800bc31079d89a7afb41bf2365b",
+        "producer_identity": {"producer_id": "github_observer", "outside_proposer_process": true}
+      },
+      "census_ref": "base_census",
+      "coverage_ref": "base_coverage",
+      "alias_claim": {"source_resource_id": "github:123", "canonical_resource_id": "record:new-ac1", "mapping_receipt": null},
+      "expected": {"alarm_code": "resource_identity_unresolved", "derived_surface_count": 0, "surface_key": null}
+    },
+    {
+      "id": "path_a_v3_ac3_relation_changes_semantic_key",
+      "class": "anchor_contract_positive_semantic_separation",
+      "surface_payloads": [
+        {
+          "schema": "authority_surface/v0",
+          "authority_namespace": "tenant.demo/compliance.export_approval",
+          "kind": "authority_change_candidate",
+          "source_resource_id": "record:new-ac1",
+          "target_resource_id": "record:old-ac1",
+          "relation_type": "supersedes"
+        },
+        {
+          "schema": "authority_surface/v0",
+          "authority_namespace": "tenant.demo/compliance.export_approval",
+          "kind": "authority_change_candidate",
+          "source_resource_id": "record:new-ac1",
+          "target_resource_id": "record:old-ac1",
+          "relation_type": "narrows_scope"
+        }
+      ],
+      "expected": {
+        "surface_keys": [
+          "surface:v0:sha256:5bfd2c56650319aa29a2657ecd04aa19e2eae44184cd14f27fcf0ce152f37d78",
+          "surface:v0:sha256:ef36ff3d3db6c5b124826fb6a98fe615aafa4a4649e15b08cf07e6a066af259f"
+        ],
+        "keys_differ": true
+      }
+    },
+    {
+      "id": "path_a_v3_ac4_identical_event_replay",
+      "class": "anchor_contract_positive_replay_collapse",
+      "event_receipts": [
+        {"event_ref": "base_event", "event_overrides": {"id": "platform-ev-ac4"}},
+        {"event_ref": "base_event", "event_overrides": {"id": "platform-ev-ac4"}}
+      ],
+      "census_ref": "base_census",
+      "coverage_ref": "base_coverage",
+      "expected": {"alarm_code": null, "unique_event_count": 1, "duplicate_replay_count": 1, "derived_surface_count": 1}
+    },
+    {
+      "id": "path_a_v3_ac5_event_id_payload_conflict",
+      "class": "anchor_contract_negative_event_identity",
+      "event_receipts": [
+        {"event_ref": "base_event", "event_overrides": {"id": "platform-ev-ac5"}},
+        {
+          "event_ref": "base_event",
+          "event_overrides": {
+            "id": "platform-ev-ac5",
+            "subject": "record:different-new-ac1",
+            "data": {"action": "record_write", "record_id": "record:different-new-ac1", "scope": "compliance.export_approval"},
+            "data_digest": "sha256:63fb4ecb466088a302bf52dc952713d2072da9e0bfc8ea497b857fc5b52faf07"
+          }
+        }
+      ],
+      "census_ref": "base_census",
+      "coverage_ref": "base_coverage",
+      "expected": {"alarm_code": "event_identity_conflict", "derived_surface_count": 0}
+    },
+    {
+      "id": "path_a_v3_ac6_late_delivery_preserves_clocks",
+      "class": "anchor_contract_positive_temporal_receipt",
+      "event_ref": "base_event",
+      "event_overrides": {"event_time": "2026-07-20T10:00:00Z", "observed_time": "2026-07-20T12:00:00Z"},
+      "coverage_ref": "base_coverage",
+      "census_ref": "base_census",
+      "expected": {"alarm_code": null, "delivery_delay_seconds": 7200, "event_time_preserved": true, "derived_surface_count": 1}
+    },
+    {
+      "id": "path_a_v3_ac7_pre_ledger_birth_recovery",
+      "class": "anchor_contract_positive_birth_date_recovery",
+      "event_ref": "base_event",
+      "event_overrides": {"event_time": "2026-06-20T12:00:00Z", "observed_time": "2026-07-20T12:00:00Z"},
+      "coverage_ref": "base_coverage",
+      "census_ref": "base_census",
+      "expected": {"alarm_code": null, "pre_local_ledger_birth": true, "historical_completeness_claimed": false, "derived_surface_count": 1}
+    },
+    {
+      "id": "path_a_v3_ac8_ambiguous_census_targets",
+      "class": "anchor_contract_negative_census_ambiguity",
+      "event_ref": "base_event",
+      "coverage_ref": "base_coverage",
+      "census_receipt": {
+        "receipt_id": "census_ac8",
+        "observer_id": "observer_census",
+        "observed_at": "2026-07-20T12:00:00Z",
+        "authority_namespace": "tenant.demo/compliance.export_approval",
+        "resources": [
+          {"resource_id": "record:old-ac8-a", "scope": "compliance.export_approval", "status": "live"},
+          {"resource_id": "record:old-ac8-b", "scope": "compliance.export_approval", "status": "live"},
+          {"resource_id": "record:new-ac8", "scope": "compliance.export_approval", "status": "written"}
+        ],
+        "resource_aliases": [],
+        "census_digest": "sha256:e7f3eeab2a20663970406ae79a9fe5f68ed57eca8be0c5faa865c39dc75e7ebc"
+      },
+      "expected": {"alarm_code": "ambiguous_census_target", "candidate_target_count": 2, "derived_surface_count": 0}
+    },
+    {
+      "id": "path_a_v3_ac9_missing_coverage_receipt",
+      "class": "anchor_contract_negative_coverage_integrity",
+      "event_ref": "base_event",
+      "census_ref": "base_census",
+      "coverage_ref": "base_coverage",
+      "coverage_overrides": {"receipt_id": "coverage_ac9", "receipt_present": false, "coverage_claim": null},
+      "expected": {"alarm_code": "coverage_integrity_failure", "derived_surface_count": 0, "must_not_treat_as_observed_empty": true}
+    },
+    {
+      "id": "path_a_v3_ac10_tampered_census_digest",
+      "class": "anchor_contract_negative_census_integrity",
+      "event_ref": "base_event",
+      "coverage_ref": "base_coverage",
+      "census_receipt": {
+        "receipt_id": "census_ac10",
+        "observer_id": "observer_census",
+        "observed_at": "2026-07-20T12:00:00Z",
+        "authority_namespace": "tenant.demo/compliance.export_approval",
+        "resources": [
+          {"resource_id": "record:old-ac1", "scope": "compliance.export_approval", "status": "live"},
+          {"resource_id": "record:new-ac1", "scope": "compliance.export_approval", "status": "written"}
+        ],
+        "resource_aliases": [],
+        "census_digest": "sha256:0000000000000000000000000000000000000000000000000000000000000000"
+      },
+      "expected": {"alarm_code": "census_integrity_failure", "derived_surface_count": 0, "target_selection_attempted": false}
+    },
+    {
+      "id": "path_a_v3_ac11_foreign_label_costume",
+      "class": "anchor_contract_negative_producer_provenance",
+      "event_receipt": {
+        "specversion": "1.0",
+        "id": "platform-ev-ac11",
+        "source": "foreign://claimed-observer",
+        "type": "com.keniel.memory.record.write.v1",
+        "subject": "record:new-ac1",
+        "event_time": "2026-07-20T10:00:00Z",
+        "observed_time": "2026-07-20T10:00:03Z",
+        "datacontenttype": "application/json",
+        "data": {"action": "record_write", "record_id": "record:new-ac1", "scope": "compliance.export_approval"},
+        "data_digest": "sha256:21022fa99c3637d0447796fd6868ce5a6946931cd88deececcb181da791c50a2",
+        "producer_identity": {"producer_id": "proposer_p", "outside_proposer_process": false},
+        "labels": ["foreign", "independent"]
+      },
+      "census_ref": "base_census",
+      "coverage_ref": "base_coverage",
+      "expected": {"alarm_code": "producer_provenance_failure", "derived_surface_count": 0, "labels_count_as_proof": false}
+    },
+    {
+      "id": "path_a_v3_ac12_missing_observed_time",
+      "class": "anchor_contract_negative_event_schema",
+      "event_receipt": {
+        "specversion": "1.0",
+        "id": "platform-ev-ac12",
+        "source": "https://platform.example/events",
+        "type": "com.keniel.memory.record.write.v1",
+        "subject": "record:new-ac1",
+        "event_time": "2026-07-20T10:00:00Z",
+        "datacontenttype": "application/json",
+        "data": {"action": "record_write", "record_id": "record:new-ac1", "scope": "compliance.export_approval"},
+        "data_digest": "sha256:21022fa99c3637d0447796fd6868ce5a6946931cd88deececcb181da791c50a2",
+        "producer_identity": {"producer_id": "platform_observer", "outside_proposer_process": true}
+      },
+      "expected": {"alarm_code": "event_receipt_schema_failure", "missing_fields": ["observed_time"], "derived_surface_count": 0}
+    }
+  ],
+  "boundary": [
+    "fixture receipts are frozen zero-model evidence, not production attestations",
+    "digest integrity does not prove producer honesty",
+    "foreign labels do not prove independence",
+    "coverage is bounded to one named source, namespace, and window",
+    "resource alias reconciliation requires a separate receipted mapping",
+    "only one event type and one derivation policy are in scope",
+    "no relation-store mutation, connector, external replay, or public article"
+  ]
+}
