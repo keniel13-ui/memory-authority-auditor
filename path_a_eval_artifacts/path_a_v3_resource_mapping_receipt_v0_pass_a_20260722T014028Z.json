@@ -1,0 +1,652 @@
+{
+  "all_match": true,
+  "cases": 14,
+  "fixture": "tests/fixtures/path_a_v3_resource_mapping_receipt_v0_2026_07_21.json",
+  "mapping_key": "mapping:v0:sha256:760b5c43822b288e1ada1f9425a7842ae52079ae9d0d5288baddf832590b83ef",
+  "matches": 14,
+  "non_claims": [
+    "no automatic mapping discovery",
+    "no identity inference from names URLs labels or content",
+    "no symmetric or transitive equivalence",
+    "no alias chains wildcards prefix scopes or probabilistic matching",
+    "no cryptographic proof of grantor ownership or independence",
+    "no global census completeness claim",
+    "no census relation-store or source-event mutation",
+    "no connector external replay deployment or article authorization"
+  ],
+  "packet_status": "frozen_after_prereg_before_implementation",
+  "prereg": "PATH_A_V3_PREREGISTRATION_RESOURCE_MAPPING_RECEIPT_V0_2026-07-21.md",
+  "rows": [
+    {
+      "actual": {
+        "alarm_code": null,
+        "authority_grant_id": "grant-rm-github-tenant-demo",
+        "authority_scope": "compliance.export_approval",
+        "canonical_namespace": "tenant.demo",
+        "canonical_resource_id": "record:new-ac1",
+        "case_id": "path_a_v3_rm1_authorized_directional_resolution",
+        "census_receipt_id": "census-rm-base",
+        "duplicate_replay_receipt_ids": [],
+        "mapping_key": "mapping:v0:sha256:760b5c43822b288e1ada1f9425a7842ae52079ae9d0d5288baddf832590b83ef",
+        "mapping_receipt_id": "mapping-rm-base",
+        "receipts": {
+          "active_mapping_count": 1,
+          "candidate_receipt_count": 1,
+          "duplicate_replay_count": 0
+        },
+        "resolution_state": "resolved",
+        "resolution_time": "2026-07-20T12:00:00Z",
+        "source_namespace": "github",
+        "source_resource_id": "github:123",
+        "subject_time": "2026-07-20T10:00:00Z",
+        "supporting_mapping_receipt_ids": [
+          "mapping-rm-base"
+        ],
+        "unresolved_reasons": []
+      },
+      "case_id": "path_a_v3_rm1_authorized_directional_resolution",
+      "checks": {
+        "active_mapping_count": true,
+        "alarm_code": true,
+        "authority_grant_id": true,
+        "candidate_receipt_count": true,
+        "canonical_resource_id": true,
+        "census_receipt_id": true,
+        "duplicate_replay_count": true,
+        "mapping_key": true,
+        "mapping_receipt_id": true,
+        "resolution_state": true
+      },
+      "class": "resource_mapping_positive_authorized_resolution",
+      "expected": {
+        "active_mapping_count": 1,
+        "alarm_code": null,
+        "authority_grant_id": "grant-rm-github-tenant-demo",
+        "candidate_receipt_count": 1,
+        "canonical_resource_id": "record:new-ac1",
+        "census_receipt_id": "census-rm-base",
+        "duplicate_replay_count": 0,
+        "mapping_key": "mapping:v0:sha256:760b5c43822b288e1ada1f9425a7842ae52079ae9d0d5288baddf832590b83ef",
+        "mapping_receipt_id": "mapping-rm-base",
+        "resolution_state": "resolved"
+      },
+      "matches_expected": true
+    },
+    {
+      "actual": {
+        "alarm_code": "mapping_authority_failure",
+        "authority_grant_id": null,
+        "authority_scope": "compliance.export_approval",
+        "canonical_namespace": null,
+        "canonical_resource_id": null,
+        "case_id": "path_a_v3_rm2_unauthorized_issuer",
+        "census_receipt_id": "census-rm-base",
+        "duplicate_replay_receipt_ids": [],
+        "mapping_key": null,
+        "mapping_receipt_id": null,
+        "receipts": {
+          "active_mapping_count": 0,
+          "candidate_receipt_count": 1,
+          "duplicate_replay_count": 0
+        },
+        "resolution_state": "unresolved",
+        "resolution_time": "2026-07-20T12:00:00Z",
+        "source_namespace": "github",
+        "source_resource_id": "github:123",
+        "subject_time": "2026-07-20T10:00:00Z",
+        "supporting_mapping_receipt_ids": [],
+        "unresolved_reasons": [
+          "mapping receipt issuer is not the authorized grantee"
+        ]
+      },
+      "case_id": "path_a_v3_rm2_unauthorized_issuer",
+      "checks": {
+        "alarm_code": true,
+        "canonical_resource_id": true,
+        "mapping_key": true,
+        "resolution_state": true
+      },
+      "class": "resource_mapping_negative_authority",
+      "expected": {
+        "alarm_code": "mapping_authority_failure",
+        "canonical_resource_id": null,
+        "mapping_key": null,
+        "resolution_state": "unresolved"
+      },
+      "matches_expected": true
+    },
+    {
+      "actual": {
+        "alarm_code": "mapping_scope_failure",
+        "authority_grant_id": null,
+        "authority_scope": "compliance.invoice_approval",
+        "canonical_namespace": null,
+        "canonical_resource_id": null,
+        "case_id": "path_a_v3_rm3_scope_mismatch",
+        "census_receipt_id": null,
+        "duplicate_replay_receipt_ids": [],
+        "mapping_key": null,
+        "mapping_receipt_id": null,
+        "receipts": {
+          "active_mapping_count": 0,
+          "candidate_receipt_count": 0,
+          "duplicate_replay_count": 0
+        },
+        "resolution_state": "unresolved",
+        "resolution_time": "2026-07-20T12:00:00Z",
+        "source_namespace": "github",
+        "source_resource_id": "github:123",
+        "subject_time": "2026-07-20T10:00:00Z",
+        "supporting_mapping_receipt_ids": [],
+        "unresolved_reasons": [
+          "request scope and bound census namespace differ"
+        ]
+      },
+      "case_id": "path_a_v3_rm3_scope_mismatch",
+      "checks": {
+        "alarm_code": true,
+        "canonical_resource_id": true,
+        "mapping_key": true,
+        "resolution_state": true
+      },
+      "class": "resource_mapping_negative_scope",
+      "expected": {
+        "alarm_code": "mapping_scope_failure",
+        "canonical_resource_id": null,
+        "mapping_key": null,
+        "resolution_state": "unresolved"
+      },
+      "matches_expected": true
+    },
+    {
+      "actual": {
+        "alarm_code": "mapping_not_effective",
+        "authority_grant_id": null,
+        "authority_scope": "compliance.export_approval",
+        "canonical_namespace": null,
+        "canonical_resource_id": null,
+        "case_id": "path_a_v3_rm4_not_effective_at_subject_time",
+        "census_receipt_id": "census-rm-base",
+        "duplicate_replay_receipt_ids": [],
+        "mapping_key": null,
+        "mapping_receipt_id": null,
+        "receipts": {
+          "active_mapping_count": 0,
+          "candidate_receipt_count": 1,
+          "duplicate_replay_count": 0
+        },
+        "resolution_state": "unresolved",
+        "resolution_time": "2026-07-20T12:00:00Z",
+        "source_namespace": "github",
+        "source_resource_id": "github:123",
+        "subject_time": "2026-07-20T10:00:00Z",
+        "supporting_mapping_receipt_ids": [],
+        "unresolved_reasons": [
+          "mapping was not issued and effective at subject time"
+        ]
+      },
+      "case_id": "path_a_v3_rm4_not_effective_at_subject_time",
+      "checks": {
+        "alarm_code": true,
+        "canonical_resource_id": true,
+        "mapping_key": true,
+        "resolution_state": true
+      },
+      "class": "resource_mapping_negative_not_effective",
+      "expected": {
+        "alarm_code": "mapping_not_effective",
+        "canonical_resource_id": null,
+        "mapping_key": null,
+        "resolution_state": "unresolved"
+      },
+      "matches_expected": true
+    },
+    {
+      "actual": {
+        "alarm_code": "mapping_expired",
+        "authority_grant_id": null,
+        "authority_scope": "compliance.export_approval",
+        "canonical_namespace": null,
+        "canonical_resource_id": null,
+        "case_id": "path_a_v3_rm5_expired_at_subject_time",
+        "census_receipt_id": "census-rm-base",
+        "duplicate_replay_receipt_ids": [],
+        "mapping_key": null,
+        "mapping_receipt_id": null,
+        "receipts": {
+          "active_mapping_count": 0,
+          "candidate_receipt_count": 1,
+          "duplicate_replay_count": 0
+        },
+        "resolution_state": "unresolved",
+        "resolution_time": "2026-07-20T12:00:00Z",
+        "source_namespace": "github",
+        "source_resource_id": "github:123",
+        "subject_time": "2026-07-20T10:00:00Z",
+        "supporting_mapping_receipt_ids": [],
+        "unresolved_reasons": [
+          "mapping expired before subject time"
+        ]
+      },
+      "case_id": "path_a_v3_rm5_expired_at_subject_time",
+      "checks": {
+        "alarm_code": true,
+        "canonical_resource_id": true,
+        "mapping_key": true,
+        "resolution_state": true
+      },
+      "class": "resource_mapping_negative_expired",
+      "expected": {
+        "alarm_code": "mapping_expired",
+        "canonical_resource_id": null,
+        "mapping_key": null,
+        "resolution_state": "unresolved"
+      },
+      "matches_expected": true
+    },
+    {
+      "actual": {
+        "alarm_code": "mapping_revoked",
+        "authority_grant_id": null,
+        "authority_scope": "compliance.export_approval",
+        "canonical_namespace": null,
+        "canonical_resource_id": null,
+        "case_id": "path_a_v3_rm6_revoked_by_resolution_time",
+        "census_receipt_id": "census-rm-base",
+        "duplicate_replay_receipt_ids": [],
+        "mapping_key": null,
+        "mapping_receipt_id": null,
+        "receipts": {
+          "active_mapping_count": 0,
+          "candidate_receipt_count": 1,
+          "duplicate_replay_count": 0
+        },
+        "resolution_state": "unresolved",
+        "resolution_time": "2026-07-20T12:00:00Z",
+        "source_namespace": "github",
+        "source_resource_id": "github:123",
+        "subject_time": "2026-07-20T10:00:00Z",
+        "supporting_mapping_receipt_ids": [],
+        "unresolved_reasons": [
+          "mapping receipt was revoked by resolution time"
+        ]
+      },
+      "case_id": "path_a_v3_rm6_revoked_by_resolution_time",
+      "checks": {
+        "alarm_code": true,
+        "canonical_resource_id": true,
+        "mapping_key": true,
+        "resolution_state": true
+      },
+      "class": "resource_mapping_negative_revoked",
+      "expected": {
+        "alarm_code": "mapping_revoked",
+        "canonical_resource_id": null,
+        "mapping_key": null,
+        "resolution_state": "unresolved"
+      },
+      "matches_expected": true
+    },
+    {
+      "actual": {
+        "alarm_code": "mapping_conflict",
+        "authority_grant_id": null,
+        "authority_scope": "compliance.export_approval",
+        "canonical_namespace": null,
+        "canonical_resource_id": null,
+        "case_id": "path_a_v3_rm7_conflicting_active_targets",
+        "census_receipt_id": "census-rm-conflict",
+        "duplicate_replay_receipt_ids": [],
+        "mapping_key": null,
+        "mapping_receipt_id": null,
+        "receipts": {
+          "active_mapping_count": 2,
+          "candidate_receipt_count": 2,
+          "duplicate_replay_count": 0
+        },
+        "resolution_state": "unresolved",
+        "resolution_time": "2026-07-20T12:00:00Z",
+        "source_namespace": "github",
+        "source_resource_id": "github:123",
+        "subject_time": "2026-07-20T10:00:00Z",
+        "supporting_mapping_receipt_ids": [],
+        "unresolved_reasons": [
+          "active mapping receipts disagree on the canonical target"
+        ]
+      },
+      "case_id": "path_a_v3_rm7_conflicting_active_targets",
+      "checks": {
+        "active_mapping_count": true,
+        "alarm_code": true,
+        "candidate_receipt_count": true,
+        "canonical_resource_id": true,
+        "mapping_key": true,
+        "resolution_state": true
+      },
+      "class": "resource_mapping_negative_active_conflict",
+      "expected": {
+        "active_mapping_count": 2,
+        "alarm_code": "mapping_conflict",
+        "candidate_receipt_count": 2,
+        "canonical_resource_id": null,
+        "mapping_key": null,
+        "resolution_state": "unresolved"
+      },
+      "matches_expected": true
+    },
+    {
+      "actual": {
+        "alarm_code": "mapping_direction_failure",
+        "authority_grant_id": null,
+        "authority_scope": "compliance.export_approval",
+        "canonical_namespace": null,
+        "canonical_resource_id": null,
+        "case_id": "path_a_v3_rm8_reverse_inference_attempt",
+        "census_receipt_id": null,
+        "duplicate_replay_receipt_ids": [],
+        "mapping_key": null,
+        "mapping_receipt_id": null,
+        "receipts": {
+          "active_mapping_count": 0,
+          "candidate_receipt_count": 0,
+          "duplicate_replay_count": 0
+        },
+        "resolution_state": "unresolved",
+        "resolution_time": "2026-07-20T12:00:00Z",
+        "source_namespace": "tenant.demo",
+        "source_resource_id": "record:new-ac1",
+        "subject_time": "2026-07-20T10:00:00Z",
+        "supporting_mapping_receipt_ids": [],
+        "unresolved_reasons": [
+          "v0 mappings resolve source to canonical only"
+        ]
+      },
+      "case_id": "path_a_v3_rm8_reverse_inference_attempt",
+      "checks": {
+        "alarm_code": true,
+        "canonical_resource_id": true,
+        "mapping_key": true,
+        "resolution_state": true
+      },
+      "class": "resource_mapping_negative_direction",
+      "expected": {
+        "alarm_code": "mapping_direction_failure",
+        "canonical_resource_id": null,
+        "mapping_key": null,
+        "resolution_state": "unresolved"
+      },
+      "matches_expected": true
+    },
+    {
+      "actual": {
+        "alarm_code": "mapping_target_unbound",
+        "authority_grant_id": null,
+        "authority_scope": "compliance.export_approval",
+        "canonical_namespace": null,
+        "canonical_resource_id": null,
+        "case_id": "path_a_v3_rm9_canonical_target_absent_from_census",
+        "census_receipt_id": "census-rm-missing-target",
+        "duplicate_replay_receipt_ids": [],
+        "mapping_key": null,
+        "mapping_receipt_id": null,
+        "receipts": {
+          "active_mapping_count": 1,
+          "candidate_receipt_count": 1,
+          "duplicate_replay_count": 0
+        },
+        "resolution_state": "unresolved",
+        "resolution_time": "2026-07-20T12:00:00Z",
+        "source_namespace": "github",
+        "source_resource_id": "github:123",
+        "subject_time": "2026-07-20T10:00:00Z",
+        "supporting_mapping_receipt_ids": [],
+        "unresolved_reasons": [
+          "canonical mapping target is absent from the bound census"
+        ]
+      },
+      "case_id": "path_a_v3_rm9_canonical_target_absent_from_census",
+      "checks": {
+        "alarm_code": true,
+        "canonical_resource_id": true,
+        "mapping_key": true,
+        "resolution_state": true
+      },
+      "class": "resource_mapping_negative_target_binding",
+      "expected": {
+        "alarm_code": "mapping_target_unbound",
+        "canonical_resource_id": null,
+        "mapping_key": null,
+        "resolution_state": "unresolved"
+      },
+      "matches_expected": true
+    },
+    {
+      "actual": {
+        "alarm_code": "mapping_receipt_integrity_failure",
+        "authority_grant_id": null,
+        "authority_scope": "compliance.export_approval",
+        "canonical_namespace": null,
+        "canonical_resource_id": null,
+        "case_id": "path_a_v3_rm10_tampered_mapping_receipt",
+        "census_receipt_id": "census-rm-base",
+        "duplicate_replay_receipt_ids": [],
+        "mapping_key": null,
+        "mapping_receipt_id": null,
+        "receipts": {
+          "active_mapping_count": 0,
+          "candidate_receipt_count": 0,
+          "duplicate_replay_count": 0
+        },
+        "resolution_state": "unresolved",
+        "resolution_time": "2026-07-20T12:00:00Z",
+        "source_namespace": "github",
+        "source_resource_id": "github:123",
+        "subject_time": "2026-07-20T10:00:00Z",
+        "supporting_mapping_receipt_ids": [],
+        "unresolved_reasons": [
+          "mapping receipt does not match its digest"
+        ]
+      },
+      "case_id": "path_a_v3_rm10_tampered_mapping_receipt",
+      "checks": {
+        "alarm_code": true,
+        "canonical_resource_id": true,
+        "mapping_key": true,
+        "resolution_state": true
+      },
+      "class": "resource_mapping_negative_receipt_integrity",
+      "expected": {
+        "alarm_code": "mapping_receipt_integrity_failure",
+        "canonical_resource_id": null,
+        "mapping_key": null,
+        "resolution_state": "unresolved"
+      },
+      "matches_expected": true
+    },
+    {
+      "actual": {
+        "alarm_code": null,
+        "authority_grant_id": "grant-rm-github-tenant-demo",
+        "authority_scope": "compliance.export_approval",
+        "canonical_namespace": "tenant.demo",
+        "canonical_resource_id": "record:new-ac1",
+        "case_id": "path_a_v3_rm11_identical_receipt_replay",
+        "census_receipt_id": "census-rm-base",
+        "duplicate_replay_receipt_ids": [
+          "mapping-rm-base"
+        ],
+        "mapping_key": "mapping:v0:sha256:760b5c43822b288e1ada1f9425a7842ae52079ae9d0d5288baddf832590b83ef",
+        "mapping_receipt_id": "mapping-rm-base",
+        "receipts": {
+          "active_mapping_count": 1,
+          "candidate_receipt_count": 1,
+          "duplicate_replay_count": 1
+        },
+        "resolution_state": "resolved",
+        "resolution_time": "2026-07-20T12:00:00Z",
+        "source_namespace": "github",
+        "source_resource_id": "github:123",
+        "subject_time": "2026-07-20T10:00:00Z",
+        "supporting_mapping_receipt_ids": [
+          "mapping-rm-base"
+        ],
+        "unresolved_reasons": []
+      },
+      "case_id": "path_a_v3_rm11_identical_receipt_replay",
+      "checks": {
+        "active_mapping_count": true,
+        "alarm_code": true,
+        "candidate_receipt_count": true,
+        "canonical_resource_id": true,
+        "duplicate_replay_count": true,
+        "duplicate_replay_receipt_ids": true,
+        "mapping_key": true,
+        "resolution_state": true
+      },
+      "class": "resource_mapping_positive_replay_collapse",
+      "expected": {
+        "active_mapping_count": 1,
+        "alarm_code": null,
+        "candidate_receipt_count": 1,
+        "canonical_resource_id": "record:new-ac1",
+        "duplicate_replay_count": 1,
+        "duplicate_replay_receipt_ids": [
+          "mapping-rm-base"
+        ],
+        "mapping_key": "mapping:v0:sha256:760b5c43822b288e1ada1f9425a7842ae52079ae9d0d5288baddf832590b83ef",
+        "resolution_state": "resolved"
+      },
+      "matches_expected": true
+    },
+    {
+      "actual": {
+        "alarm_code": "mapping_receipt_identity_conflict",
+        "authority_grant_id": null,
+        "authority_scope": "compliance.export_approval",
+        "canonical_namespace": null,
+        "canonical_resource_id": null,
+        "case_id": "path_a_v3_rm12_receipt_id_conflict",
+        "census_receipt_id": "census-rm-conflict",
+        "duplicate_replay_receipt_ids": [],
+        "mapping_key": null,
+        "mapping_receipt_id": null,
+        "receipts": {
+          "active_mapping_count": 0,
+          "candidate_receipt_count": 0,
+          "duplicate_replay_count": 0
+        },
+        "resolution_state": "unresolved",
+        "resolution_time": "2026-07-20T12:00:00Z",
+        "source_namespace": "github",
+        "source_resource_id": "github:123",
+        "subject_time": "2026-07-20T10:00:00Z",
+        "supporting_mapping_receipt_ids": [],
+        "unresolved_reasons": [
+          "one mapping receipt ID carries conflicting canonical receipt bytes"
+        ]
+      },
+      "case_id": "path_a_v3_rm12_receipt_id_conflict",
+      "checks": {
+        "alarm_code": true,
+        "canonical_resource_id": true,
+        "mapping_key": true,
+        "resolution_state": true
+      },
+      "class": "resource_mapping_negative_receipt_identity",
+      "expected": {
+        "alarm_code": "mapping_receipt_identity_conflict",
+        "canonical_resource_id": null,
+        "mapping_key": null,
+        "resolution_state": "unresolved"
+      },
+      "matches_expected": true
+    },
+    {
+      "actual": {
+        "alarm_code": "mapping_target_not_canonical",
+        "authority_grant_id": null,
+        "authority_scope": "compliance.export_approval",
+        "canonical_namespace": null,
+        "canonical_resource_id": null,
+        "case_id": "path_a_v3_rm13_alias_chain_or_cycle",
+        "census_receipt_id": "census-rm-cycle",
+        "duplicate_replay_receipt_ids": [],
+        "mapping_key": null,
+        "mapping_receipt_id": null,
+        "receipts": {
+          "active_mapping_count": 1,
+          "candidate_receipt_count": 1,
+          "duplicate_replay_count": 0
+        },
+        "resolution_state": "unresolved",
+        "resolution_time": "2026-07-20T12:00:00Z",
+        "source_namespace": "github",
+        "source_resource_id": "github:123",
+        "subject_time": "2026-07-20T10:00:00Z",
+        "supporting_mapping_receipt_ids": [],
+        "unresolved_reasons": [
+          "v0 refuses alias-to-alias mapping chains or cycles"
+        ]
+      },
+      "case_id": "path_a_v3_rm13_alias_chain_or_cycle",
+      "checks": {
+        "alarm_code": true,
+        "canonical_resource_id": true,
+        "mapping_key": true,
+        "resolution_state": true
+      },
+      "class": "resource_mapping_negative_noncanonical_target",
+      "expected": {
+        "alarm_code": "mapping_target_not_canonical",
+        "canonical_resource_id": null,
+        "mapping_key": null,
+        "resolution_state": "unresolved"
+      },
+      "matches_expected": true
+    },
+    {
+      "actual": {
+        "alarm_code": "mapping_grant_integrity_failure",
+        "authority_grant_id": null,
+        "authority_scope": "compliance.export_approval",
+        "canonical_namespace": null,
+        "canonical_resource_id": null,
+        "case_id": "path_a_v3_rm14_tampered_authority_grant",
+        "census_receipt_id": "census-rm-base",
+        "duplicate_replay_receipt_ids": [],
+        "mapping_key": null,
+        "mapping_receipt_id": null,
+        "receipts": {
+          "active_mapping_count": 0,
+          "candidate_receipt_count": 1,
+          "duplicate_replay_count": 0
+        },
+        "resolution_state": "unresolved",
+        "resolution_time": "2026-07-20T12:00:00Z",
+        "source_namespace": "github",
+        "source_resource_id": "github:123",
+        "subject_time": "2026-07-20T10:00:00Z",
+        "supporting_mapping_receipt_ids": [],
+        "unresolved_reasons": [
+          "mapping authority grant does not match its digest"
+        ]
+      },
+      "case_id": "path_a_v3_rm14_tampered_authority_grant",
+      "checks": {
+        "alarm_code": true,
+        "canonical_resource_id": true,
+        "mapping_key": true,
+        "resolution_state": true
+      },
+      "class": "resource_mapping_negative_grant_integrity",
+      "expected": {
+        "alarm_code": "mapping_grant_integrity_failure",
+        "canonical_resource_id": null,
+        "mapping_key": null,
+        "resolution_state": "unresolved"
+      },
+      "matches_expected": true
+    }
+  ],
+  "run_id": "path_a_v3_resource_mapping_receipt_v0_pass_a_20260722T014028Z"
+}
