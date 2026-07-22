@@ -1,0 +1,793 @@
+{
+  "case_count": 11,
+  "decision_counts": {
+    "ALLOW": 2,
+    "BLOCK_STALE_ACTION": 3,
+    "CONFLICT": 1,
+    "UNKNOWN": 5
+  },
+  "expected_match_count": 11,
+  "fixture": "tests/fixtures/authority_runtime_v0_gwb_dns_replay_2026_07_21.json",
+  "fixture_sha256": "sha256:bd3f7c8501feada1e5c31306bbf38415bc51d5e85601f186d45ba4b19660f6ec",
+  "flagship_case_id": "authority_runtime_ar1_real_gwb_stale_cutover",
+  "flagship_decision": "BLOCK_STALE_ACTION",
+  "flagship_decision_code": "stale_action_completed",
+  "flagship_decision_digest": "sha256:92c3a9b357ca869dff438d371acc8463f85896e2d993f199d7938fd1f6288f20",
+  "mutation_authorized": false,
+  "results": [
+    {
+      "action_key": "action:v0:sha256:f2c072a9cad1a412474402b59f334cc063603da9d87d3309180730f4928b87f7",
+      "action_receipt_id": "action:gwb_dns_cutover:20260710",
+      "audit_time": "2026-07-21T10:00:00Z",
+      "authority_grant_id": "grant-workspace-board-to-gwb",
+      "authority_scope": "dns.production",
+      "canonical_action": {
+        "authority_namespace": "client.gwb/dns.production",
+        "from_state": "provider:squarespace",
+        "kind": "infrastructure_transition",
+        "operation": "dns_cutover",
+        "resource_id": "domain:gwbseamlessgutters.com",
+        "schema": "authority_action/v0",
+        "to_state": "provider:vercel"
+      },
+      "canonical_resource_id": "domain:gwbseamlessgutters.com",
+      "canonical_surface": {
+        "authority_namespace": "client.gwb/dns.production",
+        "kind": "infrastructure_transition",
+        "relation_type": "supersedes",
+        "schema": "authority_surface/v0",
+        "source_resource_id": "domain:gwbseamlessgutters.com#provider:squarespace",
+        "target_resource_id": "domain:gwbseamlessgutters.com#provider:vercel"
+      },
+      "case_id": "authority_runtime_ar1_real_gwb_stale_cutover",
+      "controlling_state_receipt_ids": [
+        "state:gwb_dns_vercel:20260720T2047"
+      ],
+      "covered_state_receipt_ids": [
+        "state:gwb_dns_vercel:20260720T2047"
+      ],
+      "decision": "BLOCK_STALE_ACTION",
+      "decision_code": "stale_action_completed",
+      "decision_digest": "sha256:92c3a9b357ca869dff438d371acc8463f85896e2d993f199d7938fd1f6288f20",
+      "duplicate_replay_receipt_ids": [],
+      "evidence_chain": [
+        {
+          "digest": "sha256:76f39314d5c44f3b857b60a97709b8f2d112e5500e3b3527af5729cc362e0b8f",
+          "issued_at": "2026-07-10T22:53:00Z",
+          "observed_at": null,
+          "receipt_id": "action:gwb_dns_cutover:20260710",
+          "receipt_type": "action",
+          "recorded_at": "2026-07-10T22:53:00Z",
+          "source_class": "operational_directive",
+          "source_id": "current_state_board:20260710T2253",
+          "source_locator": "CURRENT_STATE_BOARD.md#EVENING UPDATE 2026-07-10 10:53 PM EDT"
+        },
+        {
+          "digest": "sha256:78fef856b8edde18b3173c3827efb7f70cc75bc518b23bf79496b84b6925614b",
+          "issued_at": null,
+          "observed_at": "2026-07-20T20:47:00Z",
+          "receipt_id": "state:gwb_dns_vercel:20260720T2047",
+          "receipt_type": "state",
+          "recorded_at": "2026-07-20T20:47:00Z",
+          "source_class": "live_state_verification",
+          "source_id": "brain_current:gwb_live_verification:20260720T2047",
+          "source_locator": "BRAIN_CURRENT.md#2026-07-20 8:47 PM EDT"
+        }
+      ],
+      "exit_code": 3,
+      "ignored_state_receipt_ids": [],
+      "mapping_key": "mapping:v0:sha256:6ec860ac916f4801fff3cff06e709a13a8aac014a260b2a3e5eb25db4b937297",
+      "mapping_receipt_id": "mapping-board-gwb-domain",
+      "mutation_authorized": false,
+      "schema": "authority_decision/v0",
+      "state_evidence_manifest_digest": "sha256:7da6b035849a364dbb81fcf7b13ecb28f725167bf821be29627db4890f2e47a5",
+      "state_evidence_manifest_id": "manifest:gwb_state:vercel",
+      "subject_time": "2026-07-10T22:53:00Z",
+      "surface_key": "surface:v0:sha256:455749f0c6ee5a90f98ba2c9af5d95ccc17bfe2065202d01331d21ed6b43088f",
+      "unknowns": []
+    },
+    {
+      "action_key": "action:v0:sha256:f2c072a9cad1a412474402b59f334cc063603da9d87d3309180730f4928b87f7",
+      "action_receipt_id": "action:gwb_dns_cutover:20260710",
+      "audit_time": "2026-07-10T23:00:00Z",
+      "authority_grant_id": "grant-workspace-board-to-gwb",
+      "authority_scope": "dns.production",
+      "canonical_action": {
+        "authority_namespace": "client.gwb/dns.production",
+        "from_state": "provider:squarespace",
+        "kind": "infrastructure_transition",
+        "operation": "dns_cutover",
+        "resource_id": "domain:gwbseamlessgutters.com",
+        "schema": "authority_action/v0",
+        "to_state": "provider:vercel"
+      },
+      "canonical_resource_id": "domain:gwbseamlessgutters.com",
+      "canonical_surface": {
+        "authority_namespace": "client.gwb/dns.production",
+        "kind": "infrastructure_transition",
+        "relation_type": "supersedes",
+        "schema": "authority_surface/v0",
+        "source_resource_id": "domain:gwbseamlessgutters.com#provider:squarespace",
+        "target_resource_id": "domain:gwbseamlessgutters.com#provider:vercel"
+      },
+      "case_id": "authority_runtime_ar2_transition_still_required",
+      "controlling_state_receipt_ids": [
+        "state:gwb_dns_squarespace:20260710T2253"
+      ],
+      "covered_state_receipt_ids": [
+        "state:gwb_dns_squarespace:20260710T2253"
+      ],
+      "decision": "ALLOW",
+      "decision_code": "transition_required",
+      "decision_digest": "sha256:efd2858f47373d6b29c1ebbcab7f08ccdf65519d1347be5b977abc8a4fb345da",
+      "duplicate_replay_receipt_ids": [],
+      "evidence_chain": [
+        {
+          "digest": "sha256:76f39314d5c44f3b857b60a97709b8f2d112e5500e3b3527af5729cc362e0b8f",
+          "issued_at": "2026-07-10T22:53:00Z",
+          "observed_at": null,
+          "receipt_id": "action:gwb_dns_cutover:20260710",
+          "receipt_type": "action",
+          "recorded_at": "2026-07-10T22:53:00Z",
+          "source_class": "operational_directive",
+          "source_id": "current_state_board:20260710T2253",
+          "source_locator": "CURRENT_STATE_BOARD.md#EVENING UPDATE 2026-07-10 10:53 PM EDT"
+        },
+        {
+          "digest": "sha256:fddb4133663c891be74e540ec8ef1cb8224ca054ee8df948ed67bae3837ff6c0",
+          "issued_at": null,
+          "observed_at": "2026-07-10T22:53:00Z",
+          "receipt_id": "state:gwb_dns_squarespace:20260710T2253",
+          "receipt_type": "state",
+          "recorded_at": "2026-07-10T22:53:00Z",
+          "source_class": "live_state_verification",
+          "source_id": "board_dns_check:20260710T2253",
+          "source_locator": "CURRENT_STATE_BOARD.md#EVENING UPDATE 2026-07-10 10:53 PM EDT"
+        }
+      ],
+      "exit_code": 0,
+      "ignored_state_receipt_ids": [],
+      "mapping_key": "mapping:v0:sha256:6ec860ac916f4801fff3cff06e709a13a8aac014a260b2a3e5eb25db4b937297",
+      "mapping_receipt_id": "mapping-board-gwb-domain",
+      "mutation_authorized": true,
+      "schema": "authority_decision/v0",
+      "state_evidence_manifest_digest": "sha256:345b7824bcf71fc78bcd84c54049bd484db85a365a4dc819759076daac65b42e",
+      "state_evidence_manifest_id": "manifest:gwb_state:precut",
+      "subject_time": "2026-07-10T22:53:00Z",
+      "surface_key": "surface:v0:sha256:455749f0c6ee5a90f98ba2c9af5d95ccc17bfe2065202d01331d21ed6b43088f",
+      "unknowns": []
+    },
+    {
+      "action_key": "action:v0:sha256:f2c072a9cad1a412474402b59f334cc063603da9d87d3309180730f4928b87f7",
+      "action_receipt_id": "action:gwb_dns_cutover:20260710",
+      "audit_time": "2026-07-21T10:00:00Z",
+      "authority_grant_id": "grant-workspace-board-to-gwb",
+      "authority_scope": "dns.production",
+      "canonical_action": {
+        "authority_namespace": "client.gwb/dns.production",
+        "from_state": "provider:squarespace",
+        "kind": "infrastructure_transition",
+        "operation": "dns_cutover",
+        "resource_id": "domain:gwbseamlessgutters.com",
+        "schema": "authority_action/v0",
+        "to_state": "provider:vercel"
+      },
+      "canonical_resource_id": "domain:gwbseamlessgutters.com",
+      "canonical_surface": {
+        "authority_namespace": "client.gwb/dns.production",
+        "kind": "infrastructure_transition",
+        "relation_type": "supersedes",
+        "schema": "authority_surface/v0",
+        "source_resource_id": "domain:gwbseamlessgutters.com#provider:squarespace",
+        "target_resource_id": "domain:gwbseamlessgutters.com#provider:vercel"
+      },
+      "case_id": "authority_runtime_ar3_current_state_missing",
+      "controlling_state_receipt_ids": [],
+      "covered_state_receipt_ids": [],
+      "decision": "UNKNOWN",
+      "decision_code": "current_state_missing",
+      "decision_digest": "sha256:1563e22ceefb830c81dc9fb590ca282117df7c1121faf8b9faa046cdf34d0946",
+      "duplicate_replay_receipt_ids": [],
+      "evidence_chain": [
+        {
+          "digest": "sha256:76f39314d5c44f3b857b60a97709b8f2d112e5500e3b3527af5729cc362e0b8f",
+          "issued_at": "2026-07-10T22:53:00Z",
+          "observed_at": null,
+          "receipt_id": "action:gwb_dns_cutover:20260710",
+          "receipt_type": "action",
+          "recorded_at": "2026-07-10T22:53:00Z",
+          "source_class": "operational_directive",
+          "source_id": "current_state_board:20260710T2253",
+          "source_locator": "CURRENT_STATE_BOARD.md#EVENING UPDATE 2026-07-10 10:53 PM EDT"
+        }
+      ],
+      "exit_code": 5,
+      "ignored_state_receipt_ids": [],
+      "mapping_key": "mapping:v0:sha256:6ec860ac916f4801fff3cff06e709a13a8aac014a260b2a3e5eb25db4b937297",
+      "mapping_receipt_id": "mapping-board-gwb-domain",
+      "mutation_authorized": false,
+      "schema": "authority_decision/v0",
+      "state_evidence_manifest_digest": "sha256:39ea42b3d8a9a278fb98590e40c06b8b0cfab78d8244bf82249fbbffc9135c82",
+      "state_evidence_manifest_id": "manifest:gwb_state:empty",
+      "subject_time": "2026-07-10T22:53:00Z",
+      "surface_key": "surface:v0:sha256:455749f0c6ee5a90f98ba2c9af5d95ccc17bfe2065202d01331d21ed6b43088f",
+      "unknowns": [
+        "current_state_missing"
+      ]
+    },
+    {
+      "action_key": "action:v0:sha256:f2c072a9cad1a412474402b59f334cc063603da9d87d3309180730f4928b87f7",
+      "action_receipt_id": "action:gwb_dns_cutover:20260710",
+      "audit_time": "2026-07-21T10:00:00Z",
+      "authority_grant_id": "grant-workspace-board-to-gwb",
+      "authority_scope": "dns.production",
+      "canonical_action": {
+        "authority_namespace": "client.gwb/dns.production",
+        "from_state": "provider:squarespace",
+        "kind": "infrastructure_transition",
+        "operation": "dns_cutover",
+        "resource_id": "domain:gwbseamlessgutters.com",
+        "schema": "authority_action/v0",
+        "to_state": "provider:vercel"
+      },
+      "canonical_resource_id": "domain:gwbseamlessgutters.com",
+      "canonical_surface": {
+        "authority_namespace": "client.gwb/dns.production",
+        "kind": "infrastructure_transition",
+        "relation_type": "supersedes",
+        "schema": "authority_surface/v0",
+        "source_resource_id": "domain:gwbseamlessgutters.com#provider:squarespace",
+        "target_resource_id": "domain:gwbseamlessgutters.com#provider:vercel"
+      },
+      "case_id": "authority_runtime_ar4_equal_authority_conflict",
+      "controlling_state_receipt_ids": [
+        "state:gwb_dns_conflict:20260720T2047",
+        "state:gwb_dns_vercel:20260720T2047"
+      ],
+      "covered_state_receipt_ids": [
+        "state:gwb_dns_conflict:20260720T2047",
+        "state:gwb_dns_vercel:20260720T2047"
+      ],
+      "decision": "CONFLICT",
+      "decision_code": "equally_authoritative_state_conflict",
+      "decision_digest": "sha256:4b457995bca07d466f605f3685192dc86476eaaac97302d5d2dcf6f0ffc9ac4d",
+      "duplicate_replay_receipt_ids": [],
+      "evidence_chain": [
+        {
+          "digest": "sha256:76f39314d5c44f3b857b60a97709b8f2d112e5500e3b3527af5729cc362e0b8f",
+          "issued_at": "2026-07-10T22:53:00Z",
+          "observed_at": null,
+          "receipt_id": "action:gwb_dns_cutover:20260710",
+          "receipt_type": "action",
+          "recorded_at": "2026-07-10T22:53:00Z",
+          "source_class": "operational_directive",
+          "source_id": "current_state_board:20260710T2253",
+          "source_locator": "CURRENT_STATE_BOARD.md#EVENING UPDATE 2026-07-10 10:53 PM EDT"
+        },
+        {
+          "digest": "sha256:78fef856b8edde18b3173c3827efb7f70cc75bc518b23bf79496b84b6925614b",
+          "issued_at": null,
+          "observed_at": "2026-07-20T20:47:00Z",
+          "receipt_id": "state:gwb_dns_vercel:20260720T2047",
+          "receipt_type": "state",
+          "recorded_at": "2026-07-20T20:47:00Z",
+          "source_class": "live_state_verification",
+          "source_id": "brain_current:gwb_live_verification:20260720T2047",
+          "source_locator": "BRAIN_CURRENT.md#2026-07-20 8:47 PM EDT"
+        },
+        {
+          "digest": "sha256:a2d9dd3ae3faa830910b7aa624038f3508e0836dd39f189a6a6d1de8809ae397",
+          "issued_at": null,
+          "observed_at": "2026-07-20T20:47:00Z",
+          "receipt_id": "state:gwb_dns_conflict:20260720T2047",
+          "receipt_type": "state",
+          "recorded_at": "2026-07-20T20:47:00Z",
+          "source_class": "live_state_verification",
+          "source_id": "fixture:equal_time_conflict",
+          "source_locator": "fixture://authority-runtime/ar4-equal-time-conflict"
+        }
+      ],
+      "exit_code": 4,
+      "ignored_state_receipt_ids": [],
+      "mapping_key": "mapping:v0:sha256:6ec860ac916f4801fff3cff06e709a13a8aac014a260b2a3e5eb25db4b937297",
+      "mapping_receipt_id": "mapping-board-gwb-domain",
+      "mutation_authorized": false,
+      "schema": "authority_decision/v0",
+      "state_evidence_manifest_digest": "sha256:a844fcda82e9523e608e6cf5635aa7455ef8407054ba8e66f3d81670de943553",
+      "state_evidence_manifest_id": "manifest:gwb_state:conflict",
+      "subject_time": "2026-07-10T22:53:00Z",
+      "surface_key": "surface:v0:sha256:455749f0c6ee5a90f98ba2c9af5d95ccc17bfe2065202d01331d21ed6b43088f",
+      "unknowns": []
+    },
+    {
+      "action_key": null,
+      "action_receipt_id": "action:gwb_dns_cutover:20260710",
+      "audit_time": "2026-07-21T10:00:00Z",
+      "authority_grant_id": null,
+      "authority_scope": "dns.production",
+      "canonical_action": null,
+      "canonical_resource_id": null,
+      "canonical_surface": null,
+      "case_id": "authority_runtime_ar5_resource_alias_unresolved",
+      "controlling_state_receipt_ids": [],
+      "covered_state_receipt_ids": [],
+      "decision": "UNKNOWN",
+      "decision_code": "resource_identity_unresolved",
+      "decision_digest": "sha256:0a87555251859cfe5e9de5012367c0cf51eff624904a1a4fe4fd5ce7fb1b31d8",
+      "duplicate_replay_receipt_ids": [],
+      "evidence_chain": [
+        {
+          "digest": "sha256:76f39314d5c44f3b857b60a97709b8f2d112e5500e3b3527af5729cc362e0b8f",
+          "issued_at": "2026-07-10T22:53:00Z",
+          "observed_at": null,
+          "receipt_id": "action:gwb_dns_cutover:20260710",
+          "receipt_type": "action",
+          "recorded_at": "2026-07-10T22:53:00Z",
+          "source_class": "operational_directive",
+          "source_id": "current_state_board:20260710T2253",
+          "source_locator": "CURRENT_STATE_BOARD.md#EVENING UPDATE 2026-07-10 10:53 PM EDT"
+        }
+      ],
+      "exit_code": 5,
+      "ignored_state_receipt_ids": [],
+      "mapping_key": null,
+      "mapping_receipt_id": null,
+      "mutation_authorized": false,
+      "schema": "authority_decision/v0",
+      "state_evidence_manifest_digest": null,
+      "state_evidence_manifest_id": null,
+      "subject_time": "2026-07-10T22:53:00Z",
+      "surface_key": null,
+      "unknowns": [
+        "no mapping receipt was supplied"
+      ]
+    },
+    {
+      "action_key": "action:v0:sha256:f2c072a9cad1a412474402b59f334cc063603da9d87d3309180730f4928b87f7",
+      "action_receipt_id": "action:gwb_dns_cutover:20260710",
+      "audit_time": "2026-07-21T10:00:00Z",
+      "authority_grant_id": "grant-workspace-board-to-gwb",
+      "authority_scope": "dns.production",
+      "canonical_action": {
+        "authority_namespace": "client.gwb/dns.production",
+        "from_state": "provider:squarespace",
+        "kind": "infrastructure_transition",
+        "operation": "dns_cutover",
+        "resource_id": "domain:gwbseamlessgutters.com",
+        "schema": "authority_action/v0",
+        "to_state": "provider:vercel"
+      },
+      "canonical_resource_id": "domain:gwbseamlessgutters.com",
+      "canonical_surface": {
+        "authority_namespace": "client.gwb/dns.production",
+        "kind": "infrastructure_transition",
+        "relation_type": "supersedes",
+        "schema": "authority_surface/v0",
+        "source_resource_id": "domain:gwbseamlessgutters.com#provider:squarespace",
+        "target_resource_id": "domain:gwbseamlessgutters.com#provider:vercel"
+      },
+      "case_id": "authority_runtime_ar6_evidence_integrity_failure",
+      "controlling_state_receipt_ids": [],
+      "covered_state_receipt_ids": [],
+      "decision": "UNKNOWN",
+      "decision_code": "evidence_integrity_failure",
+      "decision_digest": "sha256:366c5251a175a6446391d47567b2a735611016394fe80192a7792c1ed227529d",
+      "duplicate_replay_receipt_ids": [],
+      "evidence_chain": [
+        {
+          "digest": "sha256:76f39314d5c44f3b857b60a97709b8f2d112e5500e3b3527af5729cc362e0b8f",
+          "issued_at": "2026-07-10T22:53:00Z",
+          "observed_at": null,
+          "receipt_id": "action:gwb_dns_cutover:20260710",
+          "receipt_type": "action",
+          "recorded_at": "2026-07-10T22:53:00Z",
+          "source_class": "operational_directive",
+          "source_id": "current_state_board:20260710T2253",
+          "source_locator": "CURRENT_STATE_BOARD.md#EVENING UPDATE 2026-07-10 10:53 PM EDT"
+        }
+      ],
+      "exit_code": 5,
+      "ignored_state_receipt_ids": [],
+      "mapping_key": "mapping:v0:sha256:6ec860ac916f4801fff3cff06e709a13a8aac014a260b2a3e5eb25db4b937297",
+      "mapping_receipt_id": "mapping-board-gwb-domain",
+      "mutation_authorized": false,
+      "schema": "authority_decision/v0",
+      "state_evidence_manifest_digest": null,
+      "state_evidence_manifest_id": null,
+      "subject_time": "2026-07-10T22:53:00Z",
+      "surface_key": "surface:v0:sha256:455749f0c6ee5a90f98ba2c9af5d95ccc17bfe2065202d01331d21ed6b43088f",
+      "unknowns": [
+        "receipt does not match its canonical digest"
+      ]
+    },
+    {
+      "action_key": "action:v0:sha256:f2c072a9cad1a412474402b59f334cc063603da9d87d3309180730f4928b87f7",
+      "action_receipt_id": "action:gwb_dns_cutover:20260710",
+      "audit_time": "2026-07-21T10:00:00Z",
+      "authority_grant_id": "grant-workspace-board-to-gwb",
+      "authority_scope": "dns.production",
+      "canonical_action": {
+        "authority_namespace": "client.gwb/dns.production",
+        "from_state": "provider:squarespace",
+        "kind": "infrastructure_transition",
+        "operation": "dns_cutover",
+        "resource_id": "domain:gwbseamlessgutters.com",
+        "schema": "authority_action/v0",
+        "to_state": "provider:vercel"
+      },
+      "canonical_resource_id": "domain:gwbseamlessgutters.com",
+      "canonical_surface": {
+        "authority_namespace": "client.gwb/dns.production",
+        "kind": "infrastructure_transition",
+        "relation_type": "supersedes",
+        "schema": "authority_surface/v0",
+        "source_resource_id": "domain:gwbseamlessgutters.com#provider:squarespace",
+        "target_resource_id": "domain:gwbseamlessgutters.com#provider:vercel"
+      },
+      "case_id": "authority_runtime_ar7_newer_low_authority_costume",
+      "controlling_state_receipt_ids": [
+        "state:gwb_dns_vercel:20260720T2047"
+      ],
+      "covered_state_receipt_ids": [
+        "state:gwb_dns_low_authority:20260721T0900",
+        "state:gwb_dns_vercel:20260720T2047"
+      ],
+      "decision": "BLOCK_STALE_ACTION",
+      "decision_code": "stale_action_completed",
+      "decision_digest": "sha256:63a542f9900301469179305c2058dafea0472d400d6dc2aa77ded97be69d5f50",
+      "duplicate_replay_receipt_ids": [],
+      "evidence_chain": [
+        {
+          "digest": "sha256:76f39314d5c44f3b857b60a97709b8f2d112e5500e3b3527af5729cc362e0b8f",
+          "issued_at": "2026-07-10T22:53:00Z",
+          "observed_at": null,
+          "receipt_id": "action:gwb_dns_cutover:20260710",
+          "receipt_type": "action",
+          "recorded_at": "2026-07-10T22:53:00Z",
+          "source_class": "operational_directive",
+          "source_id": "current_state_board:20260710T2253",
+          "source_locator": "CURRENT_STATE_BOARD.md#EVENING UPDATE 2026-07-10 10:53 PM EDT"
+        },
+        {
+          "digest": "sha256:78fef856b8edde18b3173c3827efb7f70cc75bc518b23bf79496b84b6925614b",
+          "issued_at": null,
+          "observed_at": "2026-07-20T20:47:00Z",
+          "receipt_id": "state:gwb_dns_vercel:20260720T2047",
+          "receipt_type": "state",
+          "recorded_at": "2026-07-20T20:47:00Z",
+          "source_class": "live_state_verification",
+          "source_id": "brain_current:gwb_live_verification:20260720T2047",
+          "source_locator": "BRAIN_CURRENT.md#2026-07-20 8:47 PM EDT"
+        },
+        {
+          "digest": "sha256:6d4a7eabf04fb7fd6b85cca3f5535e450859f370339d15e3594b34af956b69c2",
+          "issued_at": null,
+          "observed_at": "2026-07-21T09:00:00Z",
+          "receipt_id": "state:gwb_dns_low_authority:20260721T0900",
+          "receipt_type": "state",
+          "recorded_at": "2026-07-21T09:00:00Z",
+          "source_class": "historical_summary",
+          "source_id": "fixture:newer_historical_summary",
+          "source_locator": "fixture://authority-runtime/ar7-newer-low-authority"
+        }
+      ],
+      "exit_code": 3,
+      "ignored_state_receipt_ids": [
+        "state:gwb_dns_low_authority:20260721T0900"
+      ],
+      "mapping_key": "mapping:v0:sha256:6ec860ac916f4801fff3cff06e709a13a8aac014a260b2a3e5eb25db4b937297",
+      "mapping_receipt_id": "mapping-board-gwb-domain",
+      "mutation_authorized": false,
+      "schema": "authority_decision/v0",
+      "state_evidence_manifest_digest": "sha256:bfb17d9859e32c58baaf5aa5b486693712bd66da92246de308ce29d320821c79",
+      "state_evidence_manifest_id": "manifest:gwb_state:vercel_low",
+      "subject_time": "2026-07-10T22:53:00Z",
+      "surface_key": "surface:v0:sha256:455749f0c6ee5a90f98ba2c9af5d95ccc17bfe2065202d01331d21ed6b43088f",
+      "unknowns": []
+    },
+    {
+      "action_key": "action:v0:sha256:f2c072a9cad1a412474402b59f334cc063603da9d87d3309180730f4928b87f7",
+      "action_receipt_id": "action:gwb_dns_cutover:20260710",
+      "audit_time": "2026-07-21T10:00:00Z",
+      "authority_grant_id": "grant-workspace-board-to-gwb",
+      "authority_scope": "dns.production",
+      "canonical_action": {
+        "authority_namespace": "client.gwb/dns.production",
+        "from_state": "provider:squarespace",
+        "kind": "infrastructure_transition",
+        "operation": "dns_cutover",
+        "resource_id": "domain:gwbseamlessgutters.com",
+        "schema": "authority_action/v0",
+        "to_state": "provider:vercel"
+      },
+      "canonical_resource_id": "domain:gwbseamlessgutters.com",
+      "canonical_surface": {
+        "authority_namespace": "client.gwb/dns.production",
+        "kind": "infrastructure_transition",
+        "relation_type": "supersedes",
+        "schema": "authority_surface/v0",
+        "source_resource_id": "domain:gwbseamlessgutters.com#provider:squarespace",
+        "target_resource_id": "domain:gwbseamlessgutters.com#provider:vercel"
+      },
+      "case_id": "authority_runtime_ar8_scope_or_resource_mismatch",
+      "controlling_state_receipt_ids": [],
+      "covered_state_receipt_ids": [
+        "state:gwb_dns_wrong_scope:20260720T2047"
+      ],
+      "decision": "UNKNOWN",
+      "decision_code": "state_scope_mismatch",
+      "decision_digest": "sha256:35d2cc95700acbe8c5480f9ec456b20015bcea718ffeb0c1439f1bffbb15bf4a",
+      "duplicate_replay_receipt_ids": [],
+      "evidence_chain": [
+        {
+          "digest": "sha256:76f39314d5c44f3b857b60a97709b8f2d112e5500e3b3527af5729cc362e0b8f",
+          "issued_at": "2026-07-10T22:53:00Z",
+          "observed_at": null,
+          "receipt_id": "action:gwb_dns_cutover:20260710",
+          "receipt_type": "action",
+          "recorded_at": "2026-07-10T22:53:00Z",
+          "source_class": "operational_directive",
+          "source_id": "current_state_board:20260710T2253",
+          "source_locator": "CURRENT_STATE_BOARD.md#EVENING UPDATE 2026-07-10 10:53 PM EDT"
+        },
+        {
+          "digest": "sha256:1293b83fcddcc2cafaaef6934bf19ce605c501baf5f5b230a9ddbcf4b341db5a",
+          "issued_at": null,
+          "observed_at": "2026-07-20T20:47:00Z",
+          "receipt_id": "state:gwb_dns_wrong_scope:20260720T2047",
+          "receipt_type": "state",
+          "recorded_at": "2026-07-20T20:47:00Z",
+          "source_class": "live_state_verification",
+          "source_id": "fixture:wrong_scope_state",
+          "source_locator": "fixture://authority-runtime/ar8-wrong-scope"
+        }
+      ],
+      "exit_code": 5,
+      "ignored_state_receipt_ids": [
+        "state:gwb_dns_wrong_scope:20260720T2047"
+      ],
+      "mapping_key": "mapping:v0:sha256:6ec860ac916f4801fff3cff06e709a13a8aac014a260b2a3e5eb25db4b937297",
+      "mapping_receipt_id": "mapping-board-gwb-domain",
+      "mutation_authorized": false,
+      "schema": "authority_decision/v0",
+      "state_evidence_manifest_digest": "sha256:5b0ae336de5b7de704eeaad1f82d35f063b9c5f376abc9c2b66be539a961766d",
+      "state_evidence_manifest_id": "manifest:gwb_state:wrong_scope",
+      "subject_time": "2026-07-10T22:53:00Z",
+      "surface_key": "surface:v0:sha256:455749f0c6ee5a90f98ba2c9af5d95ccc17bfe2065202d01331d21ed6b43088f",
+      "unknowns": [
+        "state_scope_mismatch"
+      ]
+    },
+    {
+      "action_key": "action:v0:sha256:f2c072a9cad1a412474402b59f334cc063603da9d87d3309180730f4928b87f7",
+      "action_receipt_id": "action:gwb_dns_cutover:20260710",
+      "audit_time": "2026-07-21T10:00:00Z",
+      "authority_grant_id": "grant-workspace-board-to-gwb",
+      "authority_scope": "dns.production",
+      "canonical_action": {
+        "authority_namespace": "client.gwb/dns.production",
+        "from_state": "provider:squarespace",
+        "kind": "infrastructure_transition",
+        "operation": "dns_cutover",
+        "resource_id": "domain:gwbseamlessgutters.com",
+        "schema": "authority_action/v0",
+        "to_state": "provider:vercel"
+      },
+      "canonical_resource_id": "domain:gwbseamlessgutters.com",
+      "canonical_surface": {
+        "authority_namespace": "client.gwb/dns.production",
+        "kind": "infrastructure_transition",
+        "relation_type": "supersedes",
+        "schema": "authority_surface/v0",
+        "source_resource_id": "domain:gwbseamlessgutters.com#provider:squarespace",
+        "target_resource_id": "domain:gwbseamlessgutters.com#provider:vercel"
+      },
+      "case_id": "authority_runtime_ar9_later_authoritative_reversion",
+      "controlling_state_receipt_ids": [
+        "state:gwb_dns_reversion:20260721T0900"
+      ],
+      "covered_state_receipt_ids": [
+        "state:gwb_dns_reversion:20260721T0900",
+        "state:gwb_dns_vercel:20260720T2047"
+      ],
+      "decision": "ALLOW",
+      "decision_code": "transition_required",
+      "decision_digest": "sha256:9e52195e82b70c2bd46baa1a1ea4e04a51b201ffa4acc87a5ed4a481ea48495c",
+      "duplicate_replay_receipt_ids": [],
+      "evidence_chain": [
+        {
+          "digest": "sha256:76f39314d5c44f3b857b60a97709b8f2d112e5500e3b3527af5729cc362e0b8f",
+          "issued_at": "2026-07-10T22:53:00Z",
+          "observed_at": null,
+          "receipt_id": "action:gwb_dns_cutover:20260710",
+          "receipt_type": "action",
+          "recorded_at": "2026-07-10T22:53:00Z",
+          "source_class": "operational_directive",
+          "source_id": "current_state_board:20260710T2253",
+          "source_locator": "CURRENT_STATE_BOARD.md#EVENING UPDATE 2026-07-10 10:53 PM EDT"
+        },
+        {
+          "digest": "sha256:78fef856b8edde18b3173c3827efb7f70cc75bc518b23bf79496b84b6925614b",
+          "issued_at": null,
+          "observed_at": "2026-07-20T20:47:00Z",
+          "receipt_id": "state:gwb_dns_vercel:20260720T2047",
+          "receipt_type": "state",
+          "recorded_at": "2026-07-20T20:47:00Z",
+          "source_class": "live_state_verification",
+          "source_id": "brain_current:gwb_live_verification:20260720T2047",
+          "source_locator": "BRAIN_CURRENT.md#2026-07-20 8:47 PM EDT"
+        },
+        {
+          "digest": "sha256:2aa1c378e96d2296c952d8fde3584490c4d24f8bd2b22a936490c3226e92d751",
+          "issued_at": null,
+          "observed_at": "2026-07-21T09:00:00Z",
+          "receipt_id": "state:gwb_dns_reversion:20260721T0900",
+          "receipt_type": "state",
+          "recorded_at": "2026-07-21T09:00:00Z",
+          "source_class": "live_state_verification",
+          "source_id": "fixture:later_live_reversion",
+          "source_locator": "fixture://authority-runtime/ar9-later-live-reversion"
+        }
+      ],
+      "exit_code": 0,
+      "ignored_state_receipt_ids": [
+        "state:gwb_dns_vercel:20260720T2047"
+      ],
+      "mapping_key": "mapping:v0:sha256:6ec860ac916f4801fff3cff06e709a13a8aac014a260b2a3e5eb25db4b937297",
+      "mapping_receipt_id": "mapping-board-gwb-domain",
+      "mutation_authorized": true,
+      "schema": "authority_decision/v0",
+      "state_evidence_manifest_digest": "sha256:b60c280fae6fd09379953cbc0f727b7acc75922b3378806b9fd4a058d8ad1c6e",
+      "state_evidence_manifest_id": "manifest:gwb_state:vercel_reversion",
+      "subject_time": "2026-07-10T22:53:00Z",
+      "surface_key": "surface:v0:sha256:455749f0c6ee5a90f98ba2c9af5d95ccc17bfe2065202d01331d21ed6b43088f",
+      "unknowns": []
+    },
+    {
+      "action_key": "action:v0:sha256:f2c072a9cad1a412474402b59f334cc063603da9d87d3309180730f4928b87f7",
+      "action_receipt_id": "action:gwb_dns_cutover:20260710",
+      "audit_time": "2026-07-21T10:00:00Z",
+      "authority_grant_id": "grant-workspace-board-to-gwb",
+      "authority_scope": "dns.production",
+      "canonical_action": {
+        "authority_namespace": "client.gwb/dns.production",
+        "from_state": "provider:squarespace",
+        "kind": "infrastructure_transition",
+        "operation": "dns_cutover",
+        "resource_id": "domain:gwbseamlessgutters.com",
+        "schema": "authority_action/v0",
+        "to_state": "provider:vercel"
+      },
+      "canonical_resource_id": "domain:gwbseamlessgutters.com",
+      "canonical_surface": {
+        "authority_namespace": "client.gwb/dns.production",
+        "kind": "infrastructure_transition",
+        "relation_type": "supersedes",
+        "schema": "authority_surface/v0",
+        "source_resource_id": "domain:gwbseamlessgutters.com#provider:squarespace",
+        "target_resource_id": "domain:gwbseamlessgutters.com#provider:vercel"
+      },
+      "case_id": "authority_runtime_ar10_identical_evidence_replay",
+      "controlling_state_receipt_ids": [
+        "state:gwb_dns_vercel:20260720T2047"
+      ],
+      "covered_state_receipt_ids": [
+        "state:gwb_dns_vercel:20260720T2047"
+      ],
+      "decision": "BLOCK_STALE_ACTION",
+      "decision_code": "stale_action_completed",
+      "decision_digest": "sha256:80a98b4664e1b1136e6c2d4bb02ae8ed325622f03301095f5055bc87d9aa40be",
+      "duplicate_replay_receipt_ids": [
+        "state:gwb_dns_vercel:20260720T2047"
+      ],
+      "evidence_chain": [
+        {
+          "digest": "sha256:76f39314d5c44f3b857b60a97709b8f2d112e5500e3b3527af5729cc362e0b8f",
+          "issued_at": "2026-07-10T22:53:00Z",
+          "observed_at": null,
+          "receipt_id": "action:gwb_dns_cutover:20260710",
+          "receipt_type": "action",
+          "recorded_at": "2026-07-10T22:53:00Z",
+          "source_class": "operational_directive",
+          "source_id": "current_state_board:20260710T2253",
+          "source_locator": "CURRENT_STATE_BOARD.md#EVENING UPDATE 2026-07-10 10:53 PM EDT"
+        },
+        {
+          "digest": "sha256:78fef856b8edde18b3173c3827efb7f70cc75bc518b23bf79496b84b6925614b",
+          "issued_at": null,
+          "observed_at": "2026-07-20T20:47:00Z",
+          "receipt_id": "state:gwb_dns_vercel:20260720T2047",
+          "receipt_type": "state",
+          "recorded_at": "2026-07-20T20:47:00Z",
+          "source_class": "live_state_verification",
+          "source_id": "brain_current:gwb_live_verification:20260720T2047",
+          "source_locator": "BRAIN_CURRENT.md#2026-07-20 8:47 PM EDT"
+        }
+      ],
+      "exit_code": 3,
+      "ignored_state_receipt_ids": [],
+      "mapping_key": "mapping:v0:sha256:6ec860ac916f4801fff3cff06e709a13a8aac014a260b2a3e5eb25db4b937297",
+      "mapping_receipt_id": "mapping-board-gwb-domain",
+      "mutation_authorized": false,
+      "schema": "authority_decision/v0",
+      "state_evidence_manifest_digest": "sha256:7da6b035849a364dbb81fcf7b13ecb28f725167bf821be29627db4890f2e47a5",
+      "state_evidence_manifest_id": "manifest:gwb_state:vercel",
+      "subject_time": "2026-07-10T22:53:00Z",
+      "surface_key": "surface:v0:sha256:455749f0c6ee5a90f98ba2c9af5d95ccc17bfe2065202d01331d21ed6b43088f",
+      "unknowns": []
+    },
+    {
+      "action_key": "action:v0:sha256:f2c072a9cad1a412474402b59f334cc063603da9d87d3309180730f4928b87f7",
+      "action_receipt_id": "action:gwb_dns_cutover:20260710",
+      "audit_time": "2026-07-21T10:00:00Z",
+      "authority_grant_id": "grant-workspace-board-to-gwb",
+      "authority_scope": "dns.production",
+      "canonical_action": {
+        "authority_namespace": "client.gwb/dns.production",
+        "from_state": "provider:squarespace",
+        "kind": "infrastructure_transition",
+        "operation": "dns_cutover",
+        "resource_id": "domain:gwbseamlessgutters.com",
+        "schema": "authority_action/v0",
+        "to_state": "provider:vercel"
+      },
+      "canonical_resource_id": "domain:gwbseamlessgutters.com",
+      "canonical_surface": {
+        "authority_namespace": "client.gwb/dns.production",
+        "kind": "infrastructure_transition",
+        "relation_type": "supersedes",
+        "schema": "authority_surface/v0",
+        "source_resource_id": "domain:gwbseamlessgutters.com#provider:squarespace",
+        "target_resource_id": "domain:gwbseamlessgutters.com#provider:vercel"
+      },
+      "case_id": "authority_runtime_ar11_later_completion_silently_omitted",
+      "controlling_state_receipt_ids": [],
+      "covered_state_receipt_ids": [
+        "state:gwb_dns_squarespace:20260710T2253",
+        "state:gwb_dns_vercel:20260720T2047"
+      ],
+      "decision": "UNKNOWN",
+      "decision_code": "state_evidence_omission",
+      "decision_digest": "sha256:73e900881504e1548cf0c0d8dc077317f4ea9fe342eb5dadaa5f4f08f2e4e773",
+      "duplicate_replay_receipt_ids": [],
+      "evidence_chain": [
+        {
+          "digest": "sha256:76f39314d5c44f3b857b60a97709b8f2d112e5500e3b3527af5729cc362e0b8f",
+          "issued_at": "2026-07-10T22:53:00Z",
+          "observed_at": null,
+          "receipt_id": "action:gwb_dns_cutover:20260710",
+          "receipt_type": "action",
+          "recorded_at": "2026-07-10T22:53:00Z",
+          "source_class": "operational_directive",
+          "source_id": "current_state_board:20260710T2253",
+          "source_locator": "CURRENT_STATE_BOARD.md#EVENING UPDATE 2026-07-10 10:53 PM EDT"
+        },
+        {
+          "digest": "sha256:fddb4133663c891be74e540ec8ef1cb8224ca054ee8df948ed67bae3837ff6c0",
+          "issued_at": null,
+          "observed_at": "2026-07-10T22:53:00Z",
+          "receipt_id": "state:gwb_dns_squarespace:20260710T2253",
+          "receipt_type": "state",
+          "recorded_at": "2026-07-10T22:53:00Z",
+          "source_class": "live_state_verification",
+          "source_id": "board_dns_check:20260710T2253",
+          "source_locator": "CURRENT_STATE_BOARD.md#EVENING UPDATE 2026-07-10 10:53 PM EDT"
+        }
+      ],
+      "exit_code": 5,
+      "ignored_state_receipt_ids": [],
+      "mapping_key": "mapping:v0:sha256:6ec860ac916f4801fff3cff06e709a13a8aac014a260b2a3e5eb25db4b937297",
+      "mapping_receipt_id": "mapping-board-gwb-domain",
+      "mutation_authorized": false,
+      "schema": "authority_decision/v0",
+      "state_evidence_manifest_digest": "sha256:3b9b6115fccf8196b10fbd0ab1282c321e6a56da5b643f757f5f7806255d2c03",
+      "state_evidence_manifest_id": "manifest:gwb_state:precut_and_vercel",
+      "subject_time": "2026-07-10T22:53:00Z",
+      "surface_key": "surface:v0:sha256:455749f0c6ee5a90f98ba2c9af5d95ccc17bfe2065202d01331d21ed6b43088f",
+      "unknowns": [
+        "manifest-bound state receipt is missing: state:gwb_dns_vercel:20260720T2047"
+      ]
+    }
+  ],
+  "schema": "authority_runtime_pass_a/v0"
+}

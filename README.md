@@ -135,6 +135,29 @@ http://127.0.0.1:8788
 python3 audit_cli.py samples/sample_agents.md
 ```
 
+## Authority Runtime v0: one-command stale-action gate
+
+The first end-to-end authority decision replays a real workspace incident: an older GWB production DNS cutover instruction remained in the record after a later live-state receipt proved the Vercel cutover was already complete.
+
+Run the frozen audit from the repository root:
+
+```bash
+python3 authorityctl.py audit tests/fixtures/authority_runtime_v0_gwb_dns_replay_2026_07_21.json \
+  --case authority_runtime_ar1_real_gwb_stale_cutover \
+  --json-out path_a_eval_artifacts/authority_runtime_v0_gwb_stale_action_decision.json \
+  --markdown-out path_a_eval_artifacts/authority_runtime_v0_gwb_stale_action_decision.md
+```
+
+Expected result: `BLOCK_STALE_ACTION`, `stale_action_completed`, and process exit code `3`. That non-zero exit is the gate working: no production mutation is authorized. The JSON and Markdown receipts identify the old action source, the later controlling state receipt, and the canonical action, surface, and resource-mapping keys.
+
+Run all eleven frozen allow/block/conflict/unknown cases—including the state-omission attack—and regenerate the PASS A artifacts:
+
+```bash
+python3 authority_runtime_v0_pass_a.py
+```
+
+V0 is deterministic and dry-run only. It does not parse arbitrary prose, query DNS, authenticate source owners cryptographically, inspect private model reasoning, execute DNS changes, or govern a terminal that bypasses the launcher.
+
 ## Cloud Run Deployment
 
 Set your project:

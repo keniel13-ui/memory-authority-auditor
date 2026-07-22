@@ -1,7 +1,8 @@
 {
   "packet": "authority_runtime_v0_gwb_dns_replay_2026_07_21",
-  "status": "frozen_after_prereg_before_runtime_implementation",
+  "status": "frozen_after_prereg_and_state_coverage_addendum_before_runtime_commit",
   "prereg": "AUTHORITY_RUNTIME_V0_PREREGISTRATION_2026-07-21.md",
+  "state_coverage_addendum": "AUTHORITY_RUNTIME_V0_PREREGISTRATION_ADDENDUM_STATE_COVERAGE_2026-07-21.md",
   "prerequisite_floor": "0899306",
   "flagship_incident": "stale_gwb_production_dns_cutover",
   "standards_profile": {
@@ -14,6 +15,7 @@
     "policy_id": "authority_runtime.single_action_supersession",
     "policy_version": "0.1.0",
     "allowed_operations": ["dns_cutover"],
+    "trusted_state_observer_ids": ["workspace.state_ledger"],
     "source_authority_order": [
       "live_state_verification",
       "owner_approved_current_state",
@@ -31,7 +33,7 @@
     },
     "decision_rule": "highest_registered_authority_then_latest_observed_state_controls_exact_resource_scope_action",
     "decision_states": ["ALLOW", "BLOCK_STALE_ACTION", "CONFLICT", "UNKNOWN"],
-    "policy_digest": "sha256:7a188dca85cb9bc2adc168c1d768ee7a9bf213fb99435118d224c77e34638f92"
+    "policy_digest": "sha256:12075f2bf1738cff799802cfc9988dd0f3aa792dbd9e9db318b448003421c7f9"
   },
   "canonical_action_identity": {
     "schema": "authority_action/v0",
@@ -73,6 +75,15 @@
         "authority_scope": "dns.production",
         "subject_time": "2026-07-10T22:53:00Z",
         "resolution_time": "2026-07-20T20:47:00Z",
+        "direction": "source_to_canonical"
+      },
+      "precut_gwb_mapping_request": {
+        "source_namespace": "workspace.board",
+        "source_resource_id": "board:gwb_real_domain",
+        "required_canonical_namespace": "client.gwb",
+        "authority_scope": "dns.production",
+        "subject_time": "2026-07-10T22:53:00Z",
+        "resolution_time": "2026-07-10T22:55:00Z",
         "direction": "source_to_canonical"
       },
       "gwb_mapping_grant": {
@@ -120,6 +131,19 @@
           {"source_namespace": "workspace.board", "source_resource_id": "board:gwb_real_domain"}
         ],
         "census_digest": "sha256:ddb8f47551461ee41dd9ffe8445ea45007f3756bf2757d8f5493bf5cb96f9751"
+      },
+      "precut_gwb_mapping_census": {
+        "receipt_id": "census-gwb-production-dns-precut",
+        "observer_id": "workspace_census",
+        "observed_at": "2026-07-10T22:54:00Z",
+        "authority_namespace": "client.gwb/dns.production",
+        "resources": [
+          {"resource_id": "domain:gwbseamlessgutters.com", "scope": "dns.production", "status": "live"}
+        ],
+        "resource_aliases": [
+          {"source_namespace": "workspace.board", "source_resource_id": "board:gwb_real_domain"}
+        ],
+        "census_digest": "sha256:ddb8f47551461ee41dd9ffe8445ea45007f3756bf2757d8f5493bf5cb96f9751"
       }
     },
     "mapping_cases": {
@@ -127,6 +151,14 @@
         "id": "authority_runtime_gwb_resource_mapping",
         "request_ref": "gwb_mapping_request",
         "census_ref": "gwb_mapping_census",
+        "mapping_receipt_refs": ["gwb_mapping_receipt"],
+        "authority_grant_refs": ["gwb_mapping_grant"],
+        "revocation_receipt_refs": []
+      },
+      "precut_gwb_mapping": {
+        "id": "authority_runtime_gwb_resource_mapping_precut",
+        "request_ref": "precut_gwb_mapping_request",
+        "census_ref": "precut_gwb_mapping_census",
         "mapping_receipt_refs": ["gwb_mapping_receipt"],
         "authority_grant_refs": ["gwb_mapping_grant"],
         "revocation_receipt_refs": []
@@ -141,6 +173,14 @@
       "audit_time": "2026-07-21T10:00:00Z",
       "proposed_actions": ["action:gwb_dns_cutover:20260710"],
       "packet_digest": "sha256:62dabbb1b74a9f22b19cffac79a2ee3b656a908103f0e2cff8301b092028a1da"
+    },
+    "precut_startup_claim": {
+      "packet_id": "startup-gwb-precut",
+      "session_id": "fixture-session-gwb-runtime-v0-precut",
+      "claimed_at": "2026-07-10T23:00:00Z",
+      "audit_time": "2026-07-10T23:00:00Z",
+      "proposed_actions": ["action:gwb_dns_cutover:20260710"],
+      "packet_digest": "sha256:b78142d1b785ad6d76d82a365e32d98e2645e813219aecc593a97204bff58c46"
     },
     "base_action_receipt": {
       "receipt_id": "action:gwb_dns_cutover:20260710",
@@ -256,6 +296,102 @@
       "source_excerpt": "Adversarial fixture: later registered live verification reports a return to Squarespace.",
       "source_excerpt_digest": "sha256:3ac1610bf35109c561de990b9107b0a5bee56f2edd3a9b61b5a42d7e06bb51ca",
       "receipt_digest": "sha256:2aa1c378e96d2296c952d8fde3584490c4d24f8bd2b22a936490c3226e92d751"
+    },
+    "state_manifest_vercel": {
+      "manifest_id": "manifest:gwb_state:vercel",
+      "observer_id": "workspace.state_ledger",
+      "observed_at": "2026-07-21T10:00:00Z",
+      "canonical_resource_id": "domain:gwbseamlessgutters.com",
+      "authority_scope": "dns.production",
+      "coverage_start": "2026-07-01T00:00:00Z",
+      "coverage_end": "2026-07-21T10:00:00Z",
+      "state_receipt_ids": ["state:gwb_dns_vercel:20260720T2047"],
+      "completeness_claim": "complete_for_named_resource_scope_and_window",
+      "manifest_digest": "sha256:7da6b035849a364dbb81fcf7b13ecb28f725167bf821be29627db4890f2e47a5"
+    },
+    "state_manifest_precut": {
+      "manifest_id": "manifest:gwb_state:precut",
+      "observer_id": "workspace.state_ledger",
+      "observed_at": "2026-07-10T23:00:00Z",
+      "canonical_resource_id": "domain:gwbseamlessgutters.com",
+      "authority_scope": "dns.production",
+      "coverage_start": "2026-07-01T00:00:00Z",
+      "coverage_end": "2026-07-10T23:00:00Z",
+      "state_receipt_ids": ["state:gwb_dns_squarespace:20260710T2253"],
+      "completeness_claim": "complete_for_named_resource_scope_and_window",
+      "manifest_digest": "sha256:345b7824bcf71fc78bcd84c54049bd484db85a365a4dc819759076daac65b42e"
+    },
+    "state_manifest_empty": {
+      "manifest_id": "manifest:gwb_state:empty",
+      "observer_id": "workspace.state_ledger",
+      "observed_at": "2026-07-21T10:00:00Z",
+      "canonical_resource_id": "domain:gwbseamlessgutters.com",
+      "authority_scope": "dns.production",
+      "coverage_start": "2026-07-01T00:00:00Z",
+      "coverage_end": "2026-07-21T10:00:00Z",
+      "state_receipt_ids": [],
+      "completeness_claim": "complete_for_named_resource_scope_and_window",
+      "manifest_digest": "sha256:39ea42b3d8a9a278fb98590e40c06b8b0cfab78d8244bf82249fbbffc9135c82"
+    },
+    "state_manifest_conflict": {
+      "manifest_id": "manifest:gwb_state:conflict",
+      "observer_id": "workspace.state_ledger",
+      "observed_at": "2026-07-21T10:00:00Z",
+      "canonical_resource_id": "domain:gwbseamlessgutters.com",
+      "authority_scope": "dns.production",
+      "coverage_start": "2026-07-01T00:00:00Z",
+      "coverage_end": "2026-07-21T10:00:00Z",
+      "state_receipt_ids": ["state:gwb_dns_conflict:20260720T2047", "state:gwb_dns_vercel:20260720T2047"],
+      "completeness_claim": "complete_for_named_resource_scope_and_window",
+      "manifest_digest": "sha256:a844fcda82e9523e608e6cf5635aa7455ef8407054ba8e66f3d81670de943553"
+    },
+    "state_manifest_vercel_low": {
+      "manifest_id": "manifest:gwb_state:vercel_low",
+      "observer_id": "workspace.state_ledger",
+      "observed_at": "2026-07-21T10:00:00Z",
+      "canonical_resource_id": "domain:gwbseamlessgutters.com",
+      "authority_scope": "dns.production",
+      "coverage_start": "2026-07-01T00:00:00Z",
+      "coverage_end": "2026-07-21T10:00:00Z",
+      "state_receipt_ids": ["state:gwb_dns_low_authority:20260721T0900", "state:gwb_dns_vercel:20260720T2047"],
+      "completeness_claim": "complete_for_named_resource_scope_and_window",
+      "manifest_digest": "sha256:bfb17d9859e32c58baaf5aa5b486693712bd66da92246de308ce29d320821c79"
+    },
+    "state_manifest_wrong_scope": {
+      "manifest_id": "manifest:gwb_state:wrong_scope",
+      "observer_id": "workspace.state_ledger",
+      "observed_at": "2026-07-21T10:00:00Z",
+      "canonical_resource_id": "domain:gwbseamlessgutters.com",
+      "authority_scope": "dns.production",
+      "coverage_start": "2026-07-01T00:00:00Z",
+      "coverage_end": "2026-07-21T10:00:00Z",
+      "state_receipt_ids": ["state:gwb_dns_wrong_scope:20260720T2047"],
+      "completeness_claim": "complete_for_named_resource_scope_and_window",
+      "manifest_digest": "sha256:5b0ae336de5b7de704eeaad1f82d35f063b9c5f376abc9c2b66be539a961766d"
+    },
+    "state_manifest_vercel_reversion": {
+      "manifest_id": "manifest:gwb_state:vercel_reversion",
+      "observer_id": "workspace.state_ledger",
+      "observed_at": "2026-07-21T10:00:00Z",
+      "canonical_resource_id": "domain:gwbseamlessgutters.com",
+      "authority_scope": "dns.production",
+      "coverage_start": "2026-07-01T00:00:00Z",
+      "coverage_end": "2026-07-21T10:00:00Z",
+      "state_receipt_ids": ["state:gwb_dns_reversion:20260721T0900", "state:gwb_dns_vercel:20260720T2047"],
+      "completeness_claim": "complete_for_named_resource_scope_and_window",
+      "manifest_digest": "sha256:b60c280fae6fd09379953cbc0f727b7acc75922b3378806b9fd4a058d8ad1c6e"
+    },
+    "state_manifest_precut_and_vercel": {
+      "manifest_id": "manifest:gwb_state:precut_and_vercel",
+      "observer_id": "workspace.state_ledger",
+      "observed_at": "2026-07-21T10:00:00Z",
+      "canonical_resource_id": "domain:gwbseamlessgutters.com",
+      "authority_scope": "dns.production",
+      "coverage_start": "2026-07-01T00:00:00Z",
+      "coverage_end": "2026-07-21T10:00:00Z",
+      "state_receipt_ids": ["state:gwb_dns_squarespace:20260710T2253", "state:gwb_dns_vercel:20260720T2047"],
+      "completeness_claim": "complete_for_named_resource_scope_and_window",
+      "manifest_digest": "sha256:3b9b6115fccf8196b10fbd0ab1282c321e6a56da5b643f757f5f7806255d2c03"
     }
   },
   "cases": [
@@ -266,6 +402,7 @@
       "action_receipt_ref": "base_action_receipt",
       "mapping_case_ref": "base_gwb_mapping",
       "state_receipt_refs": ["vercel_completion_state"],
+      "state_evidence_manifest_ref": "state_manifest_vercel",
       "expected": {
         "decision": "BLOCK_STALE_ACTION",
         "decision_code": "stale_action_completed",
@@ -283,10 +420,11 @@
     {
       "id": "authority_runtime_ar2_transition_still_required",
       "class": "runtime_positive_allow_required_transition",
-      "startup_claim_ref": "base_startup_claim",
+      "startup_claim_ref": "precut_startup_claim",
       "action_receipt_ref": "base_action_receipt",
-      "mapping_case_ref": "base_gwb_mapping",
+      "mapping_case_ref": "precut_gwb_mapping",
       "state_receipt_refs": ["precut_squarespace_state"],
+      "state_evidence_manifest_ref": "state_manifest_precut",
       "expected": {
         "decision": "ALLOW",
         "decision_code": "transition_required",
@@ -306,6 +444,7 @@
       "action_receipt_ref": "base_action_receipt",
       "mapping_case_ref": "base_gwb_mapping",
       "state_receipt_refs": [],
+      "state_evidence_manifest_ref": "state_manifest_empty",
       "expected": {
         "decision": "UNKNOWN",
         "decision_code": "current_state_missing",
@@ -325,6 +464,7 @@
       "action_receipt_ref": "base_action_receipt",
       "mapping_case_ref": "base_gwb_mapping",
       "state_receipt_refs": ["vercel_completion_state", "equal_time_conflict_state"],
+      "state_evidence_manifest_ref": "state_manifest_conflict",
       "expected": {
         "decision": "CONFLICT",
         "decision_code": "equally_authoritative_state_conflict",
@@ -345,6 +485,7 @@
       "mapping_case_ref": "base_gwb_mapping",
       "mapping_case_overrides": {"mapping_receipt_refs": []},
       "state_receipt_refs": ["vercel_completion_state"],
+      "state_evidence_manifest_ref": "state_manifest_vercel",
       "expected": {
         "decision": "UNKNOWN",
         "decision_code": "resource_identity_unresolved",
@@ -366,6 +507,7 @@
       "state_receipts": [
         {"receipt_ref": "vercel_completion_state", "receipt_overrides": {"state_value": "provider:squarespace"}}
       ],
+      "state_evidence_manifest_ref": "state_manifest_vercel",
       "expected": {
         "decision": "UNKNOWN",
         "decision_code": "evidence_integrity_failure",
@@ -385,6 +527,7 @@
       "action_receipt_ref": "base_action_receipt",
       "mapping_case_ref": "base_gwb_mapping",
       "state_receipt_refs": ["vercel_completion_state", "newer_low_authority_state"],
+      "state_evidence_manifest_ref": "state_manifest_vercel_low",
       "expected": {
         "decision": "BLOCK_STALE_ACTION",
         "decision_code": "stale_action_completed",
@@ -405,6 +548,7 @@
       "action_receipt_ref": "base_action_receipt",
       "mapping_case_ref": "base_gwb_mapping",
       "state_receipt_refs": ["wrong_scope_state"],
+      "state_evidence_manifest_ref": "state_manifest_wrong_scope",
       "expected": {
         "decision": "UNKNOWN",
         "decision_code": "state_scope_mismatch",
@@ -425,6 +569,7 @@
       "action_receipt_ref": "base_action_receipt",
       "mapping_case_ref": "base_gwb_mapping",
       "state_receipt_refs": ["vercel_completion_state", "later_live_reversion_state"],
+      "state_evidence_manifest_ref": "state_manifest_vercel_reversion",
       "expected": {
         "decision": "ALLOW",
         "decision_code": "transition_required",
@@ -445,6 +590,7 @@
       "action_receipt_ref": "base_action_receipt",
       "mapping_case_ref": "base_gwb_mapping",
       "state_receipt_refs": ["vercel_completion_state", "vercel_completion_state"],
+      "state_evidence_manifest_ref": "state_manifest_vercel",
       "expected": {
         "decision": "BLOCK_STALE_ACTION",
         "decision_code": "stale_action_completed",
@@ -456,6 +602,27 @@
         "duplicate_replay_receipt_ids": ["state:gwb_dns_vercel:20260720T2047"],
         "mutation_authorized": false,
         "exit_code": 3
+      }
+    },
+    {
+      "id": "authority_runtime_ar11_later_completion_silently_omitted",
+      "class": "runtime_unknown_state_evidence_omission",
+      "startup_claim_ref": "base_startup_claim",
+      "action_receipt_ref": "base_action_receipt",
+      "mapping_case_ref": "base_gwb_mapping",
+      "state_receipt_refs": ["precut_squarespace_state"],
+      "state_evidence_manifest_ref": "state_manifest_precut_and_vercel",
+      "expected": {
+        "decision": "UNKNOWN",
+        "decision_code": "state_evidence_omission",
+        "action_key": "action:v0:sha256:f2c072a9cad1a412474402b59f334cc063603da9d87d3309180730f4928b87f7",
+        "surface_key": "surface:v0:sha256:455749f0c6ee5a90f98ba2c9af5d95ccc17bfe2065202d01331d21ed6b43088f",
+        "mapping_key": "mapping:v0:sha256:6ec860ac916f4801fff3cff06e709a13a8aac014a260b2a3e5eb25db4b937297",
+        "canonical_resource_id": "domain:gwbseamlessgutters.com",
+        "state_evidence_manifest_id": "manifest:gwb_state:precut_and_vercel",
+        "controlling_state_receipt_ids": [],
+        "mutation_authorized": false,
+        "exit_code": 5
       }
     }
   ],

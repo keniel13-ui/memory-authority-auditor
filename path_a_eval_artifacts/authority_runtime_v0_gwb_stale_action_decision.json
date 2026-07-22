@@ -1,0 +1,71 @@
+{
+  "action_key": "action:v0:sha256:f2c072a9cad1a412474402b59f334cc063603da9d87d3309180730f4928b87f7",
+  "action_receipt_id": "action:gwb_dns_cutover:20260710",
+  "audit_time": "2026-07-21T10:00:00Z",
+  "authority_grant_id": "grant-workspace-board-to-gwb",
+  "authority_scope": "dns.production",
+  "canonical_action": {
+    "authority_namespace": "client.gwb/dns.production",
+    "from_state": "provider:squarespace",
+    "kind": "infrastructure_transition",
+    "operation": "dns_cutover",
+    "resource_id": "domain:gwbseamlessgutters.com",
+    "schema": "authority_action/v0",
+    "to_state": "provider:vercel"
+  },
+  "canonical_resource_id": "domain:gwbseamlessgutters.com",
+  "canonical_surface": {
+    "authority_namespace": "client.gwb/dns.production",
+    "kind": "infrastructure_transition",
+    "relation_type": "supersedes",
+    "schema": "authority_surface/v0",
+    "source_resource_id": "domain:gwbseamlessgutters.com#provider:squarespace",
+    "target_resource_id": "domain:gwbseamlessgutters.com#provider:vercel"
+  },
+  "case_id": "authority_runtime_ar1_real_gwb_stale_cutover",
+  "controlling_state_receipt_ids": [
+    "state:gwb_dns_vercel:20260720T2047"
+  ],
+  "covered_state_receipt_ids": [
+    "state:gwb_dns_vercel:20260720T2047"
+  ],
+  "decision": "BLOCK_STALE_ACTION",
+  "decision_code": "stale_action_completed",
+  "decision_digest": "sha256:92c3a9b357ca869dff438d371acc8463f85896e2d993f199d7938fd1f6288f20",
+  "duplicate_replay_receipt_ids": [],
+  "evidence_chain": [
+    {
+      "digest": "sha256:76f39314d5c44f3b857b60a97709b8f2d112e5500e3b3527af5729cc362e0b8f",
+      "issued_at": "2026-07-10T22:53:00Z",
+      "observed_at": null,
+      "receipt_id": "action:gwb_dns_cutover:20260710",
+      "receipt_type": "action",
+      "recorded_at": "2026-07-10T22:53:00Z",
+      "source_class": "operational_directive",
+      "source_id": "current_state_board:20260710T2253",
+      "source_locator": "CURRENT_STATE_BOARD.md#EVENING UPDATE 2026-07-10 10:53 PM EDT"
+    },
+    {
+      "digest": "sha256:78fef856b8edde18b3173c3827efb7f70cc75bc518b23bf79496b84b6925614b",
+      "issued_at": null,
+      "observed_at": "2026-07-20T20:47:00Z",
+      "receipt_id": "state:gwb_dns_vercel:20260720T2047",
+      "receipt_type": "state",
+      "recorded_at": "2026-07-20T20:47:00Z",
+      "source_class": "live_state_verification",
+      "source_id": "brain_current:gwb_live_verification:20260720T2047",
+      "source_locator": "BRAIN_CURRENT.md#2026-07-20 8:47 PM EDT"
+    }
+  ],
+  "exit_code": 3,
+  "ignored_state_receipt_ids": [],
+  "mapping_key": "mapping:v0:sha256:6ec860ac916f4801fff3cff06e709a13a8aac014a260b2a3e5eb25db4b937297",
+  "mapping_receipt_id": "mapping-board-gwb-domain",
+  "mutation_authorized": false,
+  "schema": "authority_decision/v0",
+  "state_evidence_manifest_digest": "sha256:7da6b035849a364dbb81fcf7b13ecb28f725167bf821be29627db4890f2e47a5",
+  "state_evidence_manifest_id": "manifest:gwb_state:vercel",
+  "subject_time": "2026-07-10T22:53:00Z",
+  "surface_key": "surface:v0:sha256:455749f0c6ee5a90f98ba2c9af5d95ccc17bfe2065202d01331d21ed6b43088f",
+  "unknowns": []
+}
