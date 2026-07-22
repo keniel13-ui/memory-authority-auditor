@@ -1,0 +1,481 @@
+{
+  "packet": "authority_runtime_v0_gwb_dns_replay_2026_07_21",
+  "status": "frozen_after_prereg_before_runtime_implementation",
+  "prereg": "AUTHORITY_RUNTIME_V0_PREREGISTRATION_2026-07-21.md",
+  "prerequisite_floor": "0899306",
+  "flagship_incident": "stale_gwb_production_dns_cutover",
+  "standards_profile": {
+    "canonicalization": "RFC 8785 JSON Canonicalization Scheme",
+    "digest": "SHA-256",
+    "source_excerpt_digest": "SHA-256 over exact UTF-8 excerpt bytes",
+    "time": "RFC 3339 with explicit offset"
+  },
+  "runtime_policy": {
+    "policy_id": "authority_runtime.single_action_supersession",
+    "policy_version": "0.1.0",
+    "allowed_operations": ["dns_cutover"],
+    "source_authority_order": [
+      "live_state_verification",
+      "owner_approved_current_state",
+      "operational_directive",
+      "historical_summary"
+    ],
+    "source_registry": {
+      "current_state_board:20260710T2253": "operational_directive",
+      "board_dns_check:20260710T2253": "live_state_verification",
+      "brain_current:gwb_live_verification:20260720T2047": "live_state_verification",
+      "fixture:equal_time_conflict": "live_state_verification",
+      "fixture:newer_historical_summary": "historical_summary",
+      "fixture:wrong_scope_state": "live_state_verification",
+      "fixture:later_live_reversion": "live_state_verification"
+    },
+    "decision_rule": "highest_registered_authority_then_latest_observed_state_controls_exact_resource_scope_action",
+    "decision_states": ["ALLOW", "BLOCK_STALE_ACTION", "CONFLICT", "UNKNOWN"],
+    "policy_digest": "sha256:7a188dca85cb9bc2adc168c1d768ee7a9bf213fb99435118d224c77e34638f92"
+  },
+  "canonical_action_identity": {
+    "schema": "authority_action/v0",
+    "included_fields": ["schema", "authority_namespace", "kind", "resource_id", "operation", "from_state", "to_state"],
+    "key_format": "action:v0:sha256:<hex>"
+  },
+  "fixture_reference_semantics": "A *_ref deep-copies the named shared_objects value. Adjacent *_overrides replace only named top-level fields. state_receipt_refs preserve order and may intentionally contain replay. A mapping_case_ref resolves inside resource_mapping_packet.mapping_cases with shallow mapping_case_overrides.",
+  "resource_mapping_packet": {
+    "mapping_policy": {
+      "policy_id": "resource_mapping.directional_exact_scope",
+      "policy_version": "0.1.0",
+      "trusted_grantor_ids": ["workspace.identity_authority"],
+      "allowed_mapping_kinds": ["equivalent_identity"],
+      "resolution_rule": "one_active_authorized_directional_mapping_to_census_bound_canonical_target",
+      "unresolved_states": [
+        "mapping_policy_integrity_failure",
+        "mapping_request_schema_failure",
+        "mapping_direction_failure",
+        "mapping_census_integrity_failure",
+        "mapping_receipt_integrity_failure",
+        "mapping_receipt_identity_conflict",
+        "mapping_grant_integrity_failure",
+        "mapping_authority_failure",
+        "mapping_scope_failure",
+        "mapping_not_effective",
+        "mapping_expired",
+        "mapping_revoked",
+        "mapping_conflict",
+        "mapping_target_unbound",
+        "mapping_target_not_canonical"
+      ],
+      "policy_digest": "sha256:123ebc8132474f3a52e5f287d8b804aa3cba687986ea3996b8dd3ddd44e3364d"
+    },
+    "shared_objects": {
+      "gwb_mapping_request": {
+        "source_namespace": "workspace.board",
+        "source_resource_id": "board:gwb_real_domain",
+        "required_canonical_namespace": "client.gwb",
+        "authority_scope": "dns.production",
+        "subject_time": "2026-07-10T22:53:00Z",
+        "resolution_time": "2026-07-20T20:47:00Z",
+        "direction": "source_to_canonical"
+      },
+      "gwb_mapping_grant": {
+        "grant_id": "grant-workspace-board-to-gwb",
+        "grantor_id": "workspace.identity_authority",
+        "grantee_id": "mapper.workspace",
+        "source_namespace": "workspace.board",
+        "canonical_namespace": "client.gwb",
+        "allowed_mapping_kinds": ["equivalent_identity"],
+        "authority_scope": "dns.production",
+        "effective_at": "2026-07-01T00:00:00Z",
+        "expires_at": "2026-08-01T00:00:00Z",
+        "revoked_at": null,
+        "grant_digest": "sha256:3e7d973d6696efcc430458c7553408915a98a881ba9ef369a5f3656e03e9357c"
+      },
+      "gwb_mapping_receipt": {
+        "receipt_id": "mapping-board-gwb-domain",
+        "issuer_id": "mapper.workspace",
+        "issued_at": "2026-07-01T00:00:00Z",
+        "effective_at": "2026-07-01T00:00:00Z",
+        "expires_at": "2026-08-01T00:00:00Z",
+        "assertion": {
+          "schema": "resource_mapping/v0",
+          "mapping_kind": "equivalent_identity",
+          "source_namespace": "workspace.board",
+          "source_resource_id": "board:gwb_real_domain",
+          "canonical_namespace": "client.gwb",
+          "canonical_resource_id": "domain:gwbseamlessgutters.com",
+          "authority_scope": "dns.production"
+        },
+        "assertion_digest": "sha256:6ec860ac916f4801fff3cff06e709a13a8aac014a260b2a3e5eb25db4b937297",
+        "authority_grant_id": "grant-workspace-board-to-gwb",
+        "evidence_receipt_ids": ["source:current-state-board:gwb-domain"],
+        "receipt_digest": "sha256:7be4291235ecc26018023a90fab89a9fc1c21252d088f1c6940d116792cf4dc8"
+      },
+      "gwb_mapping_census": {
+        "receipt_id": "census-gwb-production-dns",
+        "observer_id": "workspace_census",
+        "observed_at": "2026-07-20T20:46:00Z",
+        "authority_namespace": "client.gwb/dns.production",
+        "resources": [
+          {"resource_id": "domain:gwbseamlessgutters.com", "scope": "dns.production", "status": "live"}
+        ],
+        "resource_aliases": [
+          {"source_namespace": "workspace.board", "source_resource_id": "board:gwb_real_domain"}
+        ],
+        "census_digest": "sha256:ddb8f47551461ee41dd9ffe8445ea45007f3756bf2757d8f5493bf5cb96f9751"
+      }
+    },
+    "mapping_cases": {
+      "base_gwb_mapping": {
+        "id": "authority_runtime_gwb_resource_mapping",
+        "request_ref": "gwb_mapping_request",
+        "census_ref": "gwb_mapping_census",
+        "mapping_receipt_refs": ["gwb_mapping_receipt"],
+        "authority_grant_refs": ["gwb_mapping_grant"],
+        "revocation_receipt_refs": []
+      }
+    }
+  },
+  "shared_objects": {
+    "base_startup_claim": {
+      "packet_id": "startup-gwb-stale-cutover",
+      "session_id": "fixture-session-gwb-runtime-v0",
+      "claimed_at": "2026-07-21T10:00:00Z",
+      "audit_time": "2026-07-21T10:00:00Z",
+      "proposed_actions": ["action:gwb_dns_cutover:20260710"],
+      "packet_digest": "sha256:62dabbb1b74a9f22b19cffac79a2ee3b656a908103f0e2cff8301b092028a1da"
+    },
+    "precut_startup_claim": {
+      "packet_id": "startup-gwb-precut",
+      "session_id": "fixture-session-gwb-runtime-v0-precut",
+      "claimed_at": "2026-07-10T23:00:00Z",
+      "audit_time": "2026-07-10T23:00:00Z",
+      "proposed_actions": ["action:gwb_dns_cutover:20260710"],
+      "packet_digest": "sha256:b78142d1b785ad6d76d82a365e32d98e2645e813219aecc593a97204bff58c46"
+    },
+    "base_action_receipt": {
+      "receipt_id": "action:gwb_dns_cutover:20260710",
+      "source_id": "current_state_board:20260710T2253",
+      "source_class": "operational_directive",
+      "recorded_at": "2026-07-10T22:53:00Z",
+      "issued_at": "2026-07-10T22:53:00Z",
+      "resource_alias": {
+        "source_namespace": "workspace.board",
+        "source_resource_id": "board:gwb_real_domain"
+      },
+      "authority_scope": "dns.production",
+      "operation": "dns_cutover",
+      "from_state": "provider:squarespace",
+      "to_state": "provider:vercel",
+      "source_locator": "CURRENT_STATE_BOARD.md#EVENING UPDATE 2026-07-10 10:53 PM EDT",
+      "source_excerpt": "Active money action unchanged: Keniel edits DNS in Squarespace, then Kairos/Ka'el verifies live HTTPS.",
+      "source_excerpt_digest": "sha256:8aaf92922a3ddc9c5e0803d1f9c7c47e6a155db8d5d1071fd2891dbb5214e427",
+      "receipt_digest": "sha256:76f39314d5c44f3b857b60a97709b8f2d112e5500e3b3527af5729cc362e0b8f"
+    },
+    "precut_squarespace_state": {
+      "receipt_id": "state:gwb_dns_squarespace:20260710T2253",
+      "source_id": "board_dns_check:20260710T2253",
+      "source_class": "live_state_verification",
+      "recorded_at": "2026-07-10T22:53:00Z",
+      "observed_at": "2026-07-10T22:53:00Z",
+      "canonical_resource_id": "domain:gwbseamlessgutters.com",
+      "authority_scope": "dns.production",
+      "state_key": "dns_provider",
+      "state_value": "provider:squarespace",
+      "completion_action_key": null,
+      "source_locator": "CURRENT_STATE_BOARD.md#EVENING UPDATE 2026-07-10 10:53 PM EDT",
+      "source_excerpt": "Live DNS check confirms George cutover still NOT done: apex remains Squarespace A records and www remains ext-sq.squarespace.com.",
+      "source_excerpt_digest": "sha256:4cc897d467076aa55fc98bed3f689146144f7855fe36bf9e0c479003908ea9f6",
+      "receipt_digest": "sha256:fddb4133663c891be74e540ec8ef1cb8224ca054ee8df948ed67bae3837ff6c0"
+    },
+    "vercel_completion_state": {
+      "receipt_id": "state:gwb_dns_vercel:20260720T2047",
+      "source_id": "brain_current:gwb_live_verification:20260720T2047",
+      "source_class": "live_state_verification",
+      "recorded_at": "2026-07-20T20:47:00Z",
+      "observed_at": "2026-07-20T20:47:00Z",
+      "canonical_resource_id": "domain:gwbseamlessgutters.com",
+      "authority_scope": "dns.production",
+      "state_key": "dns_provider",
+      "state_value": "provider:vercel",
+      "completion_action_key": "action:v0:sha256:f2c072a9cad1a412474402b59f334cc063603da9d87d3309180730f4928b87f7",
+      "source_locator": "BRAIN_CURRENT.md#2026-07-20 8:47 PM EDT",
+      "source_excerpt": "GWB apex resolves to `76.76.21.21`, `www` to `cname.vercel-dns.com`, and both HTTPS hostnames return Vercel `HTTP 200`",
+      "source_excerpt_digest": "sha256:15174b2bfe68aa88beca60cb8f0ad80e618e49905fb6ccdfca019b49f12e579f",
+      "receipt_digest": "sha256:78fef856b8edde18b3173c3827efb7f70cc75bc518b23bf79496b84b6925614b"
+    },
+    "equal_time_conflict_state": {
+      "receipt_id": "state:gwb_dns_conflict:20260720T2047",
+      "source_id": "fixture:equal_time_conflict",
+      "source_class": "live_state_verification",
+      "recorded_at": "2026-07-20T20:47:00Z",
+      "observed_at": "2026-07-20T20:47:00Z",
+      "canonical_resource_id": "domain:gwbseamlessgutters.com",
+      "authority_scope": "dns.production",
+      "state_key": "dns_provider",
+      "state_value": "provider:squarespace",
+      "completion_action_key": null,
+      "source_locator": "fixture://authority-runtime/ar4-equal-time-conflict",
+      "source_excerpt": "Adversarial fixture: equal-time registered source reports Squarespace.",
+      "source_excerpt_digest": "sha256:05e48bb374d6f2d1622bbbcf52df03b22ef23ae5692cdbd5c3c60a09bf4289fa",
+      "receipt_digest": "sha256:a2d9dd3ae3faa830910b7aa624038f3508e0836dd39f189a6a6d1de8809ae397"
+    },
+    "newer_low_authority_state": {
+      "receipt_id": "state:gwb_dns_low_authority:20260721T0900",
+      "source_id": "fixture:newer_historical_summary",
+      "source_class": "historical_summary",
+      "recorded_at": "2026-07-21T09:00:00Z",
+      "observed_at": "2026-07-21T09:00:00Z",
+      "canonical_resource_id": "domain:gwbseamlessgutters.com",
+      "authority_scope": "dns.production",
+      "state_key": "dns_provider",
+      "state_value": "provider:squarespace",
+      "completion_action_key": null,
+      "source_locator": "fixture://authority-runtime/ar7-newer-low-authority",
+      "source_excerpt": "Adversarial fixture: newer historical summary claims Squarespace.",
+      "source_excerpt_digest": "sha256:5d2dfe99ac0720071236792ce39ead3938eadcfbf59a5e96454d8cffae3ca689",
+      "receipt_digest": "sha256:6d4a7eabf04fb7fd6b85cca3f5535e450859f370339d15e3594b34af956b69c2"
+    },
+    "wrong_scope_state": {
+      "receipt_id": "state:gwb_dns_wrong_scope:20260720T2047",
+      "source_id": "fixture:wrong_scope_state",
+      "source_class": "live_state_verification",
+      "recorded_at": "2026-07-20T20:47:00Z",
+      "observed_at": "2026-07-20T20:47:00Z",
+      "canonical_resource_id": "domain:other.example",
+      "authority_scope": "dns.staging",
+      "state_key": "dns_provider",
+      "state_value": "provider:vercel",
+      "completion_action_key": "action:v0:sha256:f2c072a9cad1a412474402b59f334cc063603da9d87d3309180730f4928b87f7",
+      "source_locator": "fixture://authority-runtime/ar8-wrong-scope",
+      "source_excerpt": "Adversarial fixture: Vercel state belongs to another resource and staging scope.",
+      "source_excerpt_digest": "sha256:f0593626294830596c7fc3812d2135e7802007063f5a5caa598050cabe5b1d75",
+      "receipt_digest": "sha256:1293b83fcddcc2cafaaef6934bf19ce605c501baf5f5b230a9ddbcf4b341db5a"
+    },
+    "later_live_reversion_state": {
+      "receipt_id": "state:gwb_dns_reversion:20260721T0900",
+      "source_id": "fixture:later_live_reversion",
+      "source_class": "live_state_verification",
+      "recorded_at": "2026-07-21T09:00:00Z",
+      "observed_at": "2026-07-21T09:00:00Z",
+      "canonical_resource_id": "domain:gwbseamlessgutters.com",
+      "authority_scope": "dns.production",
+      "state_key": "dns_provider",
+      "state_value": "provider:squarespace",
+      "completion_action_key": null,
+      "source_locator": "fixture://authority-runtime/ar9-later-live-reversion",
+      "source_excerpt": "Adversarial fixture: later registered live verification reports a return to Squarespace.",
+      "source_excerpt_digest": "sha256:3ac1610bf35109c561de990b9107b0a5bee56f2edd3a9b61b5a42d7e06bb51ca",
+      "receipt_digest": "sha256:2aa1c378e96d2296c952d8fde3584490c4d24f8bd2b22a936490c3226e92d751"
+    }
+  },
+  "cases": [
+    {
+      "id": "authority_runtime_ar1_real_gwb_stale_cutover",
+      "class": "runtime_positive_block_stale_real_replay",
+      "startup_claim_ref": "base_startup_claim",
+      "action_receipt_ref": "base_action_receipt",
+      "mapping_case_ref": "base_gwb_mapping",
+      "state_receipt_refs": ["vercel_completion_state"],
+      "expected": {
+        "decision": "BLOCK_STALE_ACTION",
+        "decision_code": "stale_action_completed",
+        "action_key": "action:v0:sha256:f2c072a9cad1a412474402b59f334cc063603da9d87d3309180730f4928b87f7",
+        "surface_key": "surface:v0:sha256:455749f0c6ee5a90f98ba2c9af5d95ccc17bfe2065202d01331d21ed6b43088f",
+        "mapping_key": "mapping:v0:sha256:6ec860ac916f4801fff3cff06e709a13a8aac014a260b2a3e5eb25db4b937297",
+        "canonical_resource_id": "domain:gwbseamlessgutters.com",
+        "controlling_state_receipt_ids": ["state:gwb_dns_vercel:20260720T2047"],
+        "ignored_state_receipt_ids": [],
+        "duplicate_replay_receipt_ids": [],
+        "mutation_authorized": false,
+        "exit_code": 3
+      }
+    },
+    {
+      "id": "authority_runtime_ar2_transition_still_required",
+      "class": "runtime_positive_allow_required_transition",
+      "startup_claim_ref": "precut_startup_claim",
+      "action_receipt_ref": "base_action_receipt",
+      "mapping_case_ref": "base_gwb_mapping",
+      "state_receipt_refs": ["precut_squarespace_state"],
+      "expected": {
+        "decision": "ALLOW",
+        "decision_code": "transition_required",
+        "action_key": "action:v0:sha256:f2c072a9cad1a412474402b59f334cc063603da9d87d3309180730f4928b87f7",
+        "surface_key": "surface:v0:sha256:455749f0c6ee5a90f98ba2c9af5d95ccc17bfe2065202d01331d21ed6b43088f",
+        "mapping_key": "mapping:v0:sha256:6ec860ac916f4801fff3cff06e709a13a8aac014a260b2a3e5eb25db4b937297",
+        "canonical_resource_id": "domain:gwbseamlessgutters.com",
+        "controlling_state_receipt_ids": ["state:gwb_dns_squarespace:20260710T2253"],
+        "mutation_authorized": true,
+        "exit_code": 0
+      }
+    },
+    {
+      "id": "authority_runtime_ar3_current_state_missing",
+      "class": "runtime_unknown_missing_state",
+      "startup_claim_ref": "base_startup_claim",
+      "action_receipt_ref": "base_action_receipt",
+      "mapping_case_ref": "base_gwb_mapping",
+      "state_receipt_refs": [],
+      "expected": {
+        "decision": "UNKNOWN",
+        "decision_code": "current_state_missing",
+        "action_key": "action:v0:sha256:f2c072a9cad1a412474402b59f334cc063603da9d87d3309180730f4928b87f7",
+        "surface_key": "surface:v0:sha256:455749f0c6ee5a90f98ba2c9af5d95ccc17bfe2065202d01331d21ed6b43088f",
+        "mapping_key": "mapping:v0:sha256:6ec860ac916f4801fff3cff06e709a13a8aac014a260b2a3e5eb25db4b937297",
+        "canonical_resource_id": "domain:gwbseamlessgutters.com",
+        "controlling_state_receipt_ids": [],
+        "mutation_authorized": false,
+        "exit_code": 5
+      }
+    },
+    {
+      "id": "authority_runtime_ar4_equal_authority_conflict",
+      "class": "runtime_conflict_equal_authority_time",
+      "startup_claim_ref": "base_startup_claim",
+      "action_receipt_ref": "base_action_receipt",
+      "mapping_case_ref": "base_gwb_mapping",
+      "state_receipt_refs": ["vercel_completion_state", "equal_time_conflict_state"],
+      "expected": {
+        "decision": "CONFLICT",
+        "decision_code": "equally_authoritative_state_conflict",
+        "action_key": "action:v0:sha256:f2c072a9cad1a412474402b59f334cc063603da9d87d3309180730f4928b87f7",
+        "surface_key": "surface:v0:sha256:455749f0c6ee5a90f98ba2c9af5d95ccc17bfe2065202d01331d21ed6b43088f",
+        "mapping_key": "mapping:v0:sha256:6ec860ac916f4801fff3cff06e709a13a8aac014a260b2a3e5eb25db4b937297",
+        "canonical_resource_id": "domain:gwbseamlessgutters.com",
+        "controlling_state_receipt_ids": ["state:gwb_dns_conflict:20260720T2047", "state:gwb_dns_vercel:20260720T2047"],
+        "mutation_authorized": false,
+        "exit_code": 4
+      }
+    },
+    {
+      "id": "authority_runtime_ar5_resource_alias_unresolved",
+      "class": "runtime_unknown_resource_identity",
+      "startup_claim_ref": "base_startup_claim",
+      "action_receipt_ref": "base_action_receipt",
+      "mapping_case_ref": "base_gwb_mapping",
+      "mapping_case_overrides": {"mapping_receipt_refs": []},
+      "state_receipt_refs": ["vercel_completion_state"],
+      "expected": {
+        "decision": "UNKNOWN",
+        "decision_code": "resource_identity_unresolved",
+        "action_key": null,
+        "surface_key": null,
+        "mapping_key": null,
+        "canonical_resource_id": null,
+        "controlling_state_receipt_ids": [],
+        "mutation_authorized": false,
+        "exit_code": 5
+      }
+    },
+    {
+      "id": "authority_runtime_ar6_evidence_integrity_failure",
+      "class": "runtime_unknown_tampered_evidence",
+      "startup_claim_ref": "base_startup_claim",
+      "action_receipt_ref": "base_action_receipt",
+      "mapping_case_ref": "base_gwb_mapping",
+      "state_receipts": [
+        {"receipt_ref": "vercel_completion_state", "receipt_overrides": {"state_value": "provider:squarespace"}}
+      ],
+      "expected": {
+        "decision": "UNKNOWN",
+        "decision_code": "evidence_integrity_failure",
+        "action_key": "action:v0:sha256:f2c072a9cad1a412474402b59f334cc063603da9d87d3309180730f4928b87f7",
+        "surface_key": "surface:v0:sha256:455749f0c6ee5a90f98ba2c9af5d95ccc17bfe2065202d01331d21ed6b43088f",
+        "mapping_key": "mapping:v0:sha256:6ec860ac916f4801fff3cff06e709a13a8aac014a260b2a3e5eb25db4b937297",
+        "canonical_resource_id": "domain:gwbseamlessgutters.com",
+        "controlling_state_receipt_ids": [],
+        "mutation_authorized": false,
+        "exit_code": 5
+      }
+    },
+    {
+      "id": "authority_runtime_ar7_newer_low_authority_costume",
+      "class": "runtime_block_authority_over_recency",
+      "startup_claim_ref": "base_startup_claim",
+      "action_receipt_ref": "base_action_receipt",
+      "mapping_case_ref": "base_gwb_mapping",
+      "state_receipt_refs": ["vercel_completion_state", "newer_low_authority_state"],
+      "expected": {
+        "decision": "BLOCK_STALE_ACTION",
+        "decision_code": "stale_action_completed",
+        "action_key": "action:v0:sha256:f2c072a9cad1a412474402b59f334cc063603da9d87d3309180730f4928b87f7",
+        "surface_key": "surface:v0:sha256:455749f0c6ee5a90f98ba2c9af5d95ccc17bfe2065202d01331d21ed6b43088f",
+        "mapping_key": "mapping:v0:sha256:6ec860ac916f4801fff3cff06e709a13a8aac014a260b2a3e5eb25db4b937297",
+        "canonical_resource_id": "domain:gwbseamlessgutters.com",
+        "controlling_state_receipt_ids": ["state:gwb_dns_vercel:20260720T2047"],
+        "ignored_state_receipt_ids": ["state:gwb_dns_low_authority:20260721T0900"],
+        "mutation_authorized": false,
+        "exit_code": 3
+      }
+    },
+    {
+      "id": "authority_runtime_ar8_scope_or_resource_mismatch",
+      "class": "runtime_unknown_ineligible_evidence",
+      "startup_claim_ref": "base_startup_claim",
+      "action_receipt_ref": "base_action_receipt",
+      "mapping_case_ref": "base_gwb_mapping",
+      "state_receipt_refs": ["wrong_scope_state"],
+      "expected": {
+        "decision": "UNKNOWN",
+        "decision_code": "state_scope_mismatch",
+        "action_key": "action:v0:sha256:f2c072a9cad1a412474402b59f334cc063603da9d87d3309180730f4928b87f7",
+        "surface_key": "surface:v0:sha256:455749f0c6ee5a90f98ba2c9af5d95ccc17bfe2065202d01331d21ed6b43088f",
+        "mapping_key": "mapping:v0:sha256:6ec860ac916f4801fff3cff06e709a13a8aac014a260b2a3e5eb25db4b937297",
+        "canonical_resource_id": "domain:gwbseamlessgutters.com",
+        "controlling_state_receipt_ids": [],
+        "ignored_state_receipt_ids": ["state:gwb_dns_wrong_scope:20260720T2047"],
+        "mutation_authorized": false,
+        "exit_code": 5
+      }
+    },
+    {
+      "id": "authority_runtime_ar9_later_authoritative_reversion",
+      "class": "runtime_allow_later_authoritative_state",
+      "startup_claim_ref": "base_startup_claim",
+      "action_receipt_ref": "base_action_receipt",
+      "mapping_case_ref": "base_gwb_mapping",
+      "state_receipt_refs": ["vercel_completion_state", "later_live_reversion_state"],
+      "expected": {
+        "decision": "ALLOW",
+        "decision_code": "transition_required",
+        "action_key": "action:v0:sha256:f2c072a9cad1a412474402b59f334cc063603da9d87d3309180730f4928b87f7",
+        "surface_key": "surface:v0:sha256:455749f0c6ee5a90f98ba2c9af5d95ccc17bfe2065202d01331d21ed6b43088f",
+        "mapping_key": "mapping:v0:sha256:6ec860ac916f4801fff3cff06e709a13a8aac014a260b2a3e5eb25db4b937297",
+        "canonical_resource_id": "domain:gwbseamlessgutters.com",
+        "controlling_state_receipt_ids": ["state:gwb_dns_reversion:20260721T0900"],
+        "ignored_state_receipt_ids": ["state:gwb_dns_vercel:20260720T2047"],
+        "mutation_authorized": true,
+        "exit_code": 0
+      }
+    },
+    {
+      "id": "authority_runtime_ar10_identical_evidence_replay",
+      "class": "runtime_block_replay_collapse",
+      "startup_claim_ref": "base_startup_claim",
+      "action_receipt_ref": "base_action_receipt",
+      "mapping_case_ref": "base_gwb_mapping",
+      "state_receipt_refs": ["vercel_completion_state", "vercel_completion_state"],
+      "expected": {
+        "decision": "BLOCK_STALE_ACTION",
+        "decision_code": "stale_action_completed",
+        "action_key": "action:v0:sha256:f2c072a9cad1a412474402b59f334cc063603da9d87d3309180730f4928b87f7",
+        "surface_key": "surface:v0:sha256:455749f0c6ee5a90f98ba2c9af5d95ccc17bfe2065202d01331d21ed6b43088f",
+        "mapping_key": "mapping:v0:sha256:6ec860ac916f4801fff3cff06e709a13a8aac014a260b2a3e5eb25db4b937297",
+        "canonical_resource_id": "domain:gwbseamlessgutters.com",
+        "controlling_state_receipt_ids": ["state:gwb_dns_vercel:20260720T2047"],
+        "duplicate_replay_receipt_ids": ["state:gwb_dns_vercel:20260720T2047"],
+        "mutation_authorized": false,
+        "exit_code": 3
+      }
+    }
+  ],
+  "outsider_command": "python3 authorityctl.py audit tests/fixtures/authority_runtime_v0_gwb_dns_replay_2026_07_21.json --case authority_runtime_ar1_real_gwb_stale_cutover --json-out <path> --markdown-out <path>",
+  "non_claims": [
+    "no automatic prose extraction",
+    "no fresh DNS query during deterministic replay",
+    "no cryptographic source-owner authentication",
+    "no inspection of private model reasoning",
+    "no enforcement for terminals that bypass the launcher",
+    "no DNS mutation rollback or repair",
+    "no multi-action orchestration",
+    "no connector fleet dashboard daemon article or commercial claim"
+  ]
+}
