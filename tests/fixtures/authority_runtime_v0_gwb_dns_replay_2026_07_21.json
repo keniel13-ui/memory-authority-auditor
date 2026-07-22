@@ -142,14 +142,6 @@
       "proposed_actions": ["action:gwb_dns_cutover:20260710"],
       "packet_digest": "sha256:62dabbb1b74a9f22b19cffac79a2ee3b656a908103f0e2cff8301b092028a1da"
     },
-    "precut_startup_claim": {
-      "packet_id": "startup-gwb-precut",
-      "session_id": "fixture-session-gwb-runtime-v0-precut",
-      "claimed_at": "2026-07-10T23:00:00Z",
-      "audit_time": "2026-07-10T23:00:00Z",
-      "proposed_actions": ["action:gwb_dns_cutover:20260710"],
-      "packet_digest": "sha256:b78142d1b785ad6d76d82a365e32d98e2645e813219aecc593a97204bff58c46"
-    },
     "base_action_receipt": {
       "receipt_id": "action:gwb_dns_cutover:20260710",
       "source_id": "current_state_board:20260710T2253",
@@ -291,7 +283,7 @@
     {
       "id": "authority_runtime_ar2_transition_still_required",
       "class": "runtime_positive_allow_required_transition",
-      "startup_claim_ref": "precut_startup_claim",
+      "startup_claim_ref": "base_startup_claim",
       "action_receipt_ref": "base_action_receipt",
       "mapping_case_ref": "base_gwb_mapping",
       "state_receipt_refs": ["precut_squarespace_state"],
