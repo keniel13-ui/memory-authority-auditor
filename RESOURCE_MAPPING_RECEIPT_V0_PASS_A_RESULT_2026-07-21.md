@@ -65,8 +65,8 @@ Commit `7f1ccba` adds an integrity-valid `github/compliance.export_approval` cen
 ## Verification
 
 - Frozen packet: 14/14 expected outcomes.
-- Focused Resource Mapping tests: 8 passed.
-- Full repository: 68 passed, 1 expected xfail.
+- Initial focused Resource Mapping tests: 8 passed.
+- Initial full repository at PASS A: 68 passed, 1 expected xfail.
 - Run artifact: `path_a_eval_artifacts/path_a_v3_resource_mapping_receipt_v0_pass_a_20260722T014028Z.json`.
 - Base mapping key independently recomputed from the canonical assertion.
 - Every embedded policy, grant, assertion, receipt, revocation, and census digest recomputed and matched.
@@ -82,7 +82,20 @@ This is a local deterministic mapping contract, not an identity provider or prod
 - Evidence receipt IDs are preserved fixture references; their real-world meaning is not proven here.
 - Mapping discovery, fuzzy matching, symmetric equivalence, transitive closure, alias chains, wildcards, and probabilistic identity are intentionally absent.
 - The mapping resolver does not mutate the census, relation store, source event, or Anchor Contract fixture.
-- The serialized handoff into Anchor Contract still requires a narrow coherence bridge; PASS A proves mapping resolution, not that arbitrary non-null mapping JSON is safe to trust.
+- The Anchor Contract handoff now rechecks resolution state, semantic key, event/source identity, authority scope, both clocks, census receipt identity, namespace, and canonical-target membership. This is coherence validation, not cryptographic authentication.
 - No connector, external replay, deployment, or public article is authorized.
 
 The advance is exact: the system can now distinguish an authorized canonical identity resolution from an assertion wearing the shape of one, and every unresolved path stays loud.
+
+## Maker coherence hardening after first PASS
+
+A local post-PASS attack closed six additional seams without changing the frozen law or expected outcomes:
+
+- assertion objects must contain exactly the typed v0 semantic fields;
+- configured grantor costumes fail even when their altered grant digest is internally consistent;
+- malformed revocations for unrelated receipt IDs cannot poison a valid resolution;
+- multiple authorized receipts for the same semantic target become supporting receipts, not a false conflict;
+- Anchor Contract no longer accepts arbitrary truthy mapping JSON;
+- the Anchor bridge independently rechecks semantic-key coherence and current census membership before AC-2 may derive.
+
+Current verification after hardening: 15 focused Resource Mapping tests; 28 combined Resource Mapping + Anchor Contract tests; 75 passed / 1 expected xfail across the full repository.

@@ -225,6 +225,10 @@ def _validate_policy(result: dict, policy: dict) -> dict | None:
         return _fail(result, "mapping_policy_integrity_failure", "mapping policy has no configured trust root")
     if not isinstance(policy.get("allowed_mapping_kinds"), list) or not policy["allowed_mapping_kinds"]:
         return _fail(result, "mapping_policy_integrity_failure", "mapping policy admits no mapping kind")
+    if not all(isinstance(value, str) and value for value in policy["trusted_grantor_ids"]):
+        return _fail(result, "mapping_policy_integrity_failure", "mapping policy trust roots are untyped")
+    if not all(isinstance(value, str) and value for value in policy["allowed_mapping_kinds"]):
+        return _fail(result, "mapping_policy_integrity_failure", "mapping policy mapping kinds are untyped")
     return None
 
 
@@ -265,6 +269,8 @@ def _validate_census(result: dict, census: dict | None, request: dict, resolutio
     resources = census.get("resources")
     if not isinstance(resources, list) or not all(isinstance(resource, dict) for resource in resources):
         return _fail(result, "mapping_census_integrity_failure", "census resources are not typed objects")
+    if not isinstance(census.get("resource_aliases"), list):
+        return _fail(result, "mapping_census_integrity_failure", "census resource aliases are not a list")
     payload = {"authority_namespace": census["authority_namespace"], "resources": resources}
     if content_digest(payload) != census.get("census_digest"):
         return _fail(result, "mapping_census_integrity_failure", "bound census does not match its digest")
@@ -290,6 +296,13 @@ def _validate_mapping_receipt(result: dict, receipt: dict, policy: dict) -> dict
     assertion = receipt.get("assertion")
     if not isinstance(assertion, dict) or any(field not in assertion for field in ASSERTION_REQUIRED_FIELDS):
         return _fail(result, "mapping_receipt_integrity_failure", "mapping assertion is incomplete")
+    if set(assertion) != set(ASSERTION_REQUIRED_FIELDS) or not all(
+        isinstance(assertion.get(field), str) and assertion[field] for field in ASSERTION_REQUIRED_FIELDS
+    ):
+        return _fail(result, "mapping_receipt_integrity_failure", "mapping assertion fields are not exact typed v0 semantics")
+    for field in ("receipt_id", "issuer_id", "issued_at", "effective_at", "expires_at", "authority_grant_id"):
+        if not isinstance(receipt.get(field), str) or not receipt[field]:
+            return _fail(result, "mapping_receipt_integrity_failure", "mapping receipt identity or clocks are untyped")
     if assertion.get("schema") != "resource_mapping/v0":
         return _fail(result, "mapping_receipt_integrity_failure", "mapping assertion schema is outside v0")
     if assertion.get("mapping_kind") not in policy["allowed_mapping_kinds"]:
@@ -345,6 +358,22 @@ def _validate_grant(
     payload = {key: value for key, value in grant.items() if key != "grant_digest"}
     if content_digest(payload) != grant.get("grant_digest"):
         return _fail(result, "mapping_grant_integrity_failure", "mapping authority grant does not match its digest")
+    string_fields = (
+        "grant_id",
+        "grantor_id",
+        "grantee_id",
+        "source_namespace",
+        "canonical_namespace",
+        "authority_scope",
+        "effective_at",
+        "expires_at",
+    )
+    if any(not isinstance(grant.get(field), str) or not grant[field] for field in string_fields):
+        return _fail(result, "mapping_grant_integrity_failure", "mapping authority grant fields are untyped")
+    if not isinstance(grant.get("allowed_mapping_kinds"), list) or not all(
+        isinstance(value, str) and value for value in grant["allowed_mapping_kinds"]
+    ):
+        return _fail(result, "mapping_grant_integrity_failure", "mapping authority grant kinds are untyped")
     if grant.get("grantor_id") not in policy["trusted_grantor_ids"]:
         return _fail(result, "mapping_authority_failure", "mapping grantor is outside the configured trust roots")
     if grant.get("grantee_id") != receipt.get("issuer_id"):
@@ -380,18 +409,20 @@ def _validate_revocations(
     resolution_time: datetime,
 ) -> dict | None:
     for revocation in revocations:
+        if not isinstance(revocation, dict) or revocation.get("mapping_receipt_id") != receipt.get("receipt_id"):
+            continue
         if any(field not in revocation for field in REVOCATION_REQUIRED_FIELDS):
             return _fail(result, "mapping_revocation_integrity_failure", "mapping revocation receipt is incomplete")
         payload = {key: value for key, value in revocation.items() if key != "revocation_digest"}
         if content_digest(payload) != revocation.get("revocation_digest"):
             return _fail(result, "mapping_revocation_integrity_failure", "mapping revocation does not match its digest")
-        if revocation.get("mapping_receipt_id") != receipt.get("receipt_id"):
-            continue
         if revocation.get("authority_grant_id") != grant.get("grant_id") or revocation.get("issuer_id") not in {
             receipt.get("issuer_id"),
             grant.get("grantor_id"),
         }:
             return _fail(result, "mapping_revocation_authority_failure", "mapping revocation lacks authority")
+        if not isinstance(revocation.get("reason_code"), str) or not revocation["reason_code"]:
+            return _fail(result, "mapping_revocation_integrity_failure", "mapping revocation reason is untyped")
         revoked_at = _parse_time(revocation.get("revoked_at"))
         if revoked_at is None:
             return _fail(result, "mapping_revocation_integrity_failure", "mapping revocation time is invalid")

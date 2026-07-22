@@ -334,6 +334,84 @@ def _evaluate_surface_key_only(case: dict, result: dict) -> dict:
     return result
 
 
+def _resolved_alias_identity(
+    alias_claim: dict,
+    event: dict,
+    census: dict,
+    scope: str,
+) -> str | None:
+    receipt = alias_claim.get("mapping_receipt")
+    required = (
+        "resolution_state",
+        "mapping_key",
+        "source_namespace",
+        "source_resource_id",
+        "canonical_namespace",
+        "canonical_resource_id",
+        "authority_scope",
+        "subject_time",
+        "resolution_time",
+        "mapping_receipt_id",
+        "authority_grant_id",
+        "census_receipt_id",
+        "unresolved_reasons",
+    )
+    if not isinstance(receipt, dict) or any(field not in receipt for field in required):
+        return None
+    if receipt.get("resolution_state") != "resolved" or receipt.get("unresolved_reasons"):
+        return None
+    if receipt.get("alarm_code") is not None:
+        return None
+    if receipt.get("source_resource_id") != event["data"].get("record_id"):
+        return None
+    if receipt.get("source_resource_id") != alias_claim.get("source_resource_id"):
+        return None
+    if receipt.get("canonical_resource_id") != alias_claim.get("canonical_resource_id"):
+        return None
+    if receipt.get("authority_scope") != scope or receipt.get("subject_time") != event.get("event_time"):
+        return None
+    if receipt.get("census_receipt_id") != census.get("receipt_id"):
+        return None
+    expected_namespace = f"{receipt.get('canonical_namespace')}/{scope}"
+    if expected_namespace != census.get("authority_namespace"):
+        return None
+    if not any(
+        resource.get("resource_id") == receipt.get("canonical_resource_id")
+        and resource.get("scope") == scope
+        for resource in census.get("resources", [])
+    ):
+        return None
+    if not all(
+        isinstance(receipt.get(field), str) and receipt[field]
+        for field in (
+            "source_namespace",
+            "source_resource_id",
+            "canonical_namespace",
+            "canonical_resource_id",
+            "mapping_receipt_id",
+            "authority_grant_id",
+        )
+    ):
+        return None
+    subject_time = _parse_time(receipt.get("subject_time"))
+    resolution_time = _parse_time(receipt.get("resolution_time"))
+    observed_time = _parse_time(event.get("observed_time"))
+    if not subject_time or not resolution_time or not observed_time or resolution_time < observed_time:
+        return None
+    assertion = {
+        "schema": "resource_mapping/v0",
+        "mapping_kind": "equivalent_identity",
+        "source_namespace": receipt["source_namespace"],
+        "source_resource_id": receipt["source_resource_id"],
+        "canonical_namespace": receipt["canonical_namespace"],
+        "canonical_resource_id": receipt["canonical_resource_id"],
+        "authority_scope": receipt["authority_scope"],
+    }
+    if receipt.get("mapping_key") != "mapping:v0:" + content_digest(assertion):
+        return None
+    return receipt["canonical_resource_id"]
+
+
 def evaluate_anchor_contract_case(case: dict, packet: dict) -> dict[str, Any]:
     result = _empty_result(case)
 
@@ -401,9 +479,14 @@ def evaluate_anchor_contract_case(case: dict, packet: dict) -> dict[str, Any]:
 
         alias_claim = case.get("alias_claim")
         if alias_claim and alias_claim.get("source_resource_id") == source_resource_id:
-            if not alias_claim.get("mapping_receipt"):
-                return _fail(result, "resource_identity_unresolved", "source-local resource alias has no mapping receipt")
-            source_resource_id = alias_claim["canonical_resource_id"]
+            canonical_resource_id = _resolved_alias_identity(alias_claim, event, census, scope)
+            if canonical_resource_id is None:
+                return _fail(
+                    result,
+                    "resource_identity_unresolved",
+                    "source-local alias lacks a coherent resolved mapping receipt bound to this event and census",
+                )
+            source_resource_id = canonical_resource_id
 
         resources = census["resources"]
         live_targets = [
