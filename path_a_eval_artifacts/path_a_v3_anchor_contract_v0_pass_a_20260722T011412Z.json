@@ -1,0 +1,642 @@
+{
+  "artifact": "path_a_v3_anchor_contract_v0_pass_a",
+  "case_results": [
+    {
+      "actual": {
+        "alarm_code": null,
+        "case_id": "path_a_v3_ac1_two_routes_one_semantic_surface",
+        "derived_surfaces": [
+          {
+            "census_receipt_id": "census_ac1",
+            "coverage_receipt_id": "coverage_ac1",
+            "derivation_state": "derived",
+            "policy_id": "authority.same_scope_live_record",
+            "policy_version": "0.1.0",
+            "supporting_event_receipt_ids": [
+              "platform-ev-ac1",
+              "counterparty-ev-ac1"
+            ],
+            "surface_key": "surface:v0:sha256:5bfd2c56650319aa29a2657ecd04aa19e2eae44184cd14f27fcf0ce152f37d78",
+            "surface_payload": {
+              "authority_namespace": "tenant.demo/compliance.export_approval",
+              "kind": "authority_change_candidate",
+              "relation_type": "supersedes",
+              "schema": "authority_surface/v0",
+              "source_resource_id": "record:new-ac1",
+              "target_resource_id": "record:old-ac1"
+            },
+            "unresolved_reasons": []
+          }
+        ],
+        "missing_fields": [],
+        "reasons": [
+          "contract receipts validated and semantic surfaces derived"
+        ],
+        "receipts": {
+          "candidate_target_count": 1,
+          "delivery_delay_seconds": 9,
+          "derived_surface_count": 1,
+          "duplicate_replay_count": 0,
+          "event_time_preserved": true,
+          "historical_completeness_claimed": false,
+          "keys_differ": null,
+          "labels_count_as_proof": false,
+          "must_not_treat_as_observed_empty": false,
+          "pre_local_ledger_birth": false,
+          "route_receipt_count": 2,
+          "route_surface_keys_equal": true,
+          "target_selection_attempted": true,
+          "unique_event_count": 2
+        },
+        "surface_keys": [
+          "surface:v0:sha256:5bfd2c56650319aa29a2657ecd04aa19e2eae44184cd14f27fcf0ce152f37d78"
+        ]
+      },
+      "case_id": "path_a_v3_ac1_two_routes_one_semantic_surface",
+      "checks": {
+        "alarm_code": true,
+        "canonical_json": true,
+        "derived_surface_count": true,
+        "route_receipt_count": true,
+        "route_surface_keys_equal": true,
+        "surface_key": true,
+        "surface_payload": true
+      },
+      "class": "anchor_contract_positive_cross_source_convergence",
+      "expected": {
+        "alarm_code": null,
+        "canonical_json": "{\"authority_namespace\":\"tenant.demo/compliance.export_approval\",\"kind\":\"authority_change_candidate\",\"relation_type\":\"supersedes\",\"schema\":\"authority_surface/v0\",\"source_resource_id\":\"record:new-ac1\",\"target_resource_id\":\"record:old-ac1\"}",
+        "derived_surface_count": 1,
+        "route_receipt_count": 2,
+        "route_surface_keys_equal": true,
+        "surface_key": "surface:v0:sha256:5bfd2c56650319aa29a2657ecd04aa19e2eae44184cd14f27fcf0ce152f37d78",
+        "surface_payload": {
+          "authority_namespace": "tenant.demo/compliance.export_approval",
+          "kind": "authority_change_candidate",
+          "relation_type": "supersedes",
+          "schema": "authority_surface/v0",
+          "source_resource_id": "record:new-ac1",
+          "target_resource_id": "record:old-ac1"
+        }
+      },
+      "matched_expected": true
+    },
+    {
+      "actual": {
+        "alarm_code": "resource_identity_unresolved",
+        "case_id": "path_a_v3_ac2_unreceipted_resource_alias",
+        "derived_surfaces": [],
+        "missing_fields": [],
+        "reasons": [
+          "source-local resource alias has no mapping receipt"
+        ],
+        "receipts": {
+          "candidate_target_count": 0,
+          "delivery_delay_seconds": 2,
+          "derived_surface_count": 0,
+          "duplicate_replay_count": 0,
+          "event_time_preserved": true,
+          "historical_completeness_claimed": false,
+          "keys_differ": null,
+          "labels_count_as_proof": false,
+          "must_not_treat_as_observed_empty": false,
+          "pre_local_ledger_birth": false,
+          "route_receipt_count": 0,
+          "route_surface_keys_equal": null,
+          "target_selection_attempted": false,
+          "unique_event_count": 1
+        },
+        "surface_keys": []
+      },
+      "case_id": "path_a_v3_ac2_unreceipted_resource_alias",
+      "checks": {
+        "alarm_code": true,
+        "derived_surface_count": true,
+        "surface_key": true
+      },
+      "class": "anchor_contract_negative_resource_identity",
+      "expected": {
+        "alarm_code": "resource_identity_unresolved",
+        "derived_surface_count": 0,
+        "surface_key": null
+      },
+      "matched_expected": true
+    },
+    {
+      "actual": {
+        "alarm_code": null,
+        "case_id": "path_a_v3_ac3_relation_changes_semantic_key",
+        "derived_surfaces": [],
+        "missing_fields": [],
+        "reasons": [
+          "semantic payloads canonicalized without provenance fields"
+        ],
+        "receipts": {
+          "candidate_target_count": 0,
+          "delivery_delay_seconds": null,
+          "derived_surface_count": 0,
+          "duplicate_replay_count": 0,
+          "event_time_preserved": false,
+          "historical_completeness_claimed": false,
+          "keys_differ": true,
+          "labels_count_as_proof": false,
+          "must_not_treat_as_observed_empty": false,
+          "pre_local_ledger_birth": false,
+          "route_receipt_count": 0,
+          "route_surface_keys_equal": null,
+          "target_selection_attempted": false,
+          "unique_event_count": 0
+        },
+        "surface_keys": [
+          "surface:v0:sha256:5bfd2c56650319aa29a2657ecd04aa19e2eae44184cd14f27fcf0ce152f37d78",
+          "surface:v0:sha256:ef36ff3d3db6c5b124826fb6a98fe615aafa4a4649e15b08cf07e6a066af259f"
+        ]
+      },
+      "case_id": "path_a_v3_ac3_relation_changes_semantic_key",
+      "checks": {
+        "keys_differ": true,
+        "surface_keys": true
+      },
+      "class": "anchor_contract_positive_semantic_separation",
+      "expected": {
+        "keys_differ": true,
+        "surface_keys": [
+          "surface:v0:sha256:5bfd2c56650319aa29a2657ecd04aa19e2eae44184cd14f27fcf0ce152f37d78",
+          "surface:v0:sha256:ef36ff3d3db6c5b124826fb6a98fe615aafa4a4649e15b08cf07e6a066af259f"
+        ]
+      },
+      "matched_expected": true
+    },
+    {
+      "actual": {
+        "alarm_code": null,
+        "case_id": "path_a_v3_ac4_identical_event_replay",
+        "derived_surfaces": [
+          {
+            "census_receipt_id": "census_ac1",
+            "coverage_receipt_id": "coverage_ac1",
+            "derivation_state": "derived",
+            "policy_id": "authority.same_scope_live_record",
+            "policy_version": "0.1.0",
+            "supporting_event_receipt_ids": [
+              "platform-ev-ac4"
+            ],
+            "surface_key": "surface:v0:sha256:5bfd2c56650319aa29a2657ecd04aa19e2eae44184cd14f27fcf0ce152f37d78",
+            "surface_payload": {
+              "authority_namespace": "tenant.demo/compliance.export_approval",
+              "kind": "authority_change_candidate",
+              "relation_type": "supersedes",
+              "schema": "authority_surface/v0",
+              "source_resource_id": "record:new-ac1",
+              "target_resource_id": "record:old-ac1"
+            },
+            "unresolved_reasons": []
+          }
+        ],
+        "missing_fields": [],
+        "reasons": [
+          "contract receipts validated and semantic surfaces derived"
+        ],
+        "receipts": {
+          "candidate_target_count": 1,
+          "delivery_delay_seconds": 3,
+          "derived_surface_count": 1,
+          "duplicate_replay_count": 1,
+          "event_time_preserved": true,
+          "historical_completeness_claimed": false,
+          "keys_differ": null,
+          "labels_count_as_proof": false,
+          "must_not_treat_as_observed_empty": false,
+          "pre_local_ledger_birth": false,
+          "route_receipt_count": 1,
+          "route_surface_keys_equal": false,
+          "target_selection_attempted": true,
+          "unique_event_count": 1
+        },
+        "surface_keys": [
+          "surface:v0:sha256:5bfd2c56650319aa29a2657ecd04aa19e2eae44184cd14f27fcf0ce152f37d78"
+        ]
+      },
+      "case_id": "path_a_v3_ac4_identical_event_replay",
+      "checks": {
+        "alarm_code": true,
+        "derived_surface_count": true,
+        "duplicate_replay_count": true,
+        "unique_event_count": true
+      },
+      "class": "anchor_contract_positive_replay_collapse",
+      "expected": {
+        "alarm_code": null,
+        "derived_surface_count": 1,
+        "duplicate_replay_count": 1,
+        "unique_event_count": 1
+      },
+      "matched_expected": true
+    },
+    {
+      "actual": {
+        "alarm_code": "event_identity_conflict",
+        "case_id": "path_a_v3_ac5_event_id_payload_conflict",
+        "derived_surfaces": [],
+        "missing_fields": [],
+        "reasons": [
+          "one source and event ID carry conflicting event payloads"
+        ],
+        "receipts": {
+          "candidate_target_count": 0,
+          "delivery_delay_seconds": null,
+          "derived_surface_count": 0,
+          "duplicate_replay_count": 0,
+          "event_time_preserved": false,
+          "historical_completeness_claimed": false,
+          "keys_differ": null,
+          "labels_count_as_proof": false,
+          "must_not_treat_as_observed_empty": false,
+          "pre_local_ledger_birth": false,
+          "route_receipt_count": 0,
+          "route_surface_keys_equal": null,
+          "target_selection_attempted": false,
+          "unique_event_count": 0
+        },
+        "surface_keys": []
+      },
+      "case_id": "path_a_v3_ac5_event_id_payload_conflict",
+      "checks": {
+        "alarm_code": true,
+        "derived_surface_count": true
+      },
+      "class": "anchor_contract_negative_event_identity",
+      "expected": {
+        "alarm_code": "event_identity_conflict",
+        "derived_surface_count": 0
+      },
+      "matched_expected": true
+    },
+    {
+      "actual": {
+        "alarm_code": null,
+        "case_id": "path_a_v3_ac6_late_delivery_preserves_clocks",
+        "derived_surfaces": [
+          {
+            "census_receipt_id": "census_ac1",
+            "coverage_receipt_id": "coverage_ac1",
+            "derivation_state": "derived",
+            "policy_id": "authority.same_scope_live_record",
+            "policy_version": "0.1.0",
+            "supporting_event_receipt_ids": [
+              "platform-ev-base"
+            ],
+            "surface_key": "surface:v0:sha256:5bfd2c56650319aa29a2657ecd04aa19e2eae44184cd14f27fcf0ce152f37d78",
+            "surface_payload": {
+              "authority_namespace": "tenant.demo/compliance.export_approval",
+              "kind": "authority_change_candidate",
+              "relation_type": "supersedes",
+              "schema": "authority_surface/v0",
+              "source_resource_id": "record:new-ac1",
+              "target_resource_id": "record:old-ac1"
+            },
+            "unresolved_reasons": []
+          }
+        ],
+        "missing_fields": [],
+        "reasons": [
+          "contract receipts validated and semantic surfaces derived"
+        ],
+        "receipts": {
+          "candidate_target_count": 1,
+          "delivery_delay_seconds": 7200,
+          "derived_surface_count": 1,
+          "duplicate_replay_count": 0,
+          "event_time_preserved": true,
+          "historical_completeness_claimed": false,
+          "keys_differ": null,
+          "labels_count_as_proof": false,
+          "must_not_treat_as_observed_empty": false,
+          "pre_local_ledger_birth": false,
+          "route_receipt_count": 1,
+          "route_surface_keys_equal": false,
+          "target_selection_attempted": true,
+          "unique_event_count": 1
+        },
+        "surface_keys": [
+          "surface:v0:sha256:5bfd2c56650319aa29a2657ecd04aa19e2eae44184cd14f27fcf0ce152f37d78"
+        ]
+      },
+      "case_id": "path_a_v3_ac6_late_delivery_preserves_clocks",
+      "checks": {
+        "alarm_code": true,
+        "delivery_delay_seconds": true,
+        "derived_surface_count": true,
+        "event_time_preserved": true
+      },
+      "class": "anchor_contract_positive_temporal_receipt",
+      "expected": {
+        "alarm_code": null,
+        "delivery_delay_seconds": 7200,
+        "derived_surface_count": 1,
+        "event_time_preserved": true
+      },
+      "matched_expected": true
+    },
+    {
+      "actual": {
+        "alarm_code": null,
+        "case_id": "path_a_v3_ac7_pre_ledger_birth_recovery",
+        "derived_surfaces": [
+          {
+            "census_receipt_id": "census_ac1",
+            "coverage_receipt_id": "coverage_ac1",
+            "derivation_state": "derived",
+            "policy_id": "authority.same_scope_live_record",
+            "policy_version": "0.1.0",
+            "supporting_event_receipt_ids": [
+              "platform-ev-base"
+            ],
+            "surface_key": "surface:v0:sha256:5bfd2c56650319aa29a2657ecd04aa19e2eae44184cd14f27fcf0ce152f37d78",
+            "surface_payload": {
+              "authority_namespace": "tenant.demo/compliance.export_approval",
+              "kind": "authority_change_candidate",
+              "relation_type": "supersedes",
+              "schema": "authority_surface/v0",
+              "source_resource_id": "record:new-ac1",
+              "target_resource_id": "record:old-ac1"
+            },
+            "unresolved_reasons": []
+          }
+        ],
+        "missing_fields": [],
+        "reasons": [
+          "contract receipts validated and semantic surfaces derived"
+        ],
+        "receipts": {
+          "candidate_target_count": 1,
+          "delivery_delay_seconds": 2592000,
+          "derived_surface_count": 1,
+          "duplicate_replay_count": 0,
+          "event_time_preserved": true,
+          "historical_completeness_claimed": false,
+          "keys_differ": null,
+          "labels_count_as_proof": false,
+          "must_not_treat_as_observed_empty": false,
+          "pre_local_ledger_birth": true,
+          "route_receipt_count": 1,
+          "route_surface_keys_equal": false,
+          "target_selection_attempted": true,
+          "unique_event_count": 1
+        },
+        "surface_keys": [
+          "surface:v0:sha256:5bfd2c56650319aa29a2657ecd04aa19e2eae44184cd14f27fcf0ce152f37d78"
+        ]
+      },
+      "case_id": "path_a_v3_ac7_pre_ledger_birth_recovery",
+      "checks": {
+        "alarm_code": true,
+        "derived_surface_count": true,
+        "historical_completeness_claimed": true,
+        "pre_local_ledger_birth": true
+      },
+      "class": "anchor_contract_positive_birth_date_recovery",
+      "expected": {
+        "alarm_code": null,
+        "derived_surface_count": 1,
+        "historical_completeness_claimed": false,
+        "pre_local_ledger_birth": true
+      },
+      "matched_expected": true
+    },
+    {
+      "actual": {
+        "alarm_code": "ambiguous_census_target",
+        "case_id": "path_a_v3_ac8_ambiguous_census_targets",
+        "derived_surfaces": [],
+        "missing_fields": [],
+        "reasons": [
+          "census has multiple live same-scope targets"
+        ],
+        "receipts": {
+          "candidate_target_count": 2,
+          "delivery_delay_seconds": 3,
+          "derived_surface_count": 0,
+          "duplicate_replay_count": 0,
+          "event_time_preserved": true,
+          "historical_completeness_claimed": false,
+          "keys_differ": null,
+          "labels_count_as_proof": false,
+          "must_not_treat_as_observed_empty": false,
+          "pre_local_ledger_birth": false,
+          "route_receipt_count": 0,
+          "route_surface_keys_equal": null,
+          "target_selection_attempted": true,
+          "unique_event_count": 1
+        },
+        "surface_keys": []
+      },
+      "case_id": "path_a_v3_ac8_ambiguous_census_targets",
+      "checks": {
+        "alarm_code": true,
+        "candidate_target_count": true,
+        "derived_surface_count": true
+      },
+      "class": "anchor_contract_negative_census_ambiguity",
+      "expected": {
+        "alarm_code": "ambiguous_census_target",
+        "candidate_target_count": 2,
+        "derived_surface_count": 0
+      },
+      "matched_expected": true
+    },
+    {
+      "actual": {
+        "alarm_code": "coverage_integrity_failure",
+        "case_id": "path_a_v3_ac9_missing_coverage_receipt",
+        "derived_surfaces": [],
+        "missing_fields": [],
+        "reasons": [
+          "required coverage receipt is missing"
+        ],
+        "receipts": {
+          "candidate_target_count": 0,
+          "delivery_delay_seconds": null,
+          "derived_surface_count": 0,
+          "duplicate_replay_count": 0,
+          "event_time_preserved": false,
+          "historical_completeness_claimed": false,
+          "keys_differ": null,
+          "labels_count_as_proof": false,
+          "must_not_treat_as_observed_empty": true,
+          "pre_local_ledger_birth": false,
+          "route_receipt_count": 0,
+          "route_surface_keys_equal": null,
+          "target_selection_attempted": false,
+          "unique_event_count": 1
+        },
+        "surface_keys": []
+      },
+      "case_id": "path_a_v3_ac9_missing_coverage_receipt",
+      "checks": {
+        "alarm_code": true,
+        "derived_surface_count": true,
+        "must_not_treat_as_observed_empty": true
+      },
+      "class": "anchor_contract_negative_coverage_integrity",
+      "expected": {
+        "alarm_code": "coverage_integrity_failure",
+        "derived_surface_count": 0,
+        "must_not_treat_as_observed_empty": true
+      },
+      "matched_expected": true
+    },
+    {
+      "actual": {
+        "alarm_code": "census_integrity_failure",
+        "case_id": "path_a_v3_ac10_tampered_census_digest",
+        "derived_surfaces": [],
+        "missing_fields": [],
+        "reasons": [
+          "census payload does not match its declared digest"
+        ],
+        "receipts": {
+          "candidate_target_count": 0,
+          "delivery_delay_seconds": 3,
+          "derived_surface_count": 0,
+          "duplicate_replay_count": 0,
+          "event_time_preserved": true,
+          "historical_completeness_claimed": false,
+          "keys_differ": null,
+          "labels_count_as_proof": false,
+          "must_not_treat_as_observed_empty": false,
+          "pre_local_ledger_birth": false,
+          "route_receipt_count": 0,
+          "route_surface_keys_equal": null,
+          "target_selection_attempted": false,
+          "unique_event_count": 1
+        },
+        "surface_keys": []
+      },
+      "case_id": "path_a_v3_ac10_tampered_census_digest",
+      "checks": {
+        "alarm_code": true,
+        "derived_surface_count": true,
+        "target_selection_attempted": true
+      },
+      "class": "anchor_contract_negative_census_integrity",
+      "expected": {
+        "alarm_code": "census_integrity_failure",
+        "derived_surface_count": 0,
+        "target_selection_attempted": false
+      },
+      "matched_expected": true
+    },
+    {
+      "actual": {
+        "alarm_code": "producer_provenance_failure",
+        "case_id": "path_a_v3_ac11_foreign_label_costume",
+        "derived_surfaces": [],
+        "missing_fields": [],
+        "reasons": [
+          "event producer does not resolve outside the proposer process"
+        ],
+        "receipts": {
+          "candidate_target_count": 0,
+          "delivery_delay_seconds": null,
+          "derived_surface_count": 0,
+          "duplicate_replay_count": 0,
+          "event_time_preserved": false,
+          "historical_completeness_claimed": false,
+          "keys_differ": null,
+          "labels_count_as_proof": false,
+          "must_not_treat_as_observed_empty": false,
+          "pre_local_ledger_birth": false,
+          "route_receipt_count": 0,
+          "route_surface_keys_equal": null,
+          "target_selection_attempted": false,
+          "unique_event_count": 0
+        },
+        "surface_keys": []
+      },
+      "case_id": "path_a_v3_ac11_foreign_label_costume",
+      "checks": {
+        "alarm_code": true,
+        "derived_surface_count": true,
+        "labels_count_as_proof": true
+      },
+      "class": "anchor_contract_negative_producer_provenance",
+      "expected": {
+        "alarm_code": "producer_provenance_failure",
+        "derived_surface_count": 0,
+        "labels_count_as_proof": false
+      },
+      "matched_expected": true
+    },
+    {
+      "actual": {
+        "alarm_code": "event_receipt_schema_failure",
+        "case_id": "path_a_v3_ac12_missing_observed_time",
+        "derived_surfaces": [],
+        "missing_fields": [
+          "observed_time"
+        ],
+        "reasons": [
+          "event receipt is missing required contract fields"
+        ],
+        "receipts": {
+          "candidate_target_count": 0,
+          "delivery_delay_seconds": null,
+          "derived_surface_count": 0,
+          "duplicate_replay_count": 0,
+          "event_time_preserved": false,
+          "historical_completeness_claimed": false,
+          "keys_differ": null,
+          "labels_count_as_proof": false,
+          "must_not_treat_as_observed_empty": false,
+          "pre_local_ledger_birth": false,
+          "route_receipt_count": 0,
+          "route_surface_keys_equal": null,
+          "target_selection_attempted": false,
+          "unique_event_count": 0
+        },
+        "surface_keys": []
+      },
+      "case_id": "path_a_v3_ac12_missing_observed_time",
+      "checks": {
+        "alarm_code": true,
+        "derived_surface_count": true,
+        "missing_fields": true
+      },
+      "class": "anchor_contract_negative_event_schema",
+      "expected": {
+        "alarm_code": "event_receipt_schema_failure",
+        "derived_surface_count": 0,
+        "missing_fields": [
+          "observed_time"
+        ]
+      },
+      "matched_expected": true
+    }
+  ],
+  "frozen_packet": {
+    "canonicalization": "RFC 8785 JSON Canonicalization Scheme",
+    "case_count": 12,
+    "contract_objects": [
+      "event_receipt",
+      "census_receipt",
+      "coverage_receipt",
+      "derivation_policy_receipt",
+      "derived_surface_receipt"
+    ],
+    "digest": "SHA-256",
+    "fixture_commit": "9a6a67e",
+    "fixture_path": "tests/fixtures/path_a_v3_anchor_contract_v0_2026_07_21.json",
+    "packet": "path_a_v3_anchor_contract_v0_2026_07_21",
+    "prereg": "PATH_A_V3_PREREGISTRATION_ANCHOR_CONTRACT_V0_2026-07-21.md",
+    "prereg_commit": "7eab8a8"
+  },
+  "generated_at": "2026-07-22T01:14:12.371500Z",
+  "implementation": "agents.anchor_contract.evaluate_anchor_contract_case",
+  "summary": {
+    "all_cases_matched": true,
+    "matched": 12,
+    "total_cases": 12
+  },
+  "zero_model": true
+}
