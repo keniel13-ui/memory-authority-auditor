@@ -258,3 +258,45 @@ def test_anchor_bridge_rechecks_canonical_target_membership():
 
     assert result["alarm_code"] == "resource_identity_unresolved"
     assert result["derived_surfaces"] == []
+
+
+def test_expired_historical_receipt_cannot_poison_valid_active_mapping():
+    packet = _packet()
+    case = deepcopy(_case("path_a_v3_rm1_authorized_directional_resolution"))
+    case["mapping_receipt_refs"] = ["expired_mapping_receipt", "base_mapping_receipt"]
+
+    result = evaluate_resource_mapping_case(case, packet)
+
+    assert result["alarm_code"] is None
+    assert result["canonical_resource_id"] == "record:new-ac1"
+    assert result["receipts"]["candidate_receipt_count"] == 2
+    assert result["receipts"]["active_mapping_count"] == 1
+    assert result["rejected_mapping_receipts"] == [
+        {
+            "mapping_receipt_id": "mapping-rm-expired",
+            "alarm_code": "mapping_expired",
+            "reason": "mapping expired before subject time",
+        }
+    ]
+
+
+def test_revoked_historical_receipt_cannot_poison_valid_reissue():
+    packet = _packet()
+    case = deepcopy(_case("path_a_v3_rm1_authorized_directional_resolution"))
+    reissue = deepcopy(packet["shared_objects"]["base_mapping_receipt"])
+    reissue["receipt_id"] = "mapping-rm-reissue"
+    reissue["issued_at"] = "2026-07-20T09:30:00Z"
+    reissue["effective_at"] = "2026-07-20T09:30:00Z"
+    reissue["receipt_digest"] = content_digest(
+        {key: value for key, value in reissue.items() if key != "receipt_digest"}
+    )
+    case["mapping_receipt_refs"] = []
+    case["mapping_receipts"] = [packet["shared_objects"]["base_mapping_receipt"], reissue]
+    case["revocation_receipt_refs"] = ["base_revocation"]
+
+    result = evaluate_resource_mapping_case(case, packet)
+
+    assert result["alarm_code"] is None
+    assert result["mapping_receipt_id"] == "mapping-rm-reissue"
+    assert result["receipts"]["active_mapping_count"] == 1
+    assert result["rejected_mapping_receipts"][0]["alarm_code"] == "mapping_revoked"

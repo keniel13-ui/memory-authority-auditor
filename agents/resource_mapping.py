@@ -110,6 +110,7 @@ def _empty_result(case: dict) -> dict[str, Any]:
         "authority_grant_id": None,
         "census_receipt_id": None,
         "supporting_mapping_receipt_ids": [],
+        "rejected_mapping_receipts": [],
         "duplicate_replay_receipt_ids": [],
         "unresolved_reasons": [],
         "receipts": {
@@ -483,29 +484,76 @@ def evaluate_resource_mapping_case(case: dict, packet: dict) -> dict[str, Any]:
     for receipt in candidates:
         assertion = receipt["assertion"]
         if assertion.get("authority_scope") != request["authority_scope"]:
-            return _fail(result, "mapping_scope_failure", "mapping assertion scope differs from the resolution request")
+            result["rejected_mapping_receipts"].append(
+                {
+                    "mapping_receipt_id": receipt["receipt_id"],
+                    "alarm_code": "mapping_scope_failure",
+                    "reason": "mapping assertion scope differs from the resolution request",
+                }
+            )
+            continue
         if assertion.get("canonical_namespace") != request["required_canonical_namespace"]:
-            return _fail(result, "mapping_namespace_failure", "mapping canonical namespace differs from the request")
+            result["rejected_mapping_receipts"].append(
+                {
+                    "mapping_receipt_id": receipt["receipt_id"],
+                    "alarm_code": "mapping_namespace_failure",
+                    "reason": "mapping canonical namespace differs from the request",
+                }
+            )
+            continue
 
         grant = grants_by_id.get(receipt.get("authority_grant_id"))
-        failure = _validate_grant(result, grant, receipt, assertion, policy)
+        candidate_result = deepcopy(result)
+        failure = _validate_grant(candidate_result, grant, receipt, assertion, policy)
         if failure:
-            return failure
+            result["rejected_mapping_receipts"].append(
+                {
+                    "mapping_receipt_id": receipt["receipt_id"],
+                    "alarm_code": failure["alarm_code"],
+                    "reason": failure["unresolved_reasons"][0],
+                }
+            )
+            continue
 
         issued_at = _parse_time(receipt["issued_at"])
         effective_at = _parse_time(receipt["effective_at"])
         expires_at = _parse_time(receipt["expires_at"])
         if issued_at > subject_time or effective_at > subject_time:
-            return _fail(result, "mapping_not_effective", "mapping was not issued and effective at subject time")
+            result["rejected_mapping_receipts"].append(
+                {
+                    "mapping_receipt_id": receipt["receipt_id"],
+                    "alarm_code": "mapping_not_effective",
+                    "reason": "mapping was not issued and effective at subject time",
+                }
+            )
+            continue
         if expires_at <= subject_time:
-            return _fail(result, "mapping_expired", "mapping expired before subject time")
-        failure = _validate_revocations(result, revocations, receipt, grant, resolution_time)
+            result["rejected_mapping_receipts"].append(
+                {
+                    "mapping_receipt_id": receipt["receipt_id"],
+                    "alarm_code": "mapping_expired",
+                    "reason": "mapping expired before subject time",
+                }
+            )
+            continue
+        candidate_result = deepcopy(result)
+        failure = _validate_revocations(candidate_result, revocations, receipt, grant, resolution_time)
         if failure:
-            return failure
+            result["rejected_mapping_receipts"].append(
+                {
+                    "mapping_receipt_id": receipt["receipt_id"],
+                    "alarm_code": failure["alarm_code"],
+                    "reason": failure["unresolved_reasons"][0],
+                }
+            )
+            continue
         active.append((receipt, grant))
 
     result["receipts"]["active_mapping_count"] = len(active)
     if not active:
+        if result["rejected_mapping_receipts"]:
+            rejection = result["rejected_mapping_receipts"][0]
+            return _fail(result, rejection["alarm_code"], rejection["reason"])
         return _fail(result, "resource_identity_unresolved", "no active mapping remains")
 
     if any(

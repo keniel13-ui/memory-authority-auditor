@@ -89,13 +89,14 @@ The advance is exact: the system can now distinguish an authorized canonical ide
 
 ## Maker coherence hardening after first PASS
 
-A local post-PASS attack closed six additional seams without changing the frozen law or expected outcomes:
+A local post-PASS attack closed seven additional seams without changing the frozen law or expected outcomes:
 
 - assertion objects must contain exactly the typed v0 semantic fields;
 - configured grantor costumes fail even when their altered grant digest is internally consistent;
 - malformed revocations for unrelated receipt IDs cannot poison a valid resolution;
 - multiple authorized receipts for the same semantic target become supporting receipts, not a false conflict;
+- expired or revoked historical receipts remain diagnostic but cannot veto a separate valid active mapping;
 - Anchor Contract no longer accepts arbitrary truthy mapping JSON;
 - the Anchor bridge independently rechecks semantic-key coherence and current census membership before AC-2 may derive.
 
-Current verification after hardening: 15 focused Resource Mapping tests; 28 combined Resource Mapping + Anchor Contract tests; 75 passed / 1 expected xfail across the full repository.
+Current verification after hardening: 17 focused Resource Mapping tests; 30 combined Resource Mapping + Anchor Contract tests; 77 passed / 1 expected xfail across the full repository.
