@@ -141,6 +141,8 @@ The action receipt must also produce an Anchor-compatible surface payload:
 
 Receipt identity, timestamps, source prose, and observer identity remain outside both semantic keys.
 
+For action and state receipts, `source_excerpt_digest` is SHA-256 over the exact UTF-8 bytes of `source_excerpt`. The containing `receipt_digest` is SHA-256 over RFC 8785 canonical bytes for every receipt field except `receipt_digest` itself.
+
 ### 3. Resource Mapping v0 packet
 
 The runtime must execute a complete embedded Resource Mapping Receipt v0 case. A truthy precomputed mapping object is not sufficient. The mapping result must:
