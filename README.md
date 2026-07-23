@@ -158,6 +158,8 @@ python3 authority_runtime_v0_pass_a.py
 
 V0 is deterministic and dry-run only. It does not parse arbitrary prose, query DNS, authenticate source owners cryptographically, inspect private model reasoning, execute DNS changes, or govern a terminal that bypasses the launcher.
 
+The frozen command is reproducible from an isolated clone. One provenance test additionally checks the exact excerpts against Keniel's external workspace files when they are available; isolated clones skip only that test unless `AUTHORITY_RUNTIME_WORKSPACE_ROOT` points to a workspace containing `CURRENT_STATE_BOARD.md` and `BRAIN_CURRENT.md`.
+
 ## Cloud Run Deployment
 
 Set your project:
