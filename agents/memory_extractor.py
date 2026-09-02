@@ -59,6 +59,24 @@ def _signals_for(text: str, section: str) -> list[str]:
     return signals
 
 
+# A line that ends in terminal punctuation is a finished statement, so the next
+# non-blank line starts a NEW instruction rather than continuing this one.
+# Wrapped prose does not end its lines this way ("...check the artifact before"),
+# which is why this separates instruction-per-line input without merging paragraphs.
+#
+# Defect this repairs (found 2026-08-31): two contradicting instructions on
+# consecutive lines with no blank line between them were joined into a single item.
+# The conflict detector then had a population of one and reported zero conflicts.
+# The miss was in the population, not in the comparison.
+TERMINAL_PUNCTUATION = (".", "!", "?")
+
+# Minimum length for a fragment to count as an auditable item. Was 36, which
+# silently discarded short high-risk instructions such as "Delete all logs."
+# (16 chars) with no record that anything had been dropped. A floor that removes
+# input without reporting it is an absence that reads as a pass.
+MIN_ITEM_CHARS = 12
+
+
 def extract_memories(text: str) -> list[MemoryItem]:
     section = "Unsectioned"
     items: list[MemoryItem] = []
@@ -68,7 +86,7 @@ def extract_memories(text: str) -> list[MemoryItem]:
     def flush_paragraph() -> None:
       nonlocal pending_paragraph, pending_start
       content = " ".join(part.strip() for part in pending_paragraph if part.strip())
-      if len(content) >= 36:
+      if len(content) >= MIN_ITEM_CHARS:
           item_id = f"M{len(items) + 1:03d}"
           items.append(MemoryItem(item_id, content, section, pending_start, _signals_for(content, section)))
       pending_paragraph = []
@@ -92,6 +110,8 @@ def extract_memories(text: str) -> list[MemoryItem]:
             if not pending_paragraph:
                 pending_start = line_number
             pending_paragraph.append(line)
+            if line.rstrip().endswith(TERMINAL_PUNCTUATION):
+                flush_paragraph()
         else:
             flush_paragraph()
 

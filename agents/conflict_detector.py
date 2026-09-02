@@ -221,6 +221,41 @@ def detect_conflicts(items: list[MemoryItem], classifications: list[dict]) -> li
             })
 
     signals_by_item = {item.id: _policy_signals(item.text.lower()) for item in items}
+
+    # Absence must not read as a pass.
+    #
+    # Every contradiction this detector can find lives in a hand-enumerated domain
+    # (deployment, secrets, database, access, customer_response, log_retention,
+    # billing_records, refund, escalation). An instruction in a domain nobody
+    # enumerated produces zero signals, zero signals produce zero pairs, and zero
+    # pairs were being reported as "no conflicts" — indistinguishable from a file
+    # that was actually checked and found clean.
+    #
+    # Found 2026-08-31: "verify the live artifact before publishing" against
+    # "publish immediately without checking" is a real contradiction that returned
+    # zero conflicts and low_observed_risk, because publishing is not a listed domain.
+    #
+    # This does not add the missing domain. Tuning the rule set to a case already
+    # in hand proves nothing. It makes the gap visible instead, so the report
+    # distinguishes "checked and clean" from "no rule existed to check it with".
+    for item in items:
+        classification = class_by_id[item.id]
+        if classification["authority_label"] != "governs":
+            continue
+        if signals_by_item[item.id]:
+            continue
+        findings.append({
+            "severity": "medium",
+            "item_id": item.id,
+            "type": "uncovered_domain",
+            "finding": (
+                "This instruction governs action but matched no contradiction rule, so it was "
+                "NOT evaluated for conflicts. Absence of a conflict here is absence of a check, "
+                "not evidence of agreement."
+            ),
+            "evidence": item.text,
+        })
+
     seen_pairs: set[tuple[str, str, str]] = set()
     for idx, left in enumerate(items):
         for right in items[idx + 1:]:
