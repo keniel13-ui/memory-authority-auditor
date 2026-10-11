@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import json
 import os
+import urllib.error
 import urllib.request
 
 
@@ -15,14 +16,37 @@ ENDPOINT_ENV = {
 }
 
 
+class RemoteAgentError(RuntimeError):
+    """A downstream agent returned an HTTP error.
+
+    Carries the remote status so the router can map it through instead of collapsing every
+    downstream failure into a 500. EMPTY_SET_CONTRACT_V0 R3: before this existed, a downstream
+    400 surfaced to the user as `500 {"error": "HTTP Error 400: Bad Request"}` — the client saw
+    a dead server while the agent had actually seen an empty extraction.
+    """
+
+    def __init__(self, agent_url: str, status: int, detail: str) -> None:
+        super().__init__(f"{agent_url} returned HTTP {status}: {detail}")
+        self.agent_url = agent_url
+        self.status = status
+        self.detail = detail
+
+
 def _post_json(url: str, payload: dict) -> dict:
     request = urllib.request.Request(
         url,
         data=json.dumps(payload).encode("utf-8"),
         headers={"Content-Type": "application/json"},
     )
-    with urllib.request.urlopen(request, timeout=30) as response:
-        return json.loads(response.read().decode("utf-8"))
+    try:
+        with urllib.request.urlopen(request, timeout=30) as response:
+            return json.loads(response.read().decode("utf-8"))
+    except urllib.error.HTTPError as error:
+        try:
+            detail = error.read().decode("utf-8")
+        except Exception:
+            detail = error.reason or ""
+        raise RemoteAgentError(url, error.code, detail) from error
 
 
 def _endpoint(agent: str) -> str:
@@ -55,6 +79,9 @@ def run_remote_audit(text: str) -> dict:
             "conflicts": conflicts["conflicts"],
             "verification_gates": gates["verification_gates"],
             "authority_map": mapped["authority_map"],
+            # D1: forward the extractor ledger. remote_pipeline passes only NAMED
+            # keys, so an unthreaded field is silently dropped between tiers.
+            "accounting": extracted.get("accounting"),
         },
     )
 

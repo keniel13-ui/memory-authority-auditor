@@ -2,7 +2,7 @@ from __future__ import annotations
 
 import sentry_sdk
 
-from agents.memory_extractor import extract_memories
+from agents.memory_extractor import extract_memories, extract_with_ledger
 from agents.authority_classifier import classify_items
 from agents.conflict_detector import detect_conflicts
 from agents.verification_gate import build_verification_gates
@@ -12,13 +12,13 @@ from agents.authority_mapper import authority_map
 
 @sentry_sdk.trace
 def run_audit(text: str) -> dict:
-    items = extract_memories(text)
+    items, accounting = extract_with_ledger(text)
     item_dicts = [item.to_dict() for item in items]
     classifications = classify_items(items)
     conflicts = detect_conflicts(items, classifications)
     gates = build_verification_gates(classifications, conflicts)
     mapped_authority = authority_map(items, classifications)
-    report = write_report(item_dicts, classifications, conflicts, gates, mapped_authority)
+    report = write_report(item_dicts, classifications, conflicts, gates, mapped_authority, accounting)
 
     return {
         "report": report,

@@ -14,7 +14,7 @@ from agents.memory_extractor import extract_memories
 from agents.report_writer import write_report
 from agents.verification_gate import build_verification_gates
 from item_proxy import MemoryItemProxy
-from remote_pipeline import run_remote_audit
+from remote_pipeline import RemoteAgentError, run_remote_audit
 
 
 ROOT = Path(__file__).parent
@@ -63,8 +63,17 @@ class Handler(BaseHTTPRequestHandler):
         if handler is None:
             self._send(404, b"Not found", "text/plain; charset=utf-8")
             return
+        # EMPTY_SET_CONTRACT_V0 R3: map a downstream agent's status through rather than
+        # collapsing it to 500. A remote 4xx means the request was bad, not that this server
+        # failed, and reporting it as 5xx sends the user to look in the wrong place.
         try:
             handler(self._read_json())
+        except RemoteAgentError as error:
+            status = error.status if 400 <= error.status < 500 else 502
+            body = json.dumps(
+                {"error": error.detail or str(error), "agent_url": error.agent_url}
+            ).encode("utf-8")
+            self._send(status, body, "application/json")
         except Exception as error:
             body = json.dumps({"error": str(error)}).encode("utf-8")
             self._send(500, body, "application/json")

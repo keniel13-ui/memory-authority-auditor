@@ -61,7 +61,7 @@ def _review_reason(classification: dict, has_finding: bool) -> str:
     return ", ".join(reasons) or "review as context"
 
 
-def write_report(items: list[dict], classifications: list[dict], conflicts: list[dict], gates: list[dict], authority_map: list[dict]) -> dict:
+def write_report(items: list[dict], classifications: list[dict], conflicts: list[dict], gates: list[dict], authority_map: list[dict], accounting: dict | None = None) -> dict:
     label_counts = Counter(item["authority_label"] for item in classifications)
     high_risk = [item for item in classifications if item["risk"] == "high"]
     severity_counts = Counter(item["severity"] for item in conflicts)
@@ -102,8 +102,34 @@ def write_report(items: list[dict], classifications: list[dict], conflicts: list
             "reason": reason,
         })
 
+    # EMPTY_SET_CONTRACT_V0 R4: a population of zero cannot support any verdict about the file's
+    # contents. Reporting `usable_with_gates` or `low_observed_risk` here would assert a property
+    # of instructions that were never extracted. This is the zero case ONLY; a population of one
+    # still returns low_observed_risk and is still wrong. That is the next contract, not this one.
+    # CONSERVATION + COVERAGE CONTRACT v1 (b9aada707453e9c2...) V3:
+    # no reassuring verdict while any coverage gap exists. Conservation failure means we
+    # cannot account for the input; a coverage gap means we accounted for a line and then
+    # did not evaluate it. Both make `low_observed_risk` and `usable_with_gates`
+    # unreachable, because both assert something about work that was not done.
+    #
+    # V2: this does NOT replace the downstream unevaluated requirement. Conservation
+    # covers pre-classifier loss; unevaluated covers post-classifier loss. Neither
+    # subsumes the other.
+    conservation = (accounting or {}).get("conservation") or {}
+    coverage = (accounting or {}).get("coverage") or {}
+    conservation_failed = bool(conservation) and not conservation.get("balanced", True)
+    coverage_gaps = coverage.get("gap_count", 0)
+
+    # Order matters and it is not the obvious one. A high-severity collision is an ALARM,
+    # not a reassurance, so a coverage gap must never suppress it — hiding a real finding
+    # behind an instrumentation caveat would be strictly worse than the defect this
+    # contract fixes. V3 makes the REASSURING postures unreachable, not every posture.
     if severity_counts["high"]:
         posture = "needs_review"
+    elif conservation_failed or coverage_gaps:
+        posture = "incomplete_coverage"
+    elif not items:
+        posture = "no_items_extracted"
     elif conflicts or gates:
         posture = "usable_with_gates"
     else:
@@ -140,11 +166,33 @@ def write_report(items: list[dict], classifications: list[dict], conflicts: list
         "The review queue orders and shortens a careful human review; it does not replace it. A short queue is not a clean bill of health.",
     ]
 
+    # D1: the ledger has to reach the visible report, not sit in a field nobody reads.
+    # A user cannot judge a verdict without knowing what the tool declined to look at.
+    if coverage_gaps or conservation_failed:
+        gap_lines = ", ".join(
+            f"line {entry['line']} ({entry['disposition']})" for entry in coverage.get("gaps", [])[:5]
+        )
+        summary.insert(0, f"{coverage_gaps} input line(s) were accounted for but NOT evaluated: {gap_lines}.")
+        limitations.insert(
+            0,
+            "Some input was recorded and then not evaluated as an instruction. A named drop is "
+            "still a gap: this report cannot speak to those lines, and a low-risk verdict is "
+            "withheld for that reason.",
+        )
+    if conservation_failed:
+        limitations.insert(
+            0,
+            "Input accounting did not balance. Some lines are unaccounted for, so no claim about "
+            "this file's completeness can be made.",
+        )
+
     return {
         "posture": posture,
         "summary": summary,
         "recommendations": recommendations,
         "limitations": limitations,
+        "conservation": conservation,
+        "coverage": coverage,
         "review_queue": review_queue,
         "needs_human_judgment": needs_human_judgment,
         "counts": {
