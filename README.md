@@ -21,6 +21,19 @@ It separates **relevance** from **authority**, detects known dangerous stale/con
 
 It is intentionally not marketed as a complete semantic contradiction detector. A clean report means this audit did not detect a covered failure pattern, not that the memory file is safe.
 
+## Repository Map
+
+This repository is a research workbench with a small deployed demo on top:
+
+- **Deployed auditor:** `app.py`, `agent_service.py`, `audit_pipeline.py`, and six deterministic agents in `agents/`. Described in the sections below.
+- **Research line:** Path A (semantic authority-change proposer plus deterministic confirmer), the v3 store-authority gates, and Authority Runtime v0. Each step has a dated `*_PREREGISTRATION*.md`, a gate in `agents/`, a frozen fixture in `tests/fixtures/`, and recorded artifacts in `path_a_eval_artifacts/`.
+
+Further reading:
+
+- [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md): pipeline and topology diagrams, and a map from each preregistration to its code, fixture, and runner.
+- [docs/DEVELOPMENT.md](docs/DEVELOPMENT.md): verified setup, test, and run commands, plus which recorded artifacts reproduce at HEAD.
+- [CONTRIBUTING.md](CONTRIBUTING.md): branch workflow and research-integrity rules.
+
 ## Live App
 
 https://memory-authority-auditor-web-992750435781.us-central1.run.app
@@ -95,6 +108,8 @@ Sample result:
 - 2 authority map categories
 - posture: `needs review`
 
+These counts describe the deployed sample at the time of the DEV submission. Running the bundled `samples/sample_agents.md` locally at the current commit reports 12 items, 7 high-risk items, 6 findings (5 high, 1 medium), 17 verification gates, 2 authority map categories, and posture `needs_review`.
+
 The sample catches:
 
 - loose approval language near sensitive access;
@@ -118,6 +133,17 @@ The sales claim is deliberately bounded:
 Do not sell this as a safety certification or a complete contradiction detector.
 
 ## Local Run
+
+Requires Python 3.10 or newer. `sentry-sdk` must be installed even though Sentry stays off unless `SENTRY_DSN` is set:
+
+```bash
+python3 -m venv .venv
+. .venv/bin/activate
+python -m pip install -r requirements.txt pytest
+python -m pytest -q
+```
+
+Then start the app:
 
 ```bash
 python3 app.py
