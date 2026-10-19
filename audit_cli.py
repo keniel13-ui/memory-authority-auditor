@@ -1,27 +1,17 @@
 from __future__ import annotations
 
 import json
-import os
 import sys
 from pathlib import Path
 
 import sentry_sdk
 
 from audit_pipeline import run_audit
+from observability import init_sentry
 
 
 def _init_sentry() -> None:
-    dsn = os.environ.get("SENTRY_DSN")
-    if not dsn:
-        return
-    sentry_sdk.init(
-        dsn=dsn,
-        traces_sample_rate=1.0,
-        send_default_pii=True,
-        enable_logs=True,
-        release=os.environ.get("SENTRY_RELEASE", "memory-authority-auditor@0.1.0"),
-        environment=os.environ.get("SENTRY_ENVIRONMENT", "development"),
-    )
+    init_sentry()
 
 
 def main() -> int:

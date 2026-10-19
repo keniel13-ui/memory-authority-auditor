@@ -2,7 +2,6 @@ from __future__ import annotations
 
 import argparse
 import json
-import os
 from datetime import datetime, timezone
 from pathlib import Path
 from typing import Callable
@@ -19,6 +18,7 @@ from agents.semantic_proposer import (
     parse_proposals,
 )
 from audit_pipeline import run_audit
+from observability import init_sentry
 
 
 FIXTURE = Path("tests/fixtures/path_a_authority_change_v0_2026_07_01.json")
@@ -408,17 +408,7 @@ def _write_markdown(result: dict, path: Path) -> None:
 
 
 def _init_sentry() -> None:
-    dsn = os.environ.get("SENTRY_DSN")
-    if not dsn:
-        return
-    sentry_sdk.init(
-        dsn=dsn,
-        traces_sample_rate=1.0,
-        send_default_pii=True,
-        enable_logs=True,
-        release=os.environ.get("SENTRY_RELEASE", "memory-authority-auditor@0.1.0"),
-        environment=os.environ.get("SENTRY_ENVIRONMENT", "development"),
-    )
+    init_sentry()
 
 
 def main() -> int:
