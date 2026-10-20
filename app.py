@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import json
 import os
+import traceback
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from pathlib import Path
 from urllib.parse import urlparse
@@ -13,14 +14,16 @@ from agents.conflict_detector import detect_conflicts
 from agents.memory_extractor import extract_memories
 from agents.report_writer import write_report
 from agents.verification_gate import build_verification_gates
-from item_proxy import MemoryItemProxy
-from remote_pipeline import run_remote_audit
+from http_json import REQUEST_SOCKET_TIMEOUT_SECONDS, RequestError, item_list, memory_items, read_json_object
+from remote_pipeline import RemoteAgentError, run_remote_audit
 
 
 ROOT = Path(__file__).parent
 
 
 class Handler(BaseHTTPRequestHandler):
+    timeout = REQUEST_SOCKET_TIMEOUT_SECONDS
+
     def _send(self, status: int, body: bytes, content_type: str) -> None:
         self.send_response(status)
         self.send_header("Content-Type", content_type)
@@ -65,13 +68,18 @@ class Handler(BaseHTTPRequestHandler):
             return
         try:
             handler(self._read_json())
-        except Exception as error:
-            body = json.dumps({"error": str(error)}).encode("utf-8")
-            self._send(500, body, "application/json")
+        except RequestError as error:
+            self._send_json({"error": str(error)}, error.status)
+        except RemoteAgentError as error:
+            self._send_json({"error": str(error)}, 502)
+        except Exception:
+            # Log the detail server-side; do not echo internal exception text
+            # (configuration names, file paths) to an unauthenticated client.
+            traceback.print_exc()
+            self._send_json({"error": "Internal server error."}, 500)
 
     def _read_json(self) -> dict:
-        length = int(self.headers.get("Content-Length", "0"))
-        return json.loads(self.rfile.read(length).decode("utf-8") or "{}")
+        return read_json_object(self.headers, self.rfile)
 
     def _send_json(self, data: dict, status: int = 200) -> None:
         self._send(status, json.dumps(data).encode("utf-8"), "application/json")
@@ -95,42 +103,42 @@ class Handler(BaseHTTPRequestHandler):
         self._send_json({"agent": "memory_extractor", "items": [item.to_dict() for item in items]})
 
     def _handle_authority_classifier(self, payload: dict) -> None:
-        items = [MemoryItemProxy(item) for item in payload.get("items", [])]
+        items = memory_items(payload)
         if not items:
             self._send_json({"error": "Provide extracted items to classify."}, 400)
             return
         self._send_json({"agent": "authority_classifier", "classifications": classify_items(items)})
 
     def _handle_conflict_detector(self, payload: dict) -> None:
-        items = [MemoryItemProxy(item) for item in payload.get("items", [])]
-        classifications = payload.get("classifications", [])
+        items = memory_items(payload)
+        classifications = item_list(payload, "classifications")
         if not items or not classifications:
             self._send_json({"error": "Provide items and classifications."}, 400)
             return
         self._send_json({"agent": "conflict_detector", "conflicts": detect_conflicts(items, classifications)})
 
     def _handle_verification_gate(self, payload: dict) -> None:
-        classifications = payload.get("classifications", [])
-        conflicts = payload.get("conflicts", [])
+        classifications = item_list(payload, "classifications")
+        conflicts = item_list(payload, "conflicts")
         if not classifications:
             self._send_json({"error": "Provide classifications."}, 400)
             return
         self._send_json({"agent": "verification_gate", "verification_gates": build_verification_gates(classifications, conflicts)})
 
     def _handle_authority_mapper(self, payload: dict) -> None:
-        items = [MemoryItemProxy(item) for item in payload.get("items", [])]
-        classifications = payload.get("classifications", [])
+        items = memory_items(payload)
+        classifications = item_list(payload, "classifications")
         if not items or not classifications:
             self._send_json({"error": "Provide items and classifications."}, 400)
             return
         self._send_json({"agent": "authority_mapper", "authority_map": authority_map(items, classifications)})
 
     def _handle_report_writer(self, payload: dict) -> None:
-        items = payload.get("items", [])
-        classifications = payload.get("classifications", [])
-        conflicts = payload.get("conflicts", [])
-        gates = payload.get("verification_gates", [])
-        mapped_authority = payload.get("authority_map", [])
+        items = item_list(payload, "items")
+        classifications = item_list(payload, "classifications")
+        conflicts = item_list(payload, "conflicts")
+        gates = item_list(payload, "verification_gates")
+        mapped_authority = item_list(payload, "authority_map")
         if not items or not classifications:
             self._send_json({"error": "Provide items and classifications."}, 400)
             return

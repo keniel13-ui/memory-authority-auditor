@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import json
 import os
+import traceback
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 
 from agents.authority_classifier import classify_items
@@ -10,7 +11,7 @@ from agents.conflict_detector import detect_conflicts
 from agents.memory_extractor import extract_memories
 from agents.report_writer import write_report
 from agents.verification_gate import build_verification_gates
-from item_proxy import MemoryItemProxy
+from http_json import REQUEST_SOCKET_TIMEOUT_SECONDS, RequestError, item_list, memory_items, read_json_object
 
 
 ROLE = os.environ.get("AGENT_ROLE", "").strip()
@@ -25,38 +26,38 @@ def handle_role(payload: dict) -> dict:
         return {"agent": ROLE, "items": [item.to_dict() for item in items]}
 
     if ROLE == "authority_classifier":
-        items = [MemoryItemProxy(item) for item in payload.get("items", [])]
+        items = memory_items(payload)
         if not items:
             raise ValueError("Provide extracted items to classify.")
         return {"agent": ROLE, "classifications": classify_items(items)}
 
     if ROLE == "conflict_detector":
-        items = [MemoryItemProxy(item) for item in payload.get("items", [])]
-        classifications = payload.get("classifications", [])
+        items = memory_items(payload)
+        classifications = item_list(payload, "classifications")
         if not items or not classifications:
             raise ValueError("Provide items and classifications.")
         return {"agent": ROLE, "conflicts": detect_conflicts(items, classifications)}
 
     if ROLE == "verification_gate":
-        classifications = payload.get("classifications", [])
-        conflicts = payload.get("conflicts", [])
+        classifications = item_list(payload, "classifications")
+        conflicts = item_list(payload, "conflicts")
         if not classifications:
             raise ValueError("Provide classifications.")
         return {"agent": ROLE, "verification_gates": build_verification_gates(classifications, conflicts)}
 
     if ROLE == "authority_mapper":
-        items = [MemoryItemProxy(item) for item in payload.get("items", [])]
-        classifications = payload.get("classifications", [])
+        items = memory_items(payload)
+        classifications = item_list(payload, "classifications")
         if not items or not classifications:
             raise ValueError("Provide items and classifications.")
         return {"agent": ROLE, "authority_map": authority_map(items, classifications)}
 
     if ROLE == "report_writer":
-        items = payload.get("items", [])
-        classifications = payload.get("classifications", [])
-        conflicts = payload.get("conflicts", [])
-        gates = payload.get("verification_gates", [])
-        mapped_authority = payload.get("authority_map", [])
+        items = item_list(payload, "items")
+        classifications = item_list(payload, "classifications")
+        conflicts = item_list(payload, "conflicts")
+        gates = item_list(payload, "verification_gates")
+        mapped_authority = item_list(payload, "authority_map")
         if not items or not classifications:
             raise ValueError("Provide items and classifications.")
         return {"agent": ROLE, "report": write_report(items, classifications, conflicts, gates, mapped_authority)}
@@ -65,6 +66,8 @@ def handle_role(payload: dict) -> dict:
 
 
 class Handler(BaseHTTPRequestHandler):
+    timeout = REQUEST_SOCKET_TIMEOUT_SECONDS
+
     def _send_json(self, data: dict, status: int = 200) -> None:
         body = json.dumps(data).encode("utf-8")
         self.send_response(status)
@@ -81,11 +84,17 @@ class Handler(BaseHTTPRequestHandler):
 
     def do_POST(self) -> None:
         try:
-            length = int(self.headers.get("Content-Length", "0"))
-            payload = json.loads(self.rfile.read(length).decode("utf-8") or "{}")
+            payload = read_json_object(self.headers, self.rfile)
             self._send_json(handle_role(payload))
-        except Exception as error:
+        except RequestError as error:
+            self._send_json({"error": str(error), "agent": ROLE}, error.status)
+        except ValueError as error:
             self._send_json({"error": str(error), "agent": ROLE}, 400)
+        except Exception:
+            # Internal failures are server errors, not client errors; keep the
+            # detail in the service log instead of the response body.
+            traceback.print_exc()
+            self._send_json({"error": "Internal agent error.", "agent": ROLE}, 500)
 
     def log_message(self, fmt: str, *args) -> None:
         print(f"{self.address_string()} - {fmt % args}")
