@@ -1,0 +1,22 @@
+# Tool configuration only. This repository is not packaged; runtime
+# dependencies live in requirements.txt and dev tools in requirements-dev.txt.
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["."]
+
+[tool.ruff]
+target-version = "py310"
+extend-exclude = [".venv"]
+
+[tool.ruff.lint]
+# Correctness-focused rules only (syntax errors and pyflakes). Style rules and
+# `ruff format` are intentionally not enforced: most modules back recorded
+# research results, and mass reformatting would bury real diffs.
+select = ["E9", "F"]
+
+[tool.ruff.lint.per-file-ignores]
+# Frozen re-gate harnesses that produced recorded artifacts; left byte-stable.
+"path_a_v3_carveout_c0_regate.py" = ["F541"]
+"path_a_v3_carveout_c1_regate.py" = ["F541"]
+"path_a_v3_pass0_regate.py" = ["F541"]
